@@ -1,0 +1,50 @@
+id: meta-prompting
+name: "Meta-Prompting"
+version: "1.0"
+category: advanced-reasoning
+description: "Uses a conductor model to dynamically route tasks to specialized expert personas, orchestrating multi-domain problem solving."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The complex task requiring multi-domain expertise"
+  - name: available_experts
+    type: list
+    required: false
+    default: []
+    description: "Optional list of expert domains to consider (e.g., ['mathematician', 'programmer', 'historian'])"
+
+template: |
+  You are a Meta-Conductor. Your job is to analyze the following task and
+  determine which expert(s) should handle it. Then, adopt the persona of
+  each expert in sequence to solve the task.
+
+  TASK: {task}
+
+  PROCESS:
+  1. ANALYZE: What domains of expertise does this task require?
+  2. ROUTE: For each domain, adopt the persona of that expert.
+  3. EXECUTE: As each expert, solve your part of the problem.
+  4. SYNTHESIZE: Combine all expert outputs into a final answer.
+
+  Begin by analyzing the task:
+
+variants:
+  - name: with-experts
+    description: "Pre-specified expert list for faster routing"
+    template: |
+      You are a Meta-Conductor orchestrating the following experts: {available_experts}
+
+      TASK: {task}
+
+      For each expert:
+      - State which expert is speaking
+      - Have them analyze their portion of the task
+      - Capture their output
+
+      Finally, synthesize all expert outputs into a coherent answer.
+
+usage_notes: "Meta-prompting is best for complex tasks spanning multiple domains. The conductor pattern avoids the overhead of multiple API calls by having the model switch personas within a single generation. Works best with larger models that can maintain distinct expert perspectives."
+composes_with: ["role-prompting", "chain-of-thought", "self-refine"]

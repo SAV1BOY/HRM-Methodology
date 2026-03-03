@@ -1,0 +1,51 @@
+id: reflexion
+name: "Reflexion"
+version: "1.0"
+category: verification
+description: "Multi-trial self-improvement where the agent reflects on failures and stores lessons in episodic memory for subsequent attempts."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task to solve"
+  - name: previous_attempt
+    type: string
+    required: false
+    default: ""
+    description: "The previous attempt's output (empty for first trial)"
+  - name: feedback
+    type: string
+    required: false
+    default: ""
+    description: "Feedback or error signal from the previous attempt"
+  - name: memory
+    type: list
+    required: false
+    default: []
+    description: "Accumulated reflections from prior trials"
+
+template: |
+  You are solving the following task. Learn from any previous attempts.
+
+  TASK: {task}
+
+  MEMORY (lessons from prior attempts):
+  {memory}
+
+  PREVIOUS ATTEMPT: {previous_attempt}
+  FEEDBACK: {feedback}
+
+  --- Reflection ---
+  What went wrong in the previous attempt? What specific lessons should
+  guide the next attempt? Be concrete and actionable.
+
+  Reflection:
+
+  --- New Attempt ---
+  Using the reflection above and accumulated memory, produce an improved
+  solution:
+
+usage_notes: "Reflexion is a multi-trial technique. Run this template in a loop: attempt → evaluate → reflect → retry. The memory parameter accumulates reflections across trials. Typically converges in 2-5 trials. Requires an external evaluation signal (test results, human feedback, or automated metrics)."
+composes_with: ["chain-of-thought", "react", "self-refine", "program-of-thoughts"]

@@ -1,0 +1,59 @@
+id: step-back-prompting
+name: "Step-Back Prompting"
+version: "1.0"
+category: advanced-reasoning
+description: "Improves reasoning by first asking a higher-level abstraction question before tackling the specific problem."
+
+parameters:
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The specific question or problem to solve"
+  - name: domain
+    type: string
+    required: false
+    default: ""
+    description: "The domain or subject area (e.g., physics, chemistry, law)"
+
+template: |
+  Given the following question, first identify the underlying principle or
+  general concept that applies, then use that principle to answer the specific
+  question.
+
+  Question: {question}
+
+  Step 1 — Step Back: What is the general principle, law, or concept relevant
+  to this question? Explain it briefly.
+
+  Step 2 — Apply: Using the principle identified above, reason through the
+  specific question step by step to arrive at the answer.
+
+variants:
+  - name: science
+    description: "Optimized for physics, chemistry, and biology questions"
+    template: |
+      You are solving a science problem. First, identify the fundamental
+      law or equation that governs this scenario, then apply it.
+
+      Problem: {question}
+      Domain: {domain}
+
+      STEP BACK: What fundamental law or equation applies here?
+
+      APPLICATION: Apply the law to solve this specific problem.
+
+  - name: first-principles
+    description: "For engineering and design problems that benefit from first-principles thinking"
+    template: |
+      Before solving this problem directly, step back and think about it
+      from first principles.
+
+      Problem: {question}
+
+      1. ABSTRACTION: What are the fundamental constraints and requirements?
+      2. PRINCIPLES: What core principles govern this type of problem?
+      3. SOLUTION: Apply these principles to derive a solution.
+
+usage_notes: "Step-back prompting is particularly effective for science, math, and domain-specific problems where recalling a general principle first leads to better answers. The key insight is that models perform better when they identify the relevant knowledge before applying it."
+composes_with: ["chain-of-thought", "few-shot", "self-consistency"]

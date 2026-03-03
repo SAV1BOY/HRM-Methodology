@@ -204,7 +204,7 @@ categories:
         name: "Graph of Thoughts"
         aliases: ["GoT", "graph reasoning"]
         file: "techniques/reasoning/graph-of-thoughts.md"
-        template: null
+        template: "templates/reasoning/graph-of-thoughts.yaml"
         complexity: high
         token_cost: high
         num_calls: variable
@@ -237,7 +237,7 @@ categories:
         name: "Program of Thoughts"
         aliases: ["PoT", "PAL", "code-based reasoning"]
         file: "techniques/reasoning/program-of-thoughts.md"
-        template: null
+        template: "templates/reasoning/program-of-thoughts.yaml"
         complexity: medium
         token_cost: medium
         num_calls: 1
@@ -374,7 +374,7 @@ categories:
         name: "Step-Back Prompting"
         aliases: ["step-back", "abstraction-first"]
         file: "techniques/advanced-reasoning/step-back-prompting.md"
-        template: "templates/reasoning/step-back.yaml"
+        template: "templates/advanced-reasoning/step-back.yaml"
         complexity: medium
         token_cost: medium
         num_calls: 2
@@ -385,7 +385,7 @@ categories:
         name: "Rephrase and Respond"
         aliases: ["RaR", "question rewriting"]
         file: "techniques/advanced-reasoning/rephrase-and-respond.md"
-        template: null
+        template: "templates/advanced-reasoning/rephrase-and-respond.yaml"
         complexity: low
         token_cost: low
         num_calls: "1-2"
@@ -396,7 +396,7 @@ categories:
         name: "Meta-Prompting"
         aliases: ["expert orchestration", "dynamic persona"]
         file: "techniques/advanced-reasoning/meta-prompting.md"
-        template: null
+        template: "templates/advanced-reasoning/meta-prompting.yaml"
         complexity: high
         token_cost: high
         num_calls: variable
@@ -434,7 +434,7 @@ categories:
         name: "Reflexion"
         aliases: ["verbal reinforcement", "episodic memory"]
         file: "techniques/verification/reflexion.md"
-        template: null
+        template: "templates/verification/reflexion.yaml"
         complexity: high
         token_cost: high
         num_calls: variable
@@ -445,7 +445,7 @@ categories:
         name: "Multi-Agent Debate"
         aliases: ["LLM debate", "multi-agent verification"]
         file: "techniques/verification/multi-agent-debate.md"
-        template: null
+        template: "templates/verification/multi-agent-debate.yaml"
         complexity: high
         token_cost: very_high
         num_calls: "N*rounds"
@@ -527,7 +527,7 @@ categories:
         name: "System 2 Attention"
         aliases: ["S2A", "context regeneration"]
         file: "techniques/perception/system-2-attention.md"
-        template: null
+        template: "templates/perception/system-2-attention.yaml"
         complexity: medium
         token_cost: high
         num_calls: 2
@@ -538,7 +538,7 @@ categories:
         name: "SimToM"
         aliases: ["perspective-taking", "theory of mind"]
         file: "techniques/perception/simtom.md"
-        template: null
+        template: "templates/perception/simtom.yaml"
         complexity: medium
         token_cost: medium
         num_calls: 2
@@ -663,7 +663,7 @@ categories:
         name: "DSPy"
         aliases: ["Declarative Self-improving Python"]
         file: "techniques/optimization/dspy.md"
-        template: null
+        template: "templates/optimization/dspy.yaml"
         complexity: high
         token_cost: variable
         num_calls: variable
@@ -875,7 +875,7 @@ categories:
         name: "Multimodal Chain-of-Thought"
         aliases: ["multimodal CoT", "vision CoT"]
         file: "techniques/multimodal/multimodal-cot.md"
-        template: null
+        template: "templates/multimodal/multimodal-cot.yaml"
         complexity: medium
         token_cost: medium
         num_calls: 1
