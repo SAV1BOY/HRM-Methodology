@@ -1,0 +1,71 @@
+id: program-of-thoughts
+name: "Program of Thoughts"
+version: "1.0"
+category: reasoning
+description: "Generates executable code as the reasoning trace instead of natural language, delegating computation to a code interpreter."
+
+parameters:
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The problem to solve using code-based reasoning"
+  - name: language
+    type: enum
+    required: false
+    default: "python"
+    description: "Programming language for the solution (python, javascript, etc.)"
+
+template: |
+  Solve the following problem by writing {language} code. Use code as your
+  reasoning medium — let the code do the computation.
+
+  Problem: {question}
+
+  Write the code step by step, with comments explaining your reasoning:
+
+  ```{language}
+  # Step 1: [describe what this step does]
+
+  # Step 2: [describe what this step does]
+
+  # Final: print the answer
+  ```
+
+variants:
+  - name: math
+    description: "Optimized for mathematical and numerical problems"
+    template: |
+      Solve the following math problem by writing Python code.
+      Use variables with descriptive names and comments for each step.
+
+      Problem: {question}
+
+      ```python
+      # Define the given values
+
+      # Perform calculations step by step
+
+      # Print the final answer
+      print(f"The answer is: {answer}")
+      ```
+
+  - name: data
+    description: "For data manipulation and analysis problems"
+    template: |
+      Solve the following data problem by writing Python code using pandas.
+
+      Problem: {question}
+
+      ```python
+      import pandas as pd
+
+      # Load/define data
+
+      # Transform and analyze
+
+      # Output results
+      ```
+
+usage_notes: "PoT is ideal when the problem involves numerical computation, data manipulation, or algorithmic logic. The key advantage over CoT is computational accuracy — the code interpreter handles math exactly. Requires a code execution environment."
+composes_with: ["plan-and-solve", "self-refine", "chain-of-thought"]

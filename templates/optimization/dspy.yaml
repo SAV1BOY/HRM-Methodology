@@ -1,0 +1,78 @@
+id: dspy
+name: "DSPy"
+version: "1.0"
+category: optimization
+description: "Programmatic framework for declaring prompt pipelines as modules and automatically optimizing them against evaluation metrics."
+
+parameters:
+  - name: task_description
+    type: string
+    required: true
+    default: ""
+    description: "Description of the NLP task to build a pipeline for"
+  - name: input_fields
+    type: list
+    required: true
+    default: []
+    description: "Input field names and descriptions (e.g., ['question: str', 'context: str'])"
+  - name: output_fields
+    type: list
+    required: true
+    default: []
+    description: "Output field names and descriptions (e.g., ['answer: str', 'reasoning: str'])"
+  - name: examples
+    type: list
+    required: false
+    default: []
+    description: "Training examples for optimization"
+
+template: |
+  # DSPy Pipeline Definition (Python code pattern)
+
+  import dspy
+
+  # Define the signature
+  class {task_name}(dspy.Signature):
+      """{task_description}"""
+      {input_field_definitions}
+      {output_field_definitions}
+
+  # Define the module
+  class {task_name}Pipeline(dspy.Module):
+      def __init__(self):
+          super().__init__()
+          self.predict = dspy.ChainOfThought({task_name})
+
+      def forward(self, **kwargs):
+          return self.predict(**kwargs)
+
+  # Compile with optimizer
+  from dspy.teleprompt import BootstrapFewShot
+
+  optimizer = BootstrapFewShot(metric=your_metric)
+  compiled = optimizer.compile(
+      {task_name}Pipeline(),
+      trainset=trainset
+  )
+
+variants:
+  - name: multi-hop
+    description: "Multi-hop retrieval-augmented pipeline"
+    template: |
+      class MultiHopQA(dspy.Module):
+          def __init__(self, num_hops=2):
+              super().__init__()
+              self.retrieve = dspy.Retrieve(k=3)
+              self.hops = [dspy.ChainOfThought("context, question -> search_query")
+                          for _ in range(num_hops)]
+              self.answer = dspy.ChainOfThought("context, question -> answer")
+
+          def forward(self, question):
+              context = []
+              for hop in self.hops:
+                  query = hop(context=context, question=question).search_query
+                  context += self.retrieve(query).passages
+              return self.answer(context=context, question=question)
+
+usage_notes: "DSPy is not a prompt template but a programmatic framework. Use this template as a starting point for building DSPy pipelines. The key advantage is automatic prompt optimization through compilers like BootstrapFewShot, MIPRO, and MIPROv2. Requires Python and the dspy-ai package."
+composes_with: ["chain-of-thought", "few-shot", "self-consistency", "react"]

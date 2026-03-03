@@ -1,0 +1,50 @@
+id: graph-of-thoughts
+name: "Graph of Thoughts"
+version: "1.0"
+category: reasoning
+description: "Extends tree-of-thoughts by allowing merging and refining of thought branches, modeling reasoning as a directed graph rather than a tree."
+
+parameters:
+  - name: problem
+    type: string
+    required: true
+    default: ""
+    description: "The problem requiring exploration of multiple thought paths with potential merging"
+  - name: num_branches
+    type: integer
+    required: false
+    default: 3
+    description: "Number of initial thought branches to generate"
+
+template: |
+  Solve the following problem by exploring multiple approaches, then
+  combining the best insights from each.
+
+  PROBLEM: {problem}
+
+  --- Phase 1: Generate Thoughts ---
+  Generate {num_branches} different approaches to this problem:
+
+  Approach A:
+  Approach B:
+  Approach C:
+
+  --- Phase 2: Evaluate ---
+  Score each approach on correctness and completeness (1-10):
+
+  --- Phase 3: Merge & Refine ---
+  Combine the strongest elements from each approach into a refined solution.
+  Specifically identify:
+  - Which insights from Approach A are valuable?
+  - Which insights from Approach B are valuable?
+  - Which insights from Approach C are valuable?
+
+  Merged solution:
+
+  --- Phase 4: Verify ---
+  Verify the merged solution is correct and complete.
+
+  Final answer:
+
+usage_notes: "GoT is more flexible than ToT because it allows merging insights from different branches. This is particularly useful when different approaches each capture partial truths. Implement programmatically for best results using the GoT framework library."
+composes_with: ["chain-of-thought", "self-refine", "self-consistency"]

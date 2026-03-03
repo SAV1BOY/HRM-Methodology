@@ -1,0 +1,50 @@
+id: system-2-attention
+name: "System 2 Attention"
+version: "1.0"
+category: perception
+description: "Reduces the effect of biased or irrelevant context by having the model regenerate the context before answering."
+
+parameters:
+  - name: context
+    type: string
+    required: true
+    default: ""
+    description: "The original context which may contain biased, irrelevant, or distracting information"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The question to answer based on the context"
+
+template: |
+  --- Pass 1: Context Regeneration ---
+  Given the following context and question, rewrite the context to include
+  only the information relevant to answering the question. Remove any
+  opinions, biases, irrelevant details, or potentially misleading information.
+
+  ORIGINAL CONTEXT: {context}
+  QUESTION: {question}
+
+  CLEANED CONTEXT (only relevant, factual information):
+
+  --- Pass 2: Answer from Cleaned Context ---
+  Based on the cleaned context above, answer the question:
+  {question}
+
+variants:
+  - name: anti-sycophancy
+    description: "Specifically targets sycophantic bias from opinionated context"
+    template: |
+      The following context may contain subjective opinions or leading
+      statements. Rewrite it to contain only objective, factual information
+      before answering.
+
+      Context: {context}
+      Question: {question}
+
+      Objective facts only:
+
+      Answer based on facts:
+
+usage_notes: "S2A is a two-pass technique. The first pass cleans the context, the second answers from clean context. This is especially useful when the context contains user opinions that might bias the model (sycophancy), irrelevant details that could distract, or adversarial content."
+composes_with: ["chain-of-thought", "context-stuffing", "grounding-via-sources"]

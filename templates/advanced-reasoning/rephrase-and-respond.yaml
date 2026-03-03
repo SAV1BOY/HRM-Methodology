@@ -1,0 +1,43 @@
+id: rephrase-and-respond
+name: "Rephrase and Respond"
+version: "1.0"
+category: advanced-reasoning
+description: "Improves accuracy by having the model rephrase ambiguous questions before answering them."
+
+parameters:
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The original question that may be ambiguous or poorly phrased"
+
+template: |
+  Given the following question, first rephrase it to be clearer and more
+  specific, then answer the rephrased version.
+
+  Original question: {question}
+
+  Rephrased question (make it clearer and unambiguous):
+
+  Answer:
+
+variants:
+  - name: one-shot
+    description: "Single-pass version where rephrasing and answering happen together"
+    template: |
+      {question}
+
+      Rephrase and expand the question, and respond.
+
+  - name: two-pass
+    description: "Two-pass version: first rephrase, then answer separately"
+    template: |
+      Step 1: Rephrase the following question to make it clearer. Identify
+      any ambiguities and resolve them in your rephrased version.
+
+      Original: {question}
+
+      Rephrased:
+
+usage_notes: "RaR is a lightweight technique that provides a quick accuracy boost on ambiguous questions. The one-shot variant adds minimal overhead. Use the two-pass variant when the question is particularly ambiguous and you want to verify the rephrasing before answering."
+composes_with: ["chain-of-thought", "zero-shot-cot", "few-shot"]

@@ -1,0 +1,65 @@
+id: multimodal-cot
+name: "Multimodal Chain-of-Thought"
+version: "1.0"
+category: multimodal
+description: "Extends chain-of-thought reasoning to vision-language tasks by incorporating image descriptions into the reasoning chain."
+
+parameters:
+  - name: image
+    type: string
+    required: true
+    default: ""
+    description: "The image to analyze (URL, base64, or file path depending on API)"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The question about the image requiring multi-step reasoning"
+
+template: |
+  Look at the provided image carefully and answer the following question
+  by reasoning step by step.
+
+  [Image: {image}]
+
+  Question: {question}
+
+  Step 1 — Describe: What do you observe in the image that is relevant to
+  the question? List specific visual details.
+
+  Step 2 — Reason: Using the visual details, reason through the question
+  step by step.
+
+  Step 3 — Answer: State your final answer based on the reasoning above.
+
+variants:
+  - name: diagram
+    description: "Optimized for diagrams, charts, and technical figures"
+    template: |
+      Analyze the following diagram/chart and answer the question.
+
+      [Image: {image}]
+
+      Question: {question}
+
+      1. IDENTIFY: What type of diagram/chart is this? What are its components?
+      2. EXTRACT: What data or relationships does it show?
+      3. REASON: Based on the extracted information, work through the question.
+      4. ANSWER: State your conclusion.
+
+  - name: ocr-reasoning
+    description: "For images containing text that requires extraction and reasoning"
+    template: |
+      Examine the image below and answer the question.
+
+      [Image: {image}]
+
+      Question: {question}
+
+      1. READ: Extract all relevant text from the image.
+      2. ORGANIZE: Structure the extracted text logically.
+      3. REASON: Use the text to reason through the question.
+      4. ANSWER: Provide your answer.
+
+usage_notes: "Multimodal CoT works with vision-language models (GPT-4V, Claude 3+, Gemini). The key is to encourage the model to first describe what it sees before reasoning, which reduces hallucination about image content. For complex images, the diagram variant helps structure the analysis."
+composes_with: ["chain-of-thought", "self-refine", "few-shot"]

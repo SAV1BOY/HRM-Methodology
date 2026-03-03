@@ -1,0 +1,39 @@
+id: simtom
+name: "SimToM"
+version: "1.0"
+category: perception
+description: "Improves perspective-taking tasks by first filtering information to what a specific person knows, then reasoning from their viewpoint."
+
+parameters:
+  - name: scenario
+    type: string
+    required: true
+    default: ""
+    description: "The scenario involving multiple people with different knowledge states"
+  - name: target_person
+    type: string
+    required: true
+    default: ""
+    description: "The person whose perspective we need to reason from"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The question to answer from the target person's perspective"
+
+template: |
+  --- Step 1: Information Filtering ---
+  Given the following scenario, list ONLY the facts that {target_person}
+  knows or has directly observed. Exclude any information that {target_person}
+  would not be aware of.
+
+  Scenario: {scenario}
+
+  What {target_person} knows:
+
+  --- Step 2: Perspective-Based Reasoning ---
+  Based ONLY on what {target_person} knows (listed above), answer:
+  {question}
+
+usage_notes: "SimToM is specifically designed for theory-of-mind tasks where you need to reason about what one person believes given their limited information. The two-step approach prevents the model from using omniscient knowledge when it should only use a specific person's perspective."
+composes_with: ["chain-of-thought", "role-prompting"]

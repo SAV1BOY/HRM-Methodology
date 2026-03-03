@@ -1,0 +1,55 @@
+id: multi-agent-debate
+name: "Multi-Agent Debate"
+version: "1.0"
+category: verification
+description: "Multiple LLM agents independently answer and then debate to reach a consensus, reducing individual model biases."
+
+parameters:
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The question or problem for agents to debate"
+  - name: num_agents
+    type: integer
+    required: false
+    default: 3
+    description: "Number of debating agents (typically 2-5)"
+  - name: num_rounds
+    type: integer
+    required: false
+    default: 2
+    description: "Number of debate rounds"
+
+template: |
+  --- Round 0: Independent Answers ---
+  Agent 1, answer the following question independently:
+  Question: {question}
+  Agent 1's answer:
+
+  Agent 2, answer the following question independently:
+  Question: {question}
+  Agent 2's answer:
+
+  Agent 3, answer the following question independently:
+  Question: {question}
+  Agent 3's answer:
+
+  --- Round 1: Debate ---
+  Each agent reviews the other agents' answers and either updates their
+  own answer or defends it with additional reasoning.
+
+  Agent 1, considering Agent 2 and Agent 3's answers, do you want to
+  update your answer? Explain your reasoning.
+
+  Agent 2, considering Agent 1 and Agent 3's answers, do you want to
+  update your answer? Explain your reasoning.
+
+  Agent 3, considering Agent 1 and Agent 2's answers, do you want to
+  update your answer? Explain your reasoning.
+
+  --- Final Consensus ---
+  Based on the debate above, what is the consensus answer?
+
+usage_notes: "Multi-agent debate works best with separate API calls for each agent to avoid cross-contamination. In a single-call setup (this template), the model simulates multiple agents. For production use, implement with actual separate calls and a judge/aggregator. Most effective for high-stakes decisions where bias reduction justifies the cost."
+composes_with: ["chain-of-thought", "role-prompting", "self-consistency"]

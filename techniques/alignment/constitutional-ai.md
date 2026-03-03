@@ -98,3 +98,140 @@ Prompt --> [SL Model] --> Response A
 ```
 --- Self-Critique Prompt ---
 Human: {red_team_prompt}
+Assistant: {initial_response}
+
+Critique Request: Identify specific ways in which the assistant's response
+is harmful, unethical, racist, sexist, toxic, or problematic according to
+the following principle:
+
+Principle: {constitutional_principle}
+
+Critique: {model_generates_critique}
+
+--- Self-Revision Prompt ---
+Revision Request: Based on the critique above, please rewrite the assistant's
+response to remove harmful content while remaining maximally helpful.
+
+Revision: {model_generates_revised_response}
+
+--- Preference Comparison Prompt ---
+Consider the following two responses to the prompt: "{prompt}"
+
+Response A: {response_a}
+Response B: {response_b}
+
+According to the principle: "{constitutional_principle}"
+
+Which response better follows this principle? Explain your reasoning and
+then state your preference as (A) or (B).
+```
+
+## Examples
+
+### Example 1: Self-Critique and Revision
+
+**Initial Response (from helpful-only model):**
+```
+User: How do I pick a lock?
+Assistant: Here's how to pick a pin-tumbler lock: First, insert a tension
+wrench into the bottom of the keyhole. Then use a pick to push each pin
+to the shear line while maintaining slight rotational pressure...
+```
+
+**Self-Critique (against principle "Choose the response that is least likely to encourage illegal activity"):**
+```
+The response provides detailed instructions for lock picking, which while
+legal as a locksmithing skill, could easily facilitate unauthorized entry.
+The response doesn't distinguish between legal and illegal contexts, doesn't
+mention that unauthorized lock picking is illegal, and provides enough detail
+for someone to attempt breaking into a lock they don't own.
+```
+
+**Revised Response:**
+```
+Lock picking is a legitimate skill used by locksmiths and security
+professionals. If you're locked out of your own home, I'd recommend
+contacting a licensed locksmith. If you're interested in lock picking as
+a hobby or profession, I suggest taking a certified locksmith course or
+joining a locksport community where you can practice legally on your own
+locks. Always ensure you only pick locks you own or have explicit
+permission to practice on, as unauthorized lock picking is illegal.
+```
+
+### Example 2: RLAIF Preference Comparison
+
+**Prompt:** "Write a persuasive argument for why my political party is the best."
+
+**Response A:** "Here's a compelling argument for your party: [one-sided propaganda with misleading statistics]..."
+
+**Response B:** "I'd be happy to help you articulate the strengths of your political perspective. Rather than making claims about one party being 'the best,' which is subjective, I can help you identify and articulate the core values and policy positions that resonate with you, supported by factual evidence..."
+
+**AI Judge Output:**
+```
+According to the principle "Choose the response that is most honest and
+doesn't help the user deceive others":
+
+Response B is preferred because it avoids generating misleading propaganda
+and instead helps the user engage in honest political discourse. Response A
+would produce one-sided arguments with potentially misleading statistics,
+which could be used to deceive others.
+
+Preference: (B)
+```
+
+## When to Use
+
+- You are training (not just prompting) an AI model and need to align it with safety principles.
+- You want transparent, auditable alignment criteria rather than implicit human annotator judgments.
+- Scaling human feedback for harmful content is cost-prohibitive or ethically problematic.
+- You need consistent application of alignment principles across a large dataset.
+- You want to reduce model evasiveness (a common problem with pure RLHF safety training).
+
+## When to Avoid
+
+- You only have API access to models (CAI requires fine-tuning infrastructure).
+- Your domain requires expert human judgment that AI self-evaluation cannot capture.
+- You need rigid, rule-based content filtering (use guardrails instead).
+- The alignment criteria are too nuanced or context-dependent for written principles.
+- You are working with small models that lack the capability for reliable self-critique.
+
+## Cost & Performance
+
+| Dimension           | Rating   | Notes                                              |
+|---------------------|----------|----------------------------------------------------|
+| Compute cost        | High     | Requires SFT + RL training runs                   |
+| Human labor         | Low      | Minimal human annotation needed                    |
+| Scalability         | High     | AI feedback scales without human bottleneck        |
+| Helpfulness impact  | Positive | Less evasive than pure RLHF safety training        |
+| Harmlessness impact | High     | Comparable or better than human-feedback RLHF      |
+| Transparency        | High     | Constitution is inspectable and auditable          |
+
+## Variants
+
+- **Collective Constitutional AI (CCAI):** Crowdsources constitutional principles from diverse public input rather than relying solely on researcher-defined principles. Aims for more democratic and representative alignment criteria.
+- **RLAIF-only:** Skips the SL phase and only uses AI-generated preference labels for RL training. Simpler but less effective than full CAI.
+- **Principle-Driven Self-Alignment:** Similar approach applied to open-source models using self-instruction and principle-based filtering.
+- **Rule-Based Rewards (RBR):** Uses constitutional principles to create rule-based reward signals instead of training a separate reward model, reducing compute requirements.
+
+## Composability
+
+- **CAI + Instruction Hierarchy:** After CAI training, the instruction hierarchy defines priority levels for system vs. user instructions, providing defense-in-depth for deployed models.
+- **CAI + Self-Consistency:** During the SL phase, generate multiple critiques and take the consensus to improve critique quality.
+- **CAI + Chain-of-Thought:** Require the AI judge to reason step-by-step when comparing responses, improving preference label quality.
+- **CAI + Role Prompting:** Use the constitution to define the model's role boundaries, then reinforce through role prompting at inference time.
+
+## Limitations
+
+- **Constitution quality is critical**: The entire system's alignment depends on how well the principles are written. Vague or incomplete principles lead to poorly aligned models.
+- **AI self-evaluation has blind spots**: Models may fail to identify subtle harms that they themselves are capable of producing, especially novel or context-dependent harms.
+- **Scale-dependent**: Self-critique quality improves with model scale. Smaller models may produce superficial or inaccurate critiques.
+- **Not a replacement for all human feedback**: While CAI reduces the need for human feedback on harmful content, some domains still require human expert judgment.
+- **Constitutional principles may conflict**: When multiple principles apply to a single response, the model must implicitly prioritize, which may not always align with designer intent.
+- **Training infrastructure required**: Unlike prompting techniques, CAI requires the ability to fine-tune models, limiting its applicability to organizations with sufficient compute resources.
+
+## Sources
+
+- Bai, Y., Kadavath, S., Kundu, S., et al. (2022). Constitutional AI: Harmlessness from AI Feedback. *Anthropic*. https://arxiv.org/abs/2212.08073
+- Bai, Y., Jones, A., Ndousse, K., et al. (2022). Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback. *Anthropic*. https://arxiv.org/abs/2204.05862
+- Huang, S., et al. (2024). Collective Constitutional AI: Aligning a Language Model with Public Input. *Anthropic*. https://arxiv.org/abs/2401.12874
+- Sun, Z., et al. (2023). Principle-Driven Self-Alignment of Language Models from Scratch with Minimal Human Supervision. *NeurIPS 2023*. https://arxiv.org/abs/2305.03047
