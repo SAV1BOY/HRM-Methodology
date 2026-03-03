@@ -1,0 +1,136 @@
+id: react
+name: "ReAct (Reasoning + Acting)"
+version: "1.0"
+category: reasoning
+description: "Interleaves reasoning traces with tool actions in a Thought-Action-Observation loop for grounded, multi-step problem solving."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task or question to solve through reasoning and action"
+  - name: available_tools
+    type: list
+    required: true
+    default: []
+    description: "List of tools the agent can use, with descriptions and calling conventions"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific question or input to process"
+  - name: max_iterations
+    type: integer
+    required: false
+    default: 10
+    description: "Maximum number of Thought-Action-Observation cycles"
+  - name: examples
+    type: list
+    required: false
+    default: []
+    description: "Optional worked examples showing the ReAct loop in action"
+
+template: |
+  {task}
+
+  You have access to the following tools:
+  {available_tools}
+
+  Use the following format for each step:
+
+  Thought: [Reason about what you know and what you need to do next]
+  Action: [tool_name(arguments)]
+  Observation: [Result from the tool]
+
+  Repeat the Thought/Action/Observation cycle until you can provide a final answer. When you have enough information, respond with:
+
+  Thought: I now have enough information to answer.
+  Final Answer: [Your answer]
+
+  {%- if examples %}
+  Examples:
+  {examples}
+
+  ---
+  {%- endif %}
+
+  Question: {input}
+
+  Thought:
+
+variants:
+  - name: with-scratchpad
+    description: "Adds a scratchpad for tracking accumulated knowledge across iterations"
+    template: |
+      {task}
+
+      Tools available:
+      {available_tools}
+
+      Maintain a scratchpad of key facts discovered. Use this format:
+
+      Scratchpad: [Running list of facts and findings]
+      Thought: [Reasoning based on scratchpad and task]
+      Action: [tool_name(arguments)]
+      Observation: [Result]
+
+      Update the scratchpad after each observation. When ready:
+
+      Final Answer: [Answer based on accumulated evidence]
+
+      Question: {input}
+
+      Scratchpad: (empty)
+      Thought:
+
+  - name: minimal
+    description: "Streamlined format for simpler tasks with fewer tool calls"
+    template: |
+      Answer the following question using the provided tools.
+
+      Tools: {available_tools}
+
+      Question: {input}
+
+      Think step by step. When you need information, call a tool. Format:
+      Thought: ...
+      Action: ...
+      Observation: ...
+      (repeat as needed)
+      Final Answer: ...
+
+  - name: structured-json
+    description: "Uses JSON-formatted actions for programmatic parsing"
+    template: |
+      {task}
+
+      Tools: {available_tools}
+
+      Respond in this exact format for each step:
+
+      Thought: [Your reasoning]
+      Action: {"tool": "tool_name", "args": {"param1": "value1"}}
+      Observation: [Tool result will appear here]
+
+      When done:
+      Thought: [Summary reasoning]
+      Final Answer: [Your answer]
+
+      Question: {input}
+
+      Thought:
+
+usage_notes: >
+  ReAct is the foundational pattern for tool-using agents. It prevents
+  hallucination by grounding reasoning in actual tool observations. The
+  interleaving of thoughts and actions allows the model to plan, act,
+  observe, and re-plan dynamically. Works best when tool descriptions
+  are clear and include usage examples. For production systems, implement
+  the loop programmatically rather than in a single prompt. Limit
+  iterations to prevent infinite loops.
+composes_with:
+  - "tool-calling"
+  - "chain-of-thought"
+  - "plan-and-solve"
+  - "self-refine"

@@ -1,0 +1,106 @@
+id: self-consistency
+name: "Self-Consistency"
+version: "1.0"
+category: reasoning
+description: "Generates multiple independent reasoning paths and selects the most consistent answer via majority vote, improving reliability over single-sample CoT."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The reasoning task or problem description"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific problem or question to solve"
+  - name: num_samples
+    type: integer
+    required: false
+    default: 5
+    description: "Number of independent reasoning paths to generate"
+  - name: temperature
+    type: string
+    required: false
+    default: "0.7"
+    description: "Sampling temperature — higher values produce more diverse reasoning paths"
+  - name: aggregation_method
+    type: enum
+    required: false
+    default: "majority_vote"
+    description: "How to select the final answer from multiple samples (majority_vote, weighted, unanimous)"
+
+template: |
+  {task}
+
+  {input}
+
+  Generate {num_samples} independent solutions to this problem. For each solution, reason step by step using a different approach or perspective. Then determine the most consistent answer.
+
+  Solution 1:
+  [Think step by step]
+  Answer:
+
+  Solution 2:
+  [Think step by step, try a different approach]
+  Answer:
+
+  Solution 3:
+  [Think step by step, try yet another approach]
+  Answer:
+
+  ...continue for {num_samples} solutions...
+
+  ---
+
+  Final Answer (most consistent across solutions):
+
+variants:
+  - name: parallel-sampling
+    description: "Designed for API-level parallel generation with post-hoc aggregation"
+    template: |
+      {task}
+
+      {input}
+
+      Let's think step by step.
+
+      ---
+      [This prompt is designed to be sampled {num_samples} times at temperature {temperature}. The final answer is selected by {aggregation_method} across all samples.]
+
+  - name: explicit-diversity
+    description: "Forces diverse reasoning strategies across samples"
+    template: |
+      {task}
+
+      {input}
+
+      Solve this problem {num_samples} times, each time using a deliberately different strategy:
+
+      Approach 1 — Forward reasoning:
+      [Work from the given information toward the answer]
+      Answer:
+
+      Approach 2 — Backward reasoning:
+      [Start from what you need to find and work backward]
+      Answer:
+
+      Approach 3 — Estimation and verification:
+      [Estimate the answer, then verify]
+      Answer:
+
+      Approach 4 — Analogy:
+      [Relate to a similar, simpler problem]
+      Answer:
+
+      Approach 5 — Elimination:
+      [Rule out incorrect possibilities]
+      Answer:
+
+      ---
+
+      Consensus answer (majority across approaches):
+
+usage_notes: "Self-consistency is most effective when implemented at the API level — make multiple calls with temperature > 0 and aggregate answers. The single-prompt variant above simulates this but is less reliable. Best for tasks with clear, verifiable answers (math, factual questions, classification). Diminishing returns above 10-15 samples."
+composes_with: ["chain-of-thought", "zero-shot-cot", "few-shot"]

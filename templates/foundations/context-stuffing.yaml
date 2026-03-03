@@ -1,0 +1,104 @@
+id: context-stuffing
+name: "Context Stuffing"
+version: "1.0"
+category: foundations
+description: "Injects retrieved or curated context into the prompt to ground the model's generation in specific knowledge, documents, or data."
+
+parameters:
+  - name: system_instruction
+    type: string
+    required: true
+    default: "Answer the user's question based only on the provided context."
+    description: "Instruction that defines how the model should use the provided context"
+  - name: context
+    type: string
+    required: true
+    default: ""
+    description: "The retrieved documents, knowledge snippets, or data to ground the model's response"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The user's question or task to be answered using the context"
+  - name: context_label
+    type: string
+    required: false
+    default: "Context"
+    description: "Label for the context section (e.g., 'Documents', 'Knowledge Base', 'Reference Material')"
+  - name: no_answer_instruction
+    type: string
+    required: false
+    default: "If the context does not contain enough information to answer, say \"I don't have enough information to answer this question.\""
+    description: "Instruction for handling questions not answerable from the context"
+
+template: |
+  {system_instruction}
+
+  {no_answer_instruction}
+
+  <{context_label}>
+  {context}
+  </{context_label}>
+
+  Question: {question}
+
+  Answer:
+
+variants:
+  - name: multi_source
+    description: "Supports multiple named context sources with source attribution"
+    template: |
+      {system_instruction}
+
+      When answering, cite which source(s) support your answer.
+      {no_answer_instruction}
+
+      <source name="{source_1_name}">
+      {source_1_content}
+      </source>
+
+      <source name="{source_2_name}">
+      {source_2_content}
+      </source>
+
+      Question: {question}
+
+      Answer (with source citations):
+
+  - name: rag_pipeline
+    description: "Optimized for RAG retrieval pipelines with ranked document chunks"
+    template: |
+      You are a helpful assistant. Answer the question using ONLY the
+      retrieved documents below. If the documents do not contain the
+      answer, say so.
+
+      Retrieved Documents (ranked by relevance):
+
+      [1] {doc_1}
+
+      [2] {doc_2}
+
+      [3] {doc_3}
+
+      Question: {question}
+
+      Answer:
+
+  - name: strict_grounding
+    description: "Maximum faithfulness — requires direct quotes from context"
+    template: |
+      Answer the question using ONLY the provided context. You must
+      include direct quotes from the context to support every claim
+      in your answer. Do not add any information not present in the
+      context.
+
+      <context>
+      {context}
+      </context>
+
+      Question: {question}
+
+      Answer (with direct quotes):
+
+usage_notes: "Place the most relevant context closest to the question (recency bias). Use XML tags or clear delimiters to separate context from instructions. For long contexts, consider chunking and ranking by relevance. Always include a fallback instruction for unanswerable questions to reduce hallucination."
+composes_with: ["few-shot", "chain-of-thought", "output-format", "prompt-scaffolding", "chain-of-note"]

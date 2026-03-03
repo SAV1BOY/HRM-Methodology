@@ -1,0 +1,894 @@
+version: "1.0"
+last_updated: "2026-03-03"
+total_techniques: 75
+
+categories:
+  - id: foundations
+    name: "Foundations"
+    code: "A"
+    description: "Core prompting patterns that form the basis of all interactions"
+    techniques:
+      - id: zero-shot
+        name: "Zero-Shot Instruction Prompting"
+        aliases: ["instruction prompting", "direct prompting"]
+        file: "techniques/foundations/zero-shot.md"
+        template: "templates/foundations/zero-shot.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["simple tasks", "classification", "summarization", "translation"]
+        avoid_when: ["complex reasoning", "ambiguous tasks"]
+
+      - id: few-shot
+        name: "Few-Shot Prompting"
+        aliases: ["in-context learning", "ICL", "k-shot"]
+        file: "techniques/foundations/few-shot.md"
+        template: "templates/foundations/few-shot.yaml"
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["format control", "style transfer", "classification with nuance"]
+        avoid_when: ["token budget is very tight", "examples may bias output"]
+
+      - id: one-shot
+        name: "One-Shot Prompting"
+        aliases: ["single-example prompting"]
+        file: "techniques/foundations/one-shot.md"
+        template: "templates/foundations/one-shot.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["format demonstration", "quick calibration"]
+        avoid_when: ["complex tasks needing diverse examples"]
+
+      - id: role-prompting
+        name: "Role Prompting"
+        aliases: ["persona prompting", "role-play prompting", "character prompting"]
+        file: "techniques/foundations/role-prompting.md"
+        template: "templates/foundations/role-prompting.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["domain expertise", "style control", "creative tasks"]
+        avoid_when: ["factual precision required", "role may introduce bias"]
+
+      - id: context-stuffing
+        name: "Context Stuffing"
+        aliases: ["context injection", "knowledge grounding", "RAG context"]
+        file: "techniques/foundations/context-stuffing.md"
+        template: "templates/foundations/context-stuffing.yaml"
+        complexity: low
+        token_cost: variable
+        num_calls: 1
+        best_for: ["grounded generation", "RAG", "domain-specific Q&A"]
+        avoid_when: ["context exceeds window", "context is noisy/irrelevant"]
+
+      - id: output-format
+        name: "Output Format Control"
+        aliases: ["structured output", "format control", "JSON mode"]
+        file: "techniques/foundations/output-format.md"
+        template: "templates/foundations/output-format.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["API integration", "data extraction", "structured responses"]
+        avoid_when: ["free-form creative output desired"]
+
+      - id: prompt-frameworks
+        name: "Prompt Frameworks (Mnemonics)"
+        aliases: ["CO-STAR", "RISEN", "CRISP", "CLEAR", "RTF", "TAG", "BAB", "AIDA", "PAS"]
+        file: "techniques/foundations/prompt-frameworks.md"
+        template: "templates/foundations/co-star.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["prompt construction", "completeness checks", "team standardization"]
+        avoid_when: ["simple tasks", "experienced prompt engineers"]
+
+      - id: prompt-scaffolding
+        name: "Prompt Scaffolding"
+        aliases: ["XML tagging", "delimiters", "section markers"]
+        file: "techniques/foundations/prompt-scaffolding.md"
+        template: "templates/foundations/prompt-scaffolding.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["complex prompts", "multi-section inputs", "injection defense"]
+        avoid_when: ["very short prompts"]
+
+      - id: prompt-repetition
+        name: "Prompt Repetition"
+        aliases: ["emphasis repetition", "instruction reinforcement"]
+        file: "techniques/foundations/prompt-repetition.md"
+        template: null
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["critical constraints", "instruction adherence"]
+        avoid_when: ["token budget is tight"]
+
+      - id: emotion-prompting
+        name: "Emotion Prompting"
+        aliases: ["EmotionPrompt", "emotional stimulus"]
+        file: "techniques/foundations/emotion-prompting.md"
+        template: null
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["performance boost", "important tasks"]
+        avoid_when: ["objective analysis", "formal outputs"]
+
+  - id: reasoning
+    name: "Reasoning"
+    code: "B"
+    description: "Techniques that elicit step-by-step reasoning and structured thinking"
+    techniques:
+      - id: chain-of-thought
+        name: "Chain-of-Thought Prompting"
+        aliases: ["CoT", "chain of thought"]
+        file: "techniques/reasoning/chain-of-thought.md"
+        template: "templates/reasoning/chain-of-thought.yaml"
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["math", "logic", "multi-step reasoning", "complex Q&A"]
+        avoid_when: ["simple factual recall", "token budget is very tight"]
+
+      - id: zero-shot-cot
+        name: "Zero-Shot Chain-of-Thought"
+        aliases: ["think step by step", "let's think step by step"]
+        file: "techniques/reasoning/zero-shot-cot.md"
+        template: "templates/reasoning/zero-shot-cot.yaml"
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["quick reasoning boost", "no examples available"]
+        avoid_when: ["few-shot CoT available", "very simple tasks"]
+
+      - id: self-consistency
+        name: "Self-Consistency"
+        aliases: ["SC", "majority voting", "sample-and-vote"]
+        file: "techniques/reasoning/self-consistency.md"
+        template: "templates/reasoning/self-consistency.yaml"
+        complexity: medium
+        token_cost: high
+        num_calls: "5-40"
+        best_for: ["math", "high-stakes reasoning", "reducing variance"]
+        avoid_when: ["latency-sensitive", "budget-constrained"]
+
+      - id: least-to-most
+        name: "Least-to-Most Prompting"
+        aliases: ["L2M", "decompose and solve"]
+        file: "techniques/reasoning/least-to-most.md"
+        template: "templates/reasoning/least-to-most.yaml"
+        complexity: medium
+        token_cost: medium
+        num_calls: "2+"
+        best_for: ["compositional generalization", "multi-step problems"]
+        avoid_when: ["single-step tasks", "latency-sensitive"]
+
+      - id: plan-and-solve
+        name: "Plan-and-Solve Prompting"
+        aliases: ["PS+", "plan then solve"]
+        file: "techniques/reasoning/plan-and-solve.md"
+        template: "templates/reasoning/plan-and-solve.yaml"
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["math word problems", "structured problem solving"]
+        avoid_when: ["simple tasks", "creative generation"]
+
+      - id: self-ask
+        name: "Self-Ask"
+        aliases: ["follow-up questions", "compositional reasoning"]
+        file: "techniques/reasoning/self-ask.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: "1-N"
+        best_for: ["multi-hop questions", "compositional reasoning"]
+        avoid_when: ["single-hop questions", "latency-sensitive"]
+
+      - id: tree-of-thoughts
+        name: "Tree of Thoughts"
+        aliases: ["ToT", "tree search reasoning"]
+        file: "techniques/reasoning/tree-of-thoughts.md"
+        template: "templates/reasoning/tree-of-thoughts.yaml"
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["creative puzzles", "strategic planning", "exploration"]
+        avoid_when: ["simple tasks", "time-critical"]
+
+      - id: graph-of-thoughts
+        name: "Graph of Thoughts"
+        aliases: ["GoT", "graph reasoning"]
+        file: "techniques/reasoning/graph-of-thoughts.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["tasks with merge/refine operations", "complex reasoning networks"]
+        avoid_when: ["linear reasoning sufficient"]
+
+      - id: react
+        name: "ReAct"
+        aliases: ["reason and act", "thought-action-observation"]
+        file: "techniques/reasoning/react.md"
+        template: "templates/reasoning/react.yaml"
+        complexity: medium
+        token_cost: variable
+        num_calls: variable
+        best_for: ["tool-use tasks", "knowledge-intensive Q&A", "web interaction"]
+        avoid_when: ["no tools available", "pure reasoning tasks"]
+
+      - id: rewoo
+        name: "ReWOO"
+        aliases: ["plan-then-execute", "decoupled reasoning"]
+        file: "techniques/reasoning/rewoo.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 2
+        best_for: ["multi-tool tasks", "cost-efficient agents"]
+        avoid_when: ["tasks needing adaptive tool use"]
+
+      - id: program-of-thoughts
+        name: "Program of Thoughts"
+        aliases: ["PoT", "PAL", "code-based reasoning"]
+        file: "techniques/reasoning/program-of-thoughts.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["numerical computation", "data manipulation", "algorithmic tasks"]
+        avoid_when: ["no code interpreter", "qualitative reasoning"]
+
+      - id: chain-of-draft
+        name: "Chain of Draft"
+        aliases: ["CoD", "minimal CoT"]
+        file: "techniques/reasoning/chain-of-draft.md"
+        template: "templates/reasoning/chain-of-draft.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["token-efficient reasoning", "high-volume processing"]
+        avoid_when: ["need detailed explanations", "debugging reasoning"]
+
+      - id: buffer-of-thoughts
+        name: "Buffer of Thoughts"
+        aliases: ["BoT", "thought templates"]
+        file: "techniques/reasoning/buffer-of-thoughts.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["recurring problem types", "efficiency at scale"]
+        avoid_when: ["novel problem types", "one-off tasks"]
+
+      - id: skeleton-of-thought
+        name: "Skeleton of Thought"
+        aliases: ["SoT", "parallel generation"]
+        file: "techniques/reasoning/skeleton-of-thought.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: "1+N"
+        best_for: ["long-form generation", "latency reduction"]
+        avoid_when: ["short answers", "sequential reasoning required"]
+
+      - id: contrastive-cot
+        name: "Contrastive Chain-of-Thought"
+        aliases: ["contrastive CoT", "correct and incorrect examples"]
+        file: "techniques/reasoning/contrastive-cot.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["error-prone tasks", "teaching correct reasoning patterns"]
+        avoid_when: ["limited prompt space", "straightforward tasks"]
+
+      - id: thread-of-thought
+        name: "Thread of Thought"
+        aliases: ["ThoT", "chaotic context reasoning"]
+        file: "techniques/reasoning/thread-of-thought.md"
+        template: null
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["long/chaotic contexts", "conversational QA"]
+        avoid_when: ["clean structured input"]
+
+      - id: algorithm-of-thoughts
+        name: "Algorithm of Thoughts"
+        aliases: ["AoT", "algorithmic reasoning"]
+        file: "techniques/reasoning/algorithm-of-thoughts.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["search/exploration problems", "single-call efficiency"]
+        avoid_when: ["simple problems", "no algorithmic structure"]
+
+      - id: tab-cot
+        name: "Tabular Chain-of-Thought"
+        aliases: ["Tab-CoT", "tabular reasoning"]
+        file: "techniques/reasoning/tab-cot.md"
+        template: null
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["multi-variable tracking", "structured reasoning"]
+        avoid_when: ["simple reasoning", "narrative outputs"]
+
+      - id: analogical-prompting
+        name: "Analogical Prompting"
+        aliases: ["self-generated examples", "analogical reasoning"]
+        file: "techniques/reasoning/analogical-prompting.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["novel problems", "no examples available"]
+        avoid_when: ["good few-shot examples exist"]
+
+      - id: cumulative-reasoning
+        name: "Cumulative Reasoning"
+        aliases: ["incremental reasoning", "proposer-verifier"]
+        file: "techniques/reasoning/cumulative-reasoning.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["complex proofs", "multi-step construction"]
+        avoid_when: ["simple tasks", "time-sensitive"]
+
+  - id: advanced-reasoning
+    name: "Advanced Reasoning"
+    code: "C"
+    description: "Sophisticated meta-reasoning and problem transformation techniques"
+    techniques:
+      - id: everything-of-thoughts
+        name: "Everything of Thoughts"
+        aliases: ["XoT", "MCTS reasoning"]
+        file: "techniques/advanced-reasoning/everything-of-thoughts.md"
+        template: null
+        complexity: high
+        token_cost: variable
+        num_calls: "1-2"
+        best_for: ["complex problem solving", "optimal thought structures"]
+        avoid_when: ["no external solver available", "simple tasks"]
+
+      - id: thought-propagation
+        name: "Thought Propagation"
+        aliases: ["analogical problem solving"]
+        file: "techniques/advanced-reasoning/thought-propagation.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["problems with analogous subproblems", "graph tasks"]
+        avoid_when: ["unique problems with no analogs"]
+
+      - id: step-back-prompting
+        name: "Step-Back Prompting"
+        aliases: ["step-back", "abstraction-first"]
+        file: "techniques/advanced-reasoning/step-back-prompting.md"
+        template: "templates/reasoning/step-back.yaml"
+        complexity: medium
+        token_cost: medium
+        num_calls: 2
+        best_for: ["physics", "chemistry", "first-principles reasoning"]
+        avoid_when: ["already abstract questions"]
+
+      - id: rephrase-and-respond
+        name: "Rephrase and Respond"
+        aliases: ["RaR", "question rewriting"]
+        file: "techniques/advanced-reasoning/rephrase-and-respond.md"
+        template: null
+        complexity: low
+        token_cost: low
+        num_calls: "1-2"
+        best_for: ["ambiguous questions", "quick accuracy boost"]
+        avoid_when: ["questions are already clear"]
+
+      - id: meta-prompting
+        name: "Meta-Prompting"
+        aliases: ["expert orchestration", "dynamic persona"]
+        file: "techniques/advanced-reasoning/meta-prompting.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["complex multi-domain tasks", "expert routing"]
+        avoid_when: ["single-domain tasks", "latency-sensitive"]
+
+  - id: verification
+    name: "Verification & Grounding"
+    code: "D"
+    description: "Techniques for verifying, refining, and grounding LLM outputs"
+    techniques:
+      - id: chain-of-verification
+        name: "Chain-of-Verification"
+        aliases: ["CoVe", "verification chain"]
+        file: "techniques/verification/chain-of-verification.md"
+        template: "templates/verification/chain-of-verification.yaml"
+        complexity: medium
+        token_cost: high
+        num_calls: "3-4"
+        best_for: ["reducing hallucination", "factual accuracy"]
+        avoid_when: ["latency-sensitive", "creative tasks"]
+
+      - id: self-refine
+        name: "Self-Refine"
+        aliases: ["iterative refinement", "critique-refine loop"]
+        file: "techniques/verification/self-refine.md"
+        template: "templates/verification/self-refine.yaml"
+        complexity: medium
+        token_cost: high
+        num_calls: "2-5"
+        best_for: ["writing quality", "code improvement", "iterative polish"]
+        avoid_when: ["first draft is sufficient", "tight budget"]
+
+      - id: reflexion
+        name: "Reflexion"
+        aliases: ["verbal reinforcement", "episodic memory"]
+        file: "techniques/verification/reflexion.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["multi-trial tasks", "agent self-improvement"]
+        avoid_when: ["single-shot tasks", "no feedback signal"]
+
+      - id: multi-agent-debate
+        name: "Multi-Agent Debate"
+        aliases: ["LLM debate", "multi-agent verification"]
+        file: "techniques/verification/multi-agent-debate.md"
+        template: null
+        complexity: high
+        token_cost: very_high
+        num_calls: "N*rounds"
+        best_for: ["high-stakes decisions", "reducing bias"]
+        avoid_when: ["budget-constrained", "simple tasks"]
+
+      - id: checklist-prompting
+        name: "Checklist Prompting"
+        aliases: ["verification checklist"]
+        file: "techniques/verification/checklist-prompting.md"
+        template: "templates/verification/checklist.yaml"
+        complexity: low
+        token_cost: low
+        num_calls: 1
+        best_for: ["quality assurance", "completeness verification"]
+        avoid_when: ["no clear verification criteria"]
+
+      - id: grounding-via-sources
+        name: "Source-Grounded Generation"
+        aliases: ["cite-then-conclude", "source-grounded"]
+        file: "techniques/verification/grounding-via-sources.md"
+        template: null
+        complexity: low
+        token_cost: medium
+        num_calls: 1
+        best_for: ["factual reports", "research synthesis"]
+        avoid_when: ["no source material available"]
+
+      - id: chain-of-knowledge
+        name: "Chain-of-Knowledge"
+        aliases: ["CoK", "knowledge chain"]
+        file: "techniques/verification/chain-of-knowledge.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["multi-source grounding", "heterogeneous knowledge"]
+        avoid_when: ["single source sufficient"]
+
+      - id: chain-of-note
+        name: "Chain-of-Note"
+        aliases: ["CoN", "reading notes"]
+        file: "techniques/verification/chain-of-note.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["RAG robustness", "noisy retrieval results"]
+        avoid_when: ["high-quality retrieval guaranteed"]
+
+      - id: self-rag
+        name: "Self-RAG"
+        aliases: ["self-reflective RAG"]
+        file: "techniques/verification/self-rag.md"
+        template: null
+        complexity: high
+        token_cost: variable
+        num_calls: variable
+        best_for: ["adaptive retrieval", "quality-aware generation"]
+        avoid_when: ["always-retrieve patterns sufficient"]
+
+      - id: corrective-rag
+        name: "Corrective RAG"
+        aliases: ["CRAG", "corrective retrieval"]
+        file: "techniques/verification/corrective-rag.md"
+        template: null
+        complexity: high
+        token_cost: variable
+        num_calls: "2-3"
+        best_for: ["unreliable retrieval", "web-augmented QA"]
+        avoid_when: ["high-quality retrieval guaranteed"]
+
+  - id: perception
+    name: "Perception & Context"
+    code: "E"
+    description: "Techniques for improving how models perceive and process context"
+    techniques:
+      - id: system-2-attention
+        name: "System 2 Attention"
+        aliases: ["S2A", "context regeneration"]
+        file: "techniques/perception/system-2-attention.md"
+        template: null
+        complexity: medium
+        token_cost: high
+        num_calls: 2
+        best_for: ["noisy/biased context", "sycophancy reduction"]
+        avoid_when: ["clean context", "token budget tight"]
+
+      - id: simtom
+        name: "SimToM"
+        aliases: ["perspective-taking", "theory of mind"]
+        file: "techniques/perception/simtom.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 2
+        best_for: ["perspective-based reasoning", "multi-stakeholder scenarios"]
+        avoid_when: ["single-perspective tasks"]
+
+      - id: directional-stimulus
+        name: "Directional Stimulus Prompting"
+        aliases: ["DSP", "hint prompting"]
+        file: "techniques/perception/directional-stimulus.md"
+        template: null
+        complexity: medium
+        token_cost: low
+        num_calls: 1
+        best_for: ["guided generation", "summary key-point inclusion"]
+        avoid_when: ["no domain knowledge for hints"]
+
+  - id: agents
+    name: "Agents & Tool Use"
+    code: "F"
+    description: "Patterns for LLM-based agents and tool integration"
+    techniques:
+      - id: tool-augmented-prompting
+        name: "Tool-Augmented Prompting"
+        aliases: ["function calling", "tool use"]
+        file: "techniques/agents/tool-augmented-prompting.md"
+        template: "templates/agents/tool-calling.yaml"
+        complexity: medium
+        token_cost: variable
+        num_calls: variable
+        best_for: ["external data access", "computation", "real-world actions"]
+        avoid_when: ["no tools available"]
+
+      - id: prompt-chaining
+        name: "Prompt Chaining"
+        aliases: ["pipeline prompting", "sequential chaining"]
+        file: "techniques/agents/prompt-chaining.md"
+        template: "templates/agents/prompt-chaining.yaml"
+        complexity: medium
+        token_cost: medium
+        num_calls: "2+"
+        best_for: ["multi-stage workflows", "complex transformations"]
+        avoid_when: ["single-step sufficient"]
+
+      - id: planner-worker-solver
+        name: "Planner-Worker-Solver"
+        aliases: ["multi-agent orchestration"]
+        file: "techniques/agents/planner-worker-solver.md"
+        template: "templates/agents/planner-worker-solver.yaml"
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["complex project execution", "parallel sub-tasks"]
+        avoid_when: ["simple tasks", "tight budget"]
+
+      - id: memory-prompting
+        name: "Memory Prompting"
+        aliases: ["context window management", "memory augmentation"]
+        file: "techniques/agents/memory-prompting.md"
+        template: null
+        complexity: medium
+        token_cost: variable
+        num_calls: variable
+        best_for: ["long conversations", "persistent context"]
+        avoid_when: ["short interactions"]
+
+  - id: prompt-programming
+    name: "Prompt Programming"
+    code: "G"
+    description: "Languages and frameworks for programmatic prompt construction"
+    techniques:
+      - id: lmql
+        name: "LMQL"
+        aliases: ["Language Model Query Language"]
+        file: "techniques/prompt-programming/lmql.md"
+        template: null
+        complexity: medium
+        token_cost: variable
+        num_calls: variable
+        best_for: ["constrained generation", "programmatic prompting"]
+        avoid_when: ["simple prompts", "no programming needed"]
+
+      - id: guidance
+        name: "Guidance"
+        aliases: ["Microsoft Guidance"]
+        file: "techniques/prompt-programming/guidance.md"
+        template: null
+        complexity: medium
+        token_cost: variable
+        num_calls: 1
+        best_for: ["template-driven generation", "interleaved control flow"]
+        avoid_when: ["simple API calls sufficient"]
+
+      - id: outlines
+        name: "Outlines"
+        aliases: ["structured generation", "FSM generation"]
+        file: "techniques/prompt-programming/outlines.md"
+        template: null
+        complexity: medium
+        token_cost: low
+        num_calls: 1
+        best_for: ["guaranteed valid JSON", "regex-constrained output"]
+        avoid_when: ["using API-native JSON mode"]
+
+      - id: sglang
+        name: "SGLang"
+        aliases: ["Structured Generation Language"]
+        file: "techniques/prompt-programming/sglang.md"
+        template: null
+        complexity: medium
+        token_cost: low
+        num_calls: variable
+        best_for: ["high-throughput serving", "KV cache optimization"]
+        avoid_when: ["single request", "API-only access"]
+
+  - id: optimization
+    name: "Optimization"
+    code: "H"
+    description: "Automatic and programmatic prompt optimization methods"
+    techniques:
+      - id: dspy
+        name: "DSPy"
+        aliases: ["Declarative Self-improving Python"]
+        file: "techniques/optimization/dspy.md"
+        template: null
+        complexity: high
+        token_cost: variable
+        num_calls: variable
+        best_for: ["production pipelines", "systematic optimization"]
+        avoid_when: ["one-off prompts", "no training data"]
+
+      - id: opro
+        name: "OPRO"
+        aliases: ["Optimization by PROmpting"]
+        file: "techniques/optimization/opro.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["instruction optimization", "meta-optimization"]
+        avoid_when: ["no evaluation metric", "small budget"]
+
+      - id: ape
+        name: "APE"
+        aliases: ["Automatic Prompt Engineer"]
+        file: "techniques/optimization/ape.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["automatic instruction generation", "prompt search"]
+        avoid_when: ["manual tuning sufficient"]
+
+      - id: textgrad
+        name: "TextGrad"
+        aliases: ["textual gradient descent"]
+        file: "techniques/optimization/textgrad.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["compound AI systems", "differentiable text optimization"]
+        avoid_when: ["simple prompts", "no optimization loop"]
+
+      - id: promptbreeder
+        name: "PromptBreeder"
+        aliases: ["evolutionary prompt optimization"]
+        file: "techniques/optimization/promptbreeder.md"
+        template: null
+        complexity: high
+        token_cost: very_high
+        num_calls: variable
+        best_for: ["long-running optimization", "diverse prompt exploration"]
+        avoid_when: ["limited compute budget"]
+
+      - id: evoprompt
+        name: "EvoPrompt"
+        aliases: ["evolutionary prompting"]
+        file: "techniques/optimization/evoprompt.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["discrete prompt optimization", "genetic search"]
+        avoid_when: ["limited iterations available"]
+
+      - id: protegi
+        name: "ProTeGi"
+        aliases: ["gradient-inspired prompt editing"]
+        file: "techniques/optimization/protegi.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["targeted prompt improvement", "error analysis"]
+        avoid_when: ["no error examples available"]
+
+  - id: soft-prompts
+    name: "Soft Prompts"
+    code: "I"
+    description: "Parametric/trainable prompt methods"
+    techniques:
+      - id: prompt-tuning
+        name: "Prompt Tuning"
+        aliases: ["soft prompt tuning", "virtual tokens"]
+        file: "techniques/soft-prompts/prompt-tuning.md"
+        template: null
+        complexity: high
+        token_cost: low
+        num_calls: 1
+        best_for: ["task-specific adaptation", "parameter-efficient fine-tuning"]
+        avoid_when: ["API-only access", "no training infrastructure"]
+
+      - id: prefix-tuning
+        name: "Prefix Tuning"
+        aliases: ["prefix tokens"]
+        file: "techniques/soft-prompts/prefix-tuning.md"
+        template: null
+        complexity: high
+        token_cost: low
+        num_calls: 1
+        best_for: ["generation tasks", "multi-task with shared backbone"]
+        avoid_when: ["API-only access"]
+
+      - id: p-tuning-v2
+        name: "P-Tuning v2"
+        aliases: ["deep prompt tuning"]
+        file: "techniques/soft-prompts/p-tuning-v2.md"
+        template: null
+        complexity: high
+        token_cost: low
+        num_calls: 1
+        best_for: ["NLU tasks", "smaller models"]
+        avoid_when: ["API-only access"]
+
+  - id: security
+    name: "Security & Defense"
+    code: "J"
+    description: "Techniques for defending against adversarial prompt attacks"
+    techniques:
+      - id: prompt-injection-defense
+        name: "Prompt Injection Defense"
+        aliases: ["injection defense", "sandwich defense", "spotlighting"]
+        file: "techniques/security/prompt-injection-defense.md"
+        template: "templates/security/injection-defense.yaml"
+        complexity: medium
+        token_cost: low
+        num_calls: 1
+        best_for: ["user-facing apps", "untrusted input processing"]
+        avoid_when: ["closed/internal systems"]
+
+      - id: instruction-hierarchy
+        name: "Instruction Hierarchy"
+        aliases: ["system prompt priority"]
+        file: "techniques/security/instruction-hierarchy.md"
+        template: "templates/security/instruction-hierarchy.yaml"
+        complexity: medium
+        token_cost: low
+        num_calls: 1
+        best_for: ["multi-layer instruction systems", "system prompt defense"]
+        avoid_when: ["single-prompt systems"]
+
+      - id: sanitization-guardrails
+        name: "Sanitization & Guardrails"
+        aliases: ["guardrails", "input/output filtering"]
+        file: "techniques/security/sanitization-guardrails.md"
+        template: null
+        complexity: medium
+        token_cost: variable
+        num_calls: "1-3"
+        best_for: ["production safety", "content filtering"]
+        avoid_when: ["internal/trusted use only"]
+
+  - id: alignment
+    name: "Alignment"
+    code: "K"
+    description: "Techniques for aligning model behavior with human values"
+    techniques:
+      - id: constitutional-ai
+        name: "Constitutional AI"
+        aliases: ["RLAIF", "CAI", "self-critique alignment"]
+        file: "techniques/alignment/constitutional-ai.md"
+        template: null
+        complexity: high
+        token_cost: high
+        num_calls: variable
+        best_for: ["safety alignment", "principle-based behavior"]
+        avoid_when: ["inference-only prompting sufficient"]
+
+  - id: reasoning-tokens
+    name: "Reasoning Tokens"
+    code: "L"
+    description: "Model-native reasoning capabilities with dedicated thinking tokens"
+    techniques:
+      - id: extended-thinking-claude
+        name: "Extended Thinking (Claude)"
+        aliases: ["thinking blocks", "Claude thinking"]
+        file: "techniques/reasoning-tokens/extended-thinking-claude.md"
+        template: null
+        complexity: low
+        token_cost: variable
+        num_calls: 1
+        best_for: ["complex reasoning", "math", "code", "analysis"]
+        avoid_when: ["simple tasks", "low latency required"]
+
+      - id: o1-o3-reasoning
+        name: "o1/o3 Reasoning"
+        aliases: ["OpenAI reasoning", "reasoning effort"]
+        file: "techniques/reasoning-tokens/o1-o3-reasoning.md"
+        template: null
+        complexity: low
+        token_cost: variable
+        num_calls: 1
+        best_for: ["STEM", "competitive programming", "complex analysis"]
+        avoid_when: ["simple tasks", "streaming required"]
+
+      - id: deepseek-r1
+        name: "DeepSeek-R1"
+        aliases: ["R1 reasoning", "open-source reasoning"]
+        file: "techniques/reasoning-tokens/deepseek-r1.md"
+        template: null
+        complexity: low
+        token_cost: variable
+        num_calls: 1
+        best_for: ["open-source deployment", "math", "reasoning"]
+        avoid_when: ["proprietary model preferred"]
+
+  - id: multimodal
+    name: "Multimodal"
+    code: "M"
+    description: "Techniques for vision-language and multi-modal prompting"
+    techniques:
+      - id: multimodal-cot
+        name: "Multimodal Chain-of-Thought"
+        aliases: ["multimodal CoT", "vision CoT"]
+        file: "techniques/multimodal/multimodal-cot.md"
+        template: null
+        complexity: medium
+        token_cost: medium
+        num_calls: 1
+        best_for: ["image reasoning", "visual Q&A", "diagram analysis"]
+        avoid_when: ["text-only models"]
+
+      - id: vision-language-prompting
+        name: "Vision-Language Prompting"
+        aliases: ["visual prompting", "image-text prompting"]
+        file: "techniques/multimodal/vision-language-prompting.md"
+        template: null
+        complexity: medium
+        token_cost: variable
+        num_calls: 1
+        best_for: ["image understanding", "visual grounding", "OCR tasks"]
+        avoid_when: ["text-only input"]

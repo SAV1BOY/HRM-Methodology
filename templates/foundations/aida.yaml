@@ -1,0 +1,97 @@
+id: aida
+name: "AIDA Framework"
+version: "1.0"
+category: foundations
+description: "Attention, Interest, Desire, Action — a classic marketing and persuasion framework for crafting compelling content that drives engagement."
+
+parameters:
+  - name: attention
+    type: string
+    required: true
+    default: ""
+    description: "A hook, headline, or striking statement to capture the reader's attention"
+  - name: interest
+    type: string
+    required: true
+    default: ""
+    description: "Facts, stories, or details that build interest and engagement"
+  - name: desire
+    type: string
+    required: true
+    default: ""
+    description: "Benefits, outcomes, or emotional appeals that create desire"
+  - name: action
+    type: string
+    required: true
+    default: ""
+    description: "The specific call-to-action or next step"
+  - name: product_or_topic
+    type: string
+    required: false
+    default: ""
+    description: "The product, service, or topic being promoted"
+
+template: |
+  Create content following the AIDA framework for {product_or_topic}:
+
+  ## Attention
+  Hook: {attention}
+
+  ## Interest
+  Build engagement with: {interest}
+
+  ## Desire
+  Create desire through: {desire}
+
+  ## Action
+  Drive action with: {action}
+
+variants:
+  - name: ad-copy
+    description: "Short-form advertising copy following the AIDA flow"
+    template: |
+      Write a short advertisement for {product_or_topic}:
+
+      Open with a hook that captures attention: {attention}
+      Follow with interesting details: {interest}
+      Build desire with benefits: {desire}
+      Close with a clear call-to-action: {action}
+
+      Keep the total length under 200 words. Make every word count.
+
+  - name: long-form
+    description: "Extended content piece — blog post, landing page, or email"
+    template: |
+      Write a detailed content piece for {product_or_topic} using the AIDA framework:
+
+      **Attention** — Start with a headline and opening paragraph that immediately hooks the reader:
+      {attention}
+
+      **Interest** — Develop the narrative with compelling details, stories, and facts:
+      {interest}
+
+      **Desire** — Transform interest into want through benefits, social proof, and emotional connection:
+      {desire}
+
+      **Action** — Close with an irresistible call-to-action:
+      {action}
+
+  - name: email-sequence
+    description: "Maps each AIDA stage to an email in a nurture sequence"
+    template: |
+      Design a 4-email sequence for {product_or_topic}:
+
+      Email 1 (Attention): Subject line and body that hooks the reader.
+      Theme: {attention}
+
+      Email 2 (Interest): Deepens engagement with valuable content.
+      Theme: {interest}
+
+      Email 3 (Desire): Creates urgency and emotional connection.
+      Theme: {desire}
+
+      Email 4 (Action): Drives conversion with a clear CTA.
+      Theme: {action}
+
+usage_notes: "AIDA is the most established marketing framework. Use it for any persuasive content — ads, emails, landing pages, pitches, and proposals. The framework maps the customer journey from awareness to conversion. Each stage should flow naturally into the next."
+composes_with: ["role-prompting", "bab", "pas", "co-star", "injection-defense"]

@@ -1,0 +1,87 @@
+id: risen
+name: "RISEN Framework"
+version: "1.0"
+category: foundations
+description: "Role, Instructions, Steps, End goal, and Narrowing — a structured framework for multi-step task execution with scope control."
+
+parameters:
+  - name: role
+    type: string
+    required: true
+    default: ""
+    description: "The role or persona the model should adopt"
+  - name: instructions
+    type: string
+    required: true
+    default: ""
+    description: "High-level instructions describing the task"
+  - name: steps
+    type: list
+    required: true
+    default: []
+    description: "Ordered list of specific steps to follow"
+  - name: end_goal
+    type: string
+    required: true
+    default: ""
+    description: "The desired final outcome or deliverable"
+  - name: narrowing
+    type: string
+    required: false
+    default: ""
+    description: "Constraints, exclusions, or boundaries to limit scope"
+
+template: |
+  ## Role
+  You are {role}.
+
+  ## Instructions
+  {instructions}
+
+  ## Steps
+  Follow these steps in order:
+  {steps}
+
+  ## End Goal
+  {end_goal}
+
+  ## Narrowing
+  {narrowing}
+
+variants:
+  - name: concise
+    description: "Compressed single-paragraph format for simpler tasks"
+    template: |
+      As {role}, {instructions}
+
+      Steps: {steps}
+
+      Goal: {end_goal}
+
+      Constraints: {narrowing}
+
+  - name: detailed
+    description: "Expanded format with explicit success criteria and output expectations"
+    template: |
+      ## Role
+      You are {role}. Adopt this perspective fully throughout the task.
+
+      ## Instructions
+      {instructions}
+
+      ## Steps
+      Follow these steps in order. Complete each step before moving to the next:
+      {steps}
+
+      ## End Goal
+      The final deliverable must satisfy: {end_goal}
+
+      ## Narrowing / Constraints
+      Stay within these boundaries:
+      {narrowing}
+
+      ## Success Criteria
+      Your response will be evaluated on completeness, adherence to the steps, and satisfaction of the end goal within the stated constraints.
+
+usage_notes: "RISEN works well for procedural tasks, workflows, and any scenario where step-by-step execution matters. The Narrowing parameter is particularly valuable for preventing scope creep. Useful for code generation, analysis pipelines, and structured research."
+composes_with: ["few-shot", "chain-of-thought", "self-refine", "injection-defense"]

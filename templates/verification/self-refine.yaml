@@ -1,0 +1,161 @@
+id: self-refine
+name: "Self-Refine"
+version: "1.0"
+category: verification
+description: "Iterative generate-critique-refine loop where the model produces output, critiques it against criteria, then improves it."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task to perform"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific input to process"
+  - name: criteria
+    type: list
+    required: false
+    default: ["accuracy", "completeness", "clarity"]
+    description: "Evaluation criteria for the critique step"
+  - name: max_iterations
+    type: integer
+    required: false
+    default: 3
+    description: "Maximum number of refine iterations"
+  - name: stop_condition
+    type: string
+    required: false
+    default: "no further improvements can be identified"
+    description: "When to stop the refinement loop"
+
+template: |
+  {task}
+
+  Input: {input}
+
+  Follow an iterative refinement process:
+
+  ## Iteration 1
+
+  ### Generate
+  Produce your initial response.
+
+  ### Critique
+  Evaluate your response against these criteria: {criteria}
+  List specific weaknesses, errors, or areas for improvement.
+
+  ### Refine
+  Produce an improved version that addresses the critique.
+
+  ## Iteration 2
+
+  ### Critique
+  Evaluate the refined response. Are there remaining issues?
+
+  ### Refine
+  Produce a further improved version.
+
+  Continue until {stop_condition}.
+
+  ## Final Output
+  Present the final refined version.
+
+variants:
+  - name: scored
+    description: "Adds numerical scoring at each iteration to track improvement"
+    template: |
+      {task}
+
+      Input: {input}
+
+      Evaluation criteria: {criteria}
+
+      ## Iteration 1: Generate
+      [Produce initial output]
+
+      ## Iteration 1: Score
+      Rate the output on each criterion (1-10):
+      {%- for c in criteria %}
+      - {c}: ?/10
+      {%- endfor %}
+      Overall: ?/10
+
+      ## Iteration 1: Critique
+      [Identify specific problems]
+
+      ## Iteration 1: Refine
+      [Improved version]
+
+      ## Iteration 2: Score
+      [Rate again]
+
+      ## Iteration 2: Critique
+      [Remaining issues]
+
+      ## Iteration 2: Refine
+      [Further improved version]
+
+      Continue until overall score >= 9/10 or {max_iterations} iterations reached.
+
+      ## Final Output
+
+  - name: focused
+    description: "Each iteration focuses on a different criterion rather than all at once"
+    template: |
+      {task}
+
+      Input: {input}
+
+      ## Pass 1: Generate
+      Produce initial response.
+
+      ## Pass 2: Refine for {criteria[0]}
+      Critique the response specifically for {criteria[0]}. Then refine.
+
+      ## Pass 3: Refine for {criteria[1]}
+      Critique the refined response specifically for {criteria[1]}. Then refine.
+
+      ## Pass 4: Refine for {criteria[2]}
+      Critique for {criteria[2]}. Then refine.
+
+      ## Final Output
+      The version after all refinement passes.
+
+  - name: external-feedback
+    description: "Incorporates external feedback between iterations"
+    template: |
+      {task}
+
+      Input: {input}
+
+      ## Generate
+      Produce initial response.
+
+      ## Self-Critique
+      Evaluate against: {criteria}
+
+      ## External Feedback
+      {external_feedback}
+
+      ## Refine
+      Address both your own critique and the external feedback.
+
+      ## Final Output
+
+usage_notes: >
+  Self-Refine is one of the most versatile improvement techniques. It works
+  across code generation, creative writing, reasoning, and structured output.
+  The key is providing specific, actionable criteria — vague criteria like
+  "make it better" are ineffective. For production systems, implement the
+  loop programmatically with separate API calls for generate/critique/refine.
+  Typically 2-3 iterations capture most of the improvement. Diminishing
+  returns set in quickly after that.
+composes_with:
+  - "chain-of-thought"
+  - "chain-of-verification"
+  - "role-prompting"
+  - "plan-and-solve"
+  - "checklist"

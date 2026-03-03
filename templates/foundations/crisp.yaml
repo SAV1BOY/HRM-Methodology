@@ -1,0 +1,82 @@
+id: crisp
+name: "CRISP Framework"
+version: "1.0"
+category: foundations
+description: "Capacity, Role, Insight, Statement, Personality — a framework that pairs domain calibration with persona control."
+
+parameters:
+  - name: capacity
+    type: string
+    required: true
+    default: ""
+    description: "The skill set, knowledge domain, or capability level the model should operate at"
+  - name: role
+    type: string
+    required: true
+    default: ""
+    description: "The specific professional or functional role to adopt"
+  - name: insight
+    type: string
+    required: true
+    default: ""
+    description: "Key context, background knowledge, or domain insight relevant to the task"
+  - name: statement
+    type: string
+    required: true
+    default: ""
+    description: "The specific request, question, or task to perform"
+  - name: personality
+    type: string
+    required: false
+    default: "professional and clear"
+    description: "The communication style and personality traits to exhibit"
+
+template: |
+  ## Capacity
+  You have the following capabilities: {capacity}
+
+  ## Role
+  You are acting as: {role}
+
+  ## Insight
+  Key context: {insight}
+
+  ## Statement
+  {statement}
+
+  ## Personality
+  Communicate in a {personality} manner.
+
+variants:
+  - name: inline
+    description: "Compact single-block format for shorter prompts"
+    template: |
+      With expertise in {capacity}, acting as {role}:
+
+      Context: {insight}
+
+      Task: {statement}
+
+      Respond in a {personality} manner.
+
+  - name: calibrated
+    description: "Emphasizes capacity calibration with explicit skill boundaries"
+    template: |
+      ## Capacity & Boundaries
+      You possess deep expertise in: {capacity}
+      You should not speculate beyond this domain. If the task falls outside your capacity, state so clearly.
+
+      ## Role
+      {role}
+
+      ## Key Insight
+      {insight}
+
+      ## Task
+      {statement}
+
+      ## Communication Style
+      {personality}
+
+usage_notes: "CRISP is useful when you need to calibrate the model's confidence and domain boundaries. The Capacity parameter helps prevent hallucination by scoping what the model 'knows'. The Personality parameter controls communication style independently of content. Good for advisory, consulting, and domain-expert scenarios."
+composes_with: ["few-shot", "chain-of-thought", "self-refine", "injection-defense"]

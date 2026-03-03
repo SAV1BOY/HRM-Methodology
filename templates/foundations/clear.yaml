@@ -1,0 +1,87 @@
+id: clear
+name: "CLEAR Framework"
+version: "1.0"
+category: foundations
+description: "Core intent, Language, Expectations, Anticipation, Refinement — an iterative prompt design framework focused on precision and improvement."
+
+parameters:
+  - name: core_intent
+    type: string
+    required: true
+    default: ""
+    description: "The fundamental purpose or goal of the prompt"
+  - name: language
+    type: string
+    required: false
+    default: "precise and unambiguous"
+    description: "Language style — clarity preferences, jargon level, vocabulary constraints"
+  - name: expectations
+    type: string
+    required: true
+    default: ""
+    description: "Explicit criteria for what a successful response looks like"
+  - name: anticipation
+    type: string
+    required: false
+    default: ""
+    description: "Foreseeable pitfalls, edge cases, or misinterpretations to preempt"
+  - name: refinement
+    type: string
+    required: false
+    default: ""
+    description: "Iterative improvement instructions — what to revisit, double-check, or polish"
+
+template: |
+  ## Core Intent
+  {core_intent}
+
+  ## Language
+  Use {language} language throughout your response.
+
+  ## Expectations
+  A successful response must:
+  {expectations}
+
+  ## Anticipation
+  Watch out for these potential issues:
+  {anticipation}
+
+  ## Refinement
+  Before finalizing, review your response against these refinement criteria:
+  {refinement}
+
+variants:
+  - name: minimal
+    description: "Focuses on core intent and expectations only — for well-defined tasks"
+    template: |
+      Goal: {core_intent}
+
+      Success criteria:
+      {expectations}
+
+  - name: iterative
+    description: "Emphasizes the refinement loop with explicit self-review"
+    template: |
+      ## Core Intent
+      {core_intent}
+
+      ## Language
+      {language}
+
+      ## Expectations
+      {expectations}
+
+      ## Anticipation
+      Before responding, consider these risks and edge cases:
+      {anticipation}
+
+      ## Refinement Process
+      After drafting your initial response:
+      1. Re-read the core intent — does your response fully address it?
+      2. Check against each expectation criterion.
+      3. Review for the anticipated pitfalls.
+      4. Apply these refinements: {refinement}
+      5. Output only the final, refined version.
+
+usage_notes: "CLEAR is a meta-framework for writing better prompts. It is especially useful when you need high-precision outputs and want to preempt common failure modes. The Anticipation and Refinement stages make it naturally self-correcting. Ideal for critical content, legal text, technical specifications, and anything where errors are costly."
+composes_with: ["role-prompting", "self-refine", "chain-of-verification", "injection-defense"]

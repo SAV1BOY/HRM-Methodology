@@ -1,0 +1,96 @@
+id: chain-of-draft
+name: "Chain-of-Draft"
+version: "1.0"
+category: reasoning
+description: "Minimalist chain-of-thought that produces only the essential intermediate tokens — maximizing reasoning quality while minimizing output length."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task or problem description"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific question or problem to solve"
+  - name: max_words_per_step
+    type: integer
+    required: false
+    default: 5
+    description: "Maximum number of words allowed per reasoning step"
+  - name: examples
+    type: list
+    required: false
+    default: []
+    description: "Optional examples showing the concise drafting style"
+
+template: |
+  {task}
+
+  {input}
+
+  Think step by step, but keep each reasoning step to a minimum — at most {max_words_per_step} words per step. Only write the essential intermediate values or conclusions needed to reach the final answer.
+
+  {%- if examples %}
+  Examples:
+  {examples}
+  {%- endif %}
+
+  Reasoning:
+
+variants:
+  - name: math
+    description: "Optimized for arithmetic and math problems with terse intermediate values"
+    template: |
+      {task}
+
+      {input}
+
+      Solve step by step. For each step, write only the calculation and result — no explanations. Use at most {max_words_per_step} words per step.
+
+      {%- if examples %}
+      Examples:
+      {examples}
+      {%- endif %}
+
+      Steps:
+
+  - name: comparison
+    description: "For tasks that benefit from telegraphic comparison notes"
+    template: |
+      {task}
+
+      {input}
+
+      Compare step by step using brief notes (max {max_words_per_step} words each).
+
+      Draft notes:
+
+      Final answer:
+
+  - name: keyword-chain
+    description: "Each step is a single keyword or very short phrase forming a reasoning chain"
+    template: |
+      {task}
+
+      {input}
+
+      Reason using a chain of keywords or short phrases. Each link in the chain should be at most {max_words_per_step} words that capture the essential reasoning step.
+
+      Chain: [step1] -> [step2] -> [step3] -> ... -> [answer]
+
+usage_notes: >
+  Chain-of-Draft achieves comparable accuracy to full chain-of-thought
+  while using significantly fewer tokens (often 80% fewer). This makes
+  it ideal for latency-sensitive applications, high-volume pipelines,
+  and cost optimization. The technique works because most of the reasoning
+  benefit comes from structuring the computation, not from verbose
+  explanations. Best for math, logic, and factual reasoning where
+  intermediate steps are computational rather than explanatory.
+composes_with:
+  - "chain-of-thought"
+  - "zero-shot-cot"
+  - "self-consistency"
+  - "few-shot"

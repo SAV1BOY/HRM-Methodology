@@ -1,0 +1,70 @@
+id: zero-shot-cot
+name: "Zero-Shot Chain-of-Thought"
+version: "1.0"
+category: reasoning
+description: "Triggers step-by-step reasoning without examples by appending a reasoning trigger phrase such as 'Let's think step by step'."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "Description of the reasoning task or problem type"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific problem or question to reason about"
+  - name: trigger_phrase
+    type: string
+    required: false
+    default: "Let's think step by step."
+    description: "The phrase that activates chain-of-thought reasoning"
+  - name: answer_prefix
+    type: string
+    required: false
+    default: "Therefore, the answer is:"
+    description: "Prefix for the final answer extraction after reasoning"
+
+template: |
+  {task}
+
+  {input}
+
+  {trigger_phrase}
+
+variants:
+  - name: standard
+    description: "Classic zero-shot CoT with the original trigger phrase"
+    template: |
+      {task}
+
+      {input}
+
+      Let's think step by step.
+
+  - name: with-extraction
+    description: "Adds an explicit final-answer extraction step after reasoning"
+    template: |
+      {task}
+
+      {input}
+
+      Let's think step by step.
+
+      After completing your reasoning, clearly state your final answer on a new line starting with:
+      {answer_prefix}
+
+  - name: structured-steps
+    description: "Requests numbered steps for cleaner reasoning traces"
+    template: |
+      {task}
+
+      {input}
+
+      Let's work through this step by step. Number each step clearly:
+
+      Step 1:
+
+usage_notes: "Zero-shot CoT is remarkably effective for its simplicity — just appending 'Let's think step by step' can significantly improve reasoning performance without needing worked examples. Use when you don't have good examples or want to save context window space. Less reliable than few-shot CoT for complex or domain-specific reasoning."
+composes_with: ["zero-shot", "role-prompting", "self-consistency", "chain-of-verification"]

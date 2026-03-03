@@ -1,0 +1,110 @@
+id: plan-and-solve
+name: "Plan-and-Solve Prompting"
+version: "1.0"
+category: reasoning
+description: "Devises an explicit plan before executing — separates strategic planning from step-by-step execution to reduce reasoning errors."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "Description of the task or problem type"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific problem or question to solve"
+  - name: planning_guidance
+    type: string
+    required: false
+    default: ""
+    description: "Optional hints for what the plan should address"
+  - name: variable_extraction
+    type: string
+    required: false
+    default: ""
+    description: "Explicit instruction to extract and define key variables before solving"
+
+template: |
+  {task}
+
+  {input}
+
+  Let's first understand the problem and devise a plan to solve it. Then, let's carry out the plan and solve the problem step by step.
+
+  Plan:
+
+variants:
+  - name: ps-plus
+    description: "Plan-and-Solve+ variant with explicit variable extraction and calculation verification"
+    template: |
+      {task}
+
+      {input}
+
+      Let's first understand the problem, extract relevant variables and their corresponding numerals, and devise a plan. Then, let's carry out the plan, calculate intermediate results, and solve the problem step by step.
+
+      Variables:
+
+      Plan:
+
+      Execution:
+
+  - name: structured
+    description: "Adds structured sections for plan, execution, and verification"
+    template: |
+      {task}
+
+      {input}
+
+      ## Step 1: Understand the Problem
+      Restate the problem in your own words. Identify what is given and what is asked.
+
+      ## Step 2: Devise a Plan
+      {%- if planning_guidance %}
+      Planning guidance: {planning_guidance}
+      {%- endif %}
+      Outline the steps you will take to solve this problem.
+
+      ## Step 3: Execute the Plan
+      Carry out each planned step, showing all intermediate work.
+
+      ## Step 4: Verify
+      Check your answer against the original problem. Does it make sense?
+
+      ## Final Answer
+
+  - name: with-alternatives
+    description: "Generates multiple plans and selects the best one before executing"
+    template: |
+      {task}
+
+      {input}
+
+      Step 1 — Generate three possible solution plans:
+      Plan A:
+      Plan B:
+      Plan C:
+
+      Step 2 — Evaluate plans:
+      Compare the plans on clarity, efficiency, and likelihood of success.
+
+      Step 3 — Select and execute:
+      Choose the best plan and execute it step by step.
+
+      Solution:
+
+usage_notes: >
+  Plan-and-Solve improves on zero-shot CoT by adding explicit planning
+  before execution. The PS+ variant with variable extraction is especially
+  effective for math word problems. This technique reduces calculation errors
+  and missing-step errors by forcing the model to think about strategy
+  before diving into computation. Use when zero-shot CoT produces
+  disorganized or incomplete reasoning.
+composes_with:
+  - "zero-shot-cot"
+  - "chain-of-thought"
+  - "self-refine"
+  - "least-to-most"
+  - "chain-of-verification"

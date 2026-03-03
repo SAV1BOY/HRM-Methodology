@@ -1,0 +1,140 @@
+id: tree-of-thoughts
+name: "Tree of Thoughts"
+version: "1.0"
+category: reasoning
+description: "Explores multiple reasoning branches in parallel, evaluates intermediate states, and searches for the best path using BFS or DFS strategies."
+
+parameters:
+  - name: problem
+    type: string
+    required: true
+    default: ""
+    description: "The problem requiring deliberate exploration of multiple reasoning paths"
+  - name: num_branches
+    type: integer
+    required: false
+    default: 3
+    description: "Number of parallel thought branches to generate at each step"
+  - name: max_depth
+    type: integer
+    required: false
+    default: 3
+    description: "Maximum depth of the reasoning tree"
+  - name: search_strategy
+    type: enum
+    required: false
+    default: "bfs"
+    description: "Search strategy for exploring the tree"
+    options:
+      - "bfs"
+      - "dfs"
+  - name: evaluation_criteria
+    type: string
+    required: false
+    default: "correctness, progress toward solution, and feasibility"
+    description: "Criteria for evaluating and pruning thought branches"
+
+template: |
+  Problem: {problem}
+
+  Solve this problem using a tree-of-thoughts approach. At each step, generate {num_branches} different possible next steps, evaluate each for {evaluation_criteria}, then continue with the most promising path(s).
+
+  Step 1 — Generate initial thoughts:
+  Thought 1.1:
+  Thought 1.2:
+  Thought 1.3:
+
+  Evaluate: Which thought(s) are most promising? Why?
+
+  Step 2 — Expand the best thought(s):
+  For each promising thought, generate {num_branches} next steps.
+  Evaluate again.
+
+  Continue this generate-evaluate cycle until you reach a solution.
+
+  Final Answer:
+
+variants:
+  - name: bfs
+    description: "Breadth-first search — explores all branches at each level before going deeper"
+    template: |
+      Problem: {problem}
+
+      Use breadth-first tree-of-thoughts exploration.
+
+      Level 1 — Generate {num_branches} initial approaches:
+      Approach A:
+      Approach B:
+      Approach C:
+
+      Evaluate all approaches. Score each 1-10 on {evaluation_criteria}.
+
+      Level 2 — For the top approach(es), generate {num_branches} next steps each:
+      [Continue expanding the most promising branches]
+
+      Level 3 — Continue expanding until a solution is reached.
+
+      Best path:
+      Final Answer:
+
+  - name: dfs
+    description: "Depth-first search — follows the most promising branch to completion before backtracking"
+    template: |
+      Problem: {problem}
+
+      Use depth-first tree-of-thoughts exploration.
+
+      Step 1 — Generate {num_branches} initial thoughts:
+      Thought A:
+      Thought B:
+      Thought C:
+
+      Select the most promising thought. Explain why.
+
+      Step 2 — Continue along this branch. Generate the next thought.
+
+      If you reach a dead end or contradiction, backtrack to the last branching point and try the next most promising option.
+
+      Continue until you reach a solution.
+
+      Solution path:
+      Final Answer:
+
+  - name: debate
+    description: "Multiple 'experts' propose and critique paths, converging on the best solution"
+    template: |
+      Problem: {problem}
+
+      Three experts will independently propose solution approaches, then evaluate each other's reasoning.
+
+      Expert 1 proposes:
+      [Full reasoning path]
+
+      Expert 2 proposes:
+      [Full reasoning path]
+
+      Expert 3 proposes:
+      [Full reasoning path]
+
+      Evaluation round:
+      Each expert critiques the other two approaches. Identify flaws and strengths.
+
+      Synthesis:
+      Based on the strongest reasoning across all experts, construct the final solution.
+
+      Final Answer:
+
+usage_notes: >
+  Tree of Thoughts is designed for problems that require deliberate
+  exploration — puzzles, planning, creative writing, strategic decisions.
+  It significantly outperforms linear CoT on tasks where the first reasoning
+  path is often wrong (e.g., Game of 24, crosswords, creative writing).
+  The single-prompt version simulates the process but true ToT works best
+  with API-level orchestration (multiple calls with programmatic evaluation).
+  Use when the solution space is large and early commitment to one path
+  is risky.
+composes_with:
+  - "chain-of-thought"
+  - "self-consistency"
+  - "self-refine"
+  - "plan-and-solve"

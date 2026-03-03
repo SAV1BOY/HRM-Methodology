@@ -1,0 +1,117 @@
+id: few-shot
+name: "Few-Shot Prompting"
+version: "1.0"
+category: foundations
+description: "Provides k labeled examples before the query to steer format, style, and correctness via in-context learning."
+
+parameters:
+  - name: task_description
+    type: string
+    required: true
+    default: ""
+    description: "A clear description of what the model should do"
+  - name: examples
+    type: list
+    required: true
+    default: []
+    description: "List of input/output example pairs that demonstrate the desired behavior"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The new input the model should process following the demonstrated pattern"
+  - name: k
+    type: integer
+    required: false
+    default: 3
+    description: "Number of examples to include (typically 1, 3, or 5)"
+  - name: example_separator
+    type: string
+    required: false
+    default: "---"
+    description: "Delimiter between examples for visual clarity"
+
+template: |
+  {task_description}
+
+  Here are {k} examples:
+
+  {examples}
+
+  {example_separator}
+
+  Now perform the same task for the following input:
+  {input}
+
+variants:
+  - name: k1
+    description: "Single example — minimal context, useful when examples are expensive or highly representative"
+    template: |
+      {task_description}
+
+      Example:
+      Input: {examples[0].input}
+      Output: {examples[0].output}
+
+      ---
+
+      Now perform the same task:
+      Input: {input}
+      Output:
+
+  - name: k3
+    description: "Three examples — balanced coverage of common patterns and edge cases"
+    template: |
+      {task_description}
+
+      Example 1:
+      Input: {examples[0].input}
+      Output: {examples[0].output}
+
+      Example 2:
+      Input: {examples[1].input}
+      Output: {examples[1].output}
+
+      Example 3:
+      Input: {examples[2].input}
+      Output: {examples[2].output}
+
+      ---
+
+      Now perform the same task:
+      Input: {input}
+      Output:
+
+  - name: k5
+    description: "Five examples — maximal coverage for complex or ambiguous tasks"
+    template: |
+      {task_description}
+
+      Example 1:
+      Input: {examples[0].input}
+      Output: {examples[0].output}
+
+      Example 2:
+      Input: {examples[1].input}
+      Output: {examples[1].output}
+
+      Example 3:
+      Input: {examples[2].input}
+      Output: {examples[2].output}
+
+      Example 4:
+      Input: {examples[3].input}
+      Output: {examples[3].output}
+
+      Example 5:
+      Input: {examples[4].input}
+      Output: {examples[4].output}
+
+      ---
+
+      Now perform the same task:
+      Input: {input}
+      Output:
+
+usage_notes: "Use few-shot when zero-shot output is inconsistent or when you need precise formatting control. Choose diverse, representative examples. Order can matter — put the most relevant example last. More examples generally improve accuracy but consume context window."
+composes_with: ["chain-of-thought", "role-prompting", "self-consistency", "injection-defense"]

@@ -1,0 +1,74 @@
+id: one-shot
+name: "One-Shot Prompting"
+version: "1.0"
+category: foundations
+description: "Provides a single labeled example before the query to demonstrate the desired input-output pattern with minimal token cost."
+
+parameters:
+  - name: task_description
+    type: string
+    required: true
+    default: ""
+    description: "A clear description of what the model should do"
+  - name: example_input
+    type: string
+    required: true
+    default: ""
+    description: "The input side of the single demonstration example"
+  - name: example_output
+    type: string
+    required: true
+    default: ""
+    description: "The expected output for the demonstration example"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The new input the model should process following the demonstrated pattern"
+  - name: separator
+    type: string
+    required: false
+    default: "---"
+    description: "Delimiter between the example and the actual task"
+
+template: |
+  {task_description}
+
+  Example:
+  Input: {example_input}
+  Output: {example_output}
+
+  {separator}
+
+  Now perform the same task:
+  Input: {input}
+  Output:
+
+variants:
+  - name: labeled
+    description: "Uses explicit label names for domain-specific tasks (e.g., Sentence/Sentiment)"
+    template: |
+      {task_description}
+
+      Example:
+      {input_label}: {example_input}
+      {output_label}: {example_output}
+
+      {separator}
+
+      {input_label}: {input}
+      {output_label}:
+
+  - name: conversational
+    description: "Wraps the example in a conversational user/assistant format"
+    template: |
+      {task_description}
+
+      User: {example_input}
+      Assistant: {example_output}
+
+      User: {input}
+      Assistant:
+
+usage_notes: "Use one-shot when you need to demonstrate format or style with minimal token cost. Choose a representative example that covers the most common or important pattern. If accuracy is insufficient, upgrade to few-shot with 3-5 examples."
+composes_with: ["chain-of-thought", "role-prompting", "output-format", "injection-defense"]

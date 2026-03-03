@@ -1,0 +1,179 @@
+id: prompt-chaining
+name: "Prompt Chaining"
+version: "1.0"
+category: agents
+description: "Multi-step pipeline where the output of one prompt becomes the input to the next, with optional gates and transformations between steps."
+
+parameters:
+  - name: pipeline_name
+    type: string
+    required: false
+    default: "Pipeline"
+    description: "A descriptive name for this prompt chain"
+  - name: steps
+    type: list
+    required: true
+    default: []
+    description: "Ordered list of pipeline steps, each with an id, prompt template, and output key"
+  - name: initial_input
+    type: string
+    required: true
+    default: ""
+    description: "The input that enters the first step of the pipeline"
+  - name: gate_condition
+    type: string
+    required: false
+    default: ""
+    description: "Optional condition checked between steps — if false, the chain halts or branches"
+  - name: error_handling
+    type: enum
+    required: false
+    default: "halt"
+    description: "What to do when a step fails or gate condition is not met"
+    options:
+      - "halt"
+      - "retry"
+      - "skip"
+      - "fallback"
+
+template: |
+  # {pipeline_name}
+
+  This task is completed through a series of chained steps. Each step receives the output from the previous step as its input.
+
+  ## Step 1: {steps[0].name}
+  Input: {initial_input}
+  Instruction: {steps[0].prompt}
+
+  Output -> {steps[0].output_key}
+
+  {%- if gate_condition %}
+  Gate: Check if {gate_condition}. If not, {error_handling}.
+  {%- endif %}
+
+  ## Step 2: {steps[1].name}
+  Input: {{{steps[0].output_key}}}
+  Instruction: {steps[1].prompt}
+
+  Output -> {steps[1].output_key}
+
+  ## Step 3: {steps[2].name}
+  Input: {{{steps[1].output_key}}}
+  Instruction: {steps[2].prompt}
+
+  Output -> {steps[2].output_key}
+
+  ...continue for all steps...
+
+  ## Final Output
+  Combine or return the output of the final step.
+
+variants:
+  - name: linear
+    description: "Simple linear chain — each step feeds directly into the next"
+    template: |
+      # {pipeline_name}
+
+      Complete the following steps in sequence. The output of each step is the input to the next.
+
+      Step 1 — {steps[0].name}:
+      {steps[0].prompt}
+      Input: {initial_input}
+      Output:
+
+      Step 2 — {steps[1].name}:
+      {steps[1].prompt}
+      Input: [output from Step 1]
+      Output:
+
+      Step 3 — {steps[2].name}:
+      {steps[2].prompt}
+      Input: [output from Step 2]
+      Output:
+
+      Final result: [output from last step]
+
+  - name: branching
+    description: "Includes conditional branching between steps"
+    template: |
+      # {pipeline_name}
+
+      Input: {initial_input}
+
+      Step 1 — Classify:
+      {steps[0].prompt}
+      Output: classification result
+
+      Step 2 — Branch:
+      - If classification is A: {steps[1].prompt_a}
+      - If classification is B: {steps[1].prompt_b}
+      - Otherwise: {steps[1].prompt_default}
+      Output: branch result
+
+      Step 3 — Finalize:
+      {steps[2].prompt}
+      Input: [branch result]
+      Output: final result
+
+  - name: accumulating
+    description: "Each step has access to all previous outputs, not just the immediately preceding one"
+    template: |
+      # {pipeline_name}
+
+      Input: {initial_input}
+
+      Step 1 — {steps[0].name}:
+      {steps[0].prompt}
+      Available context: {initial_input}
+      Output -> step_1_result
+
+      Step 2 — {steps[1].name}:
+      {steps[1].prompt}
+      Available context: {initial_input}, step_1_result
+      Output -> step_2_result
+
+      Step 3 — {steps[2].name}:
+      {steps[2].prompt}
+      Available context: {initial_input}, step_1_result, step_2_result
+      Output -> step_3_result
+
+      Final synthesis:
+      Using all accumulated results, produce the final output.
+
+  - name: map-reduce
+    description: "Applies the same step to multiple inputs, then reduces the results"
+    template: |
+      # {pipeline_name}
+
+      ## Map Phase
+      Apply the following to each input chunk independently:
+      {steps[0].prompt}
+
+      Input chunks:
+      {initial_input}
+
+      Chunk 1 result:
+      Chunk 2 result:
+      Chunk 3 result:
+
+      ## Reduce Phase
+      {steps[1].prompt}
+
+      Combine all chunk results into a single output.
+
+      Final Output:
+
+usage_notes: >
+  Prompt chaining is the most practical pattern for complex tasks. It
+  trades off latency for quality and controllability. Each step can use
+  a different model, temperature, or technique. Gates between steps enable
+  quality control and error handling. The linear variant works for most
+  cases; use branching when the task has conditional logic; use
+  accumulating when later steps need full context; use map-reduce for
+  processing large inputs that exceed context windows.
+composes_with:
+  - "tool-calling"
+  - "self-refine"
+  - "chain-of-verification"
+  - "planner-worker-solver"
+  - "injection-defense"

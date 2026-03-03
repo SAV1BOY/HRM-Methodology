@@ -1,0 +1,66 @@
+id: bab
+name: "BAB Framework"
+version: "1.0"
+category: foundations
+description: "Before, After, Bridge — a persuasion and transformation framework that maps a current state to a desired state via a proposed solution."
+
+parameters:
+  - name: before
+    type: string
+    required: true
+    default: ""
+    description: "The current state, problem, or pain point"
+  - name: after
+    type: string
+    required: true
+    default: ""
+    description: "The desired future state or outcome"
+  - name: bridge
+    type: string
+    required: true
+    default: ""
+    description: "The solution, product, or action that connects the before to the after"
+
+template: |
+  ## Before (Current State)
+  {before}
+
+  ## After (Desired State)
+  {after}
+
+  ## Bridge (Solution)
+  {bridge}
+
+  Write a compelling narrative that transitions from the current state through the solution to the desired outcome.
+
+variants:
+  - name: copywriting
+    description: "Optimized for marketing copy and persuasive writing"
+    template: |
+      Paint a vivid picture of the problem:
+      {before}
+
+      Now describe the transformation — what life looks like after the solution:
+      {after}
+
+      Bridge the gap — show how to get there:
+      {bridge}
+
+      Write persuasive copy that takes the reader on this journey from problem to solution to transformation.
+
+  - name: problem-solving
+    description: "Adapted for technical or strategic problem-solving contexts"
+    template: |
+      ## Current State
+      {before}
+
+      ## Target State
+      {after}
+
+      ## Proposed Approach
+      {bridge}
+
+      Analyze this transformation. Identify the key steps, potential risks, and success metrics for moving from the current state to the target state via the proposed approach.
+
+usage_notes: "BAB originates from copywriting and persuasion. It is excellent for marketing content, proposals, case studies, and any scenario where you need to articulate a transformation narrative. Also works well for gap analysis and strategic planning. The framework naturally creates emotional engagement through contrast."
+composes_with: ["role-prompting", "aida", "co-star", "injection-defense"]

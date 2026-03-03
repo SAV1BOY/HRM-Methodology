@@ -1,0 +1,149 @@
+id: tool-calling
+name: "Tool Calling"
+version: "1.0"
+category: agents
+description: "Defines available tools with descriptions and calling conventions, enabling the model to select and invoke tools to accomplish tasks."
+
+parameters:
+  - name: system_context
+    type: string
+    required: false
+    default: "You are a helpful assistant with access to external tools."
+    description: "System-level context for the agent"
+  - name: tools
+    type: list
+    required: true
+    default: []
+    description: "List of tool definitions, each with name, description, parameters, and return type"
+  - name: calling_format
+    type: enum
+    required: false
+    default: "json"
+    description: "Format for tool invocations"
+    options:
+      - "json"
+      - "xml"
+      - "function"
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The user task that may require tool use"
+  - name: parallel_calls
+    type: string
+    required: false
+    default: "false"
+    description: "Whether the agent can call multiple tools in a single turn"
+
+template: |
+  {system_context}
+
+  ## Available Tools
+
+  You have access to the following tools:
+
+  {%- for tool in tools %}
+  ### {tool.name}
+  Description: {tool.description}
+  Parameters:
+  {tool.parameters}
+  Returns: {tool.return_type}
+  {%- endfor %}
+
+  ## Tool Calling Format
+
+  When you need to use a tool, respond with a tool call in {calling_format} format:
+
+  {%- if calling_format == "json" %}
+  ```json
+  {"tool": "tool_name", "arguments": {"param1": "value1", "param2": "value2"}}
+  ```
+  {%- elif calling_format == "xml" %}
+  <tool_call>
+  <name>tool_name</name>
+  <arguments>
+  <param1>value1</param1>
+  <param2>value2</param2>
+  </arguments>
+  </tool_call>
+  {%- elif calling_format == "function" %}
+  tool_name(param1="value1", param2="value2")
+  {%- endif %}
+
+  ## Rules
+  - Only call tools that are listed above.
+  - Provide all required parameters.
+  - If you can answer without a tool, do so directly.
+  - After receiving a tool result, use it to formulate your response.
+  {%- if parallel_calls == "true" %}
+  - You may call multiple tools in a single turn if they are independent.
+  {%- endif %}
+
+  ## Task
+  {task}
+
+variants:
+  - name: strict
+    description: "Enforces structured output — the model must either call a tool or give a final answer, nothing else"
+    template: |
+      {system_context}
+
+      Tools:
+      {tools}
+
+      You must respond with EXACTLY ONE of:
+      1. A tool call:
+         {"tool": "tool_name", "arguments": {...}}
+      2. A final answer:
+         {"answer": "your response"}
+
+      No other output format is allowed. Do not include explanations outside of these structures.
+
+      Task: {task}
+
+  - name: conversational
+    description: "Allows natural language around tool calls for user-facing agents"
+    template: |
+      {system_context}
+
+      You have access to these tools:
+      {tools}
+
+      When you need to use a tool, include the call in your message like this:
+      [TOOL: tool_name(param1="value1")]
+
+      You can include natural language before and after tool calls to explain what you are doing to the user.
+
+      Task: {task}
+
+  - name: multi-turn
+    description: "Designed for multi-turn conversations with tool results injected between turns"
+    template: |
+      {system_context}
+
+      Tools available:
+      {tools}
+
+      Conversation format:
+      - User messages appear as: User: ...
+      - Tool results appear as: Tool Result ({tool_name}): ...
+      - Your responses should include tool calls when needed: {"tool": "...", "arguments": {...}}
+
+      When you receive a tool result, incorporate it into your reasoning and either call another tool or provide a final answer.
+
+      {task}
+
+usage_notes: >
+  Tool calling is the foundation of agentic AI. Clear tool descriptions are
+  critical — include parameter types, valid ranges, and example usage.
+  The strict variant is best for programmatic orchestration; the
+  conversational variant is best for user-facing chat. Always include
+  guidance on when NOT to call a tool (direct answers when possible).
+  For production, use the model provider's native function-calling API
+  rather than prompt-based tool calling when available.
+composes_with:
+  - "react"
+  - "prompt-chaining"
+  - "planner-worker-solver"
+  - "injection-defense"
+  - "instruction-hierarchy"

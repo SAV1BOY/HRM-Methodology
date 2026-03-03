@@ -1,0 +1,49 @@
+id: tag
+name: "TAG Framework"
+version: "1.0"
+category: foundations
+description: "Task, Action, Goal — a concise framework that separates the what, the how, and the why."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "What needs to be done — the subject or topic"
+  - name: action
+    type: string
+    required: true
+    default: ""
+    description: "How to approach it — the specific action or method to use"
+  - name: goal
+    type: string
+    required: true
+    default: ""
+    description: "Why it matters — the desired outcome or purpose"
+
+template: |
+  Task: {task}
+
+  Action: {action}
+
+  Goal: {goal}
+
+variants:
+  - name: narrative
+    description: "Flowing sentence-form variant for natural-sounding prompts"
+    template: |
+      Given the task of {task}, {action} in order to {goal}.
+
+  - name: with-context
+    description: "Adds background context before the TAG structure"
+    template: |
+      Context: {context}
+
+      Task: {task}
+
+      Action: {action}
+
+      Goal: {goal}
+
+usage_notes: "TAG is useful when you want to clearly separate the what, how, and why of a request. Compared to RTF, TAG focuses more on the purpose (Goal) than on the output format. Works well for analytical, strategic, and action-oriented tasks."
+composes_with: ["role-prompting", "few-shot", "chain-of-thought", "injection-defense"]

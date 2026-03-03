@@ -1,0 +1,31 @@
+# YAML Template Schema for HRM Methodology
+# Every template file must conform to this schema.
+
+schema_version: "1.0"
+
+required_fields:
+  - id          # string — must match the technique's id
+  - name        # string — human-readable technique name
+  - version     # string — semver of this template
+  - category    # string — category folder name
+  - description # string — one-line description of the template
+
+optional_fields:
+  parameters:   # list of parameter objects
+    - name:        # string — parameter name (used in {placeholders})
+      type:        # string — "string" | "list" | "integer" | "enum"
+      required:    # boolean
+      default:     # any — default value if not provided
+      description: # string — what this parameter controls
+
+  template:     # string — the prompt template with {placeholder} syntax
+
+  variants:     # list of variant objects
+    - name:        # string — variant identifier
+      description: # string — what this variant changes
+      template:    # string — the variant's template
+
+  usage_notes:  # string — guidance for the HRM agent
+  composes_with: # list of technique IDs
+
+example_filled: # object — a complete example with all parameters filled

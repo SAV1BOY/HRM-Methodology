@@ -1,0 +1,120 @@
+id: prompt-scaffolding
+name: "Prompt Scaffolding"
+version: "1.0"
+category: foundations
+description: "Uses XML tags, delimiters, and section markers to structure complex prompts into clearly separated, labeled sections for improved instruction following and injection defense."
+
+parameters:
+  - name: system_instruction
+    type: string
+    required: true
+    default: ""
+    description: "The top-level instruction defining the model's role and task"
+  - name: sections
+    type: list
+    required: true
+    default: []
+    description: "List of named content sections to include in the prompt, each with a tag name and content"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The user's question or task directive"
+  - name: output_instruction
+    type: string
+    required: false
+    default: ""
+    description: "Optional formatting or constraint instructions for the output"
+
+template: |
+  {system_instruction}
+
+  {sections_formatted}
+
+  <question>
+  {question}
+  </question>
+
+  {output_instruction}
+
+variants:
+  - name: xml_tags
+    description: "Uses XML-style tags to delimit all prompt sections — recommended for Claude models"
+    template: |
+      <instructions>
+      {system_instruction}
+      </instructions>
+
+      <context>
+      {context}
+      </context>
+
+      <examples>
+      {examples}
+      </examples>
+
+      <task>
+      {question}
+      </task>
+
+      <output_format>
+      {output_instruction}
+      </output_format>
+
+  - name: markdown_headers
+    description: "Uses markdown headers as section delimiters — readable and model-agnostic"
+    template: |
+      # Instructions
+      {system_instruction}
+
+      # Context
+      {context}
+
+      # Examples
+      {examples}
+
+      # Task
+      {question}
+
+      # Output Format
+      {output_instruction}
+
+  - name: triple_delimiter
+    description: "Uses triple backticks, dashes, or quotes as delimiters — lightweight approach"
+    template: |
+      {system_instruction}
+
+      ---
+
+      Context:
+      ```
+      {context}
+      ```
+
+      ---
+
+      Task: {question}
+
+      ---
+
+      {output_instruction}
+
+  - name: numbered_sections
+    description: "Uses numbered sections for sequential processing instructions"
+    template: |
+      Follow these instructions in order:
+
+      [SECTION 1: ROLE]
+      {system_instruction}
+
+      [SECTION 2: CONTEXT]
+      {context}
+
+      [SECTION 3: TASK]
+      {question}
+
+      [SECTION 4: OUTPUT REQUIREMENTS]
+      {output_instruction}
+
+usage_notes: "XML tags are the most effective scaffolding for Claude models and provide the strongest injection defense. Markdown headers work well across all models. Use consistent delimiter style throughout a single prompt. Place the most important instruction (the task) close to the end of the prompt. Scaffolding is especially important for prompts with untrusted user input — wrap user content in clearly labeled tags to separate it from system instructions."
+composes_with: ["context-stuffing", "few-shot", "role-prompting", "output-format", "injection-defense", "instruction-hierarchy"]

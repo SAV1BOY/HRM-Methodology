@@ -1,0 +1,79 @@
+id: zero-shot
+name: "Zero-Shot Prompting"
+version: "1.0"
+category: foundations
+description: "Direct instruction without examples — relies on the model's pre-trained knowledge to perform the task."
+
+parameters:
+  - name: task_description
+    type: string
+    required: true
+    default: ""
+    description: "A clear description of what the model should do"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The input data or content the model should process"
+  - name: constraints
+    type: string
+    required: false
+    default: ""
+    description: "Any restrictions, formatting rules, or boundaries for the output"
+  - name: output_format
+    type: string
+    required: false
+    default: ""
+    description: "Desired format of the response (e.g., JSON, markdown, plain text)"
+
+template: |
+  Task: {task_description}
+
+  {constraints}
+
+  Input:
+  {input}
+
+  {output_format}
+
+variants:
+  - name: minimal
+    description: "Bare-minimum instruction with no constraints or format guidance"
+    template: |
+      {task_description}
+
+      {input}
+
+  - name: structured
+    description: "Adds explicit output format and constraint sections"
+    template: |
+      ## Task
+      {task_description}
+
+      ## Constraints
+      {constraints}
+
+      ## Output Format
+      {output_format}
+
+      ## Input
+      {input}
+
+      ## Output
+
+  - name: imperative
+    description: "Uses direct imperative tone for maximum clarity"
+    template: |
+      You must {task_description}.
+
+      Rules:
+      {constraints}
+
+      Here is the input:
+      {input}
+
+      Respond in the following format:
+      {output_format}
+
+usage_notes: "Use zero-shot when the task is well-defined and the model is likely to understand it without examples. Best for classification, extraction, summarization, and simple generation tasks. Upgrade to few-shot if output quality is inconsistent."
+composes_with: ["role-prompting", "chain-of-thought", "injection-defense"]

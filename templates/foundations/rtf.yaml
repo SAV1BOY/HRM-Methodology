@@ -1,0 +1,52 @@
+id: rtf
+name: "RTF Framework"
+version: "1.0"
+category: foundations
+description: "Role, Task, Format — a minimal three-part framework for fast, focused prompt construction."
+
+parameters:
+  - name: role
+    type: string
+    required: true
+    default: ""
+    description: "The role or persona the model should adopt"
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The specific task or action to perform"
+  - name: format
+    type: string
+    required: true
+    default: ""
+    description: "The desired output format or structure"
+
+template: |
+  Role: {role}
+
+  Task: {task}
+
+  Format: {format}
+
+variants:
+  - name: narrative
+    description: "Sentence-form prompt for more natural instruction flow"
+    template: |
+      As a {role}, {task}.
+
+      Present your response as: {format}.
+
+  - name: with-input
+    description: "Adds an explicit input section for data processing tasks"
+    template: |
+      Role: {role}
+
+      Task: {task}
+
+      Input:
+      {input}
+
+      Format: {format}
+
+usage_notes: "RTF is the simplest structured framework — use it when you need just enough structure to guide the model but don't want overhead. Ideal for quick prototyping, simple generation tasks, and situations where you know exactly what you want. Upgrade to CO-STAR or RISEN if you need more control."
+composes_with: ["few-shot", "chain-of-thought", "zero-shot", "injection-defense"]

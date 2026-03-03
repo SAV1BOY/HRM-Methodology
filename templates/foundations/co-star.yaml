@@ -1,0 +1,93 @@
+id: co-star
+name: "CO-STAR Framework"
+version: "1.0"
+category: foundations
+description: "Structured prompt framework covering Context, Objective, Style, Tone, Audience, and Response format for comprehensive task specification."
+
+parameters:
+  - name: context
+    type: string
+    required: true
+    default: ""
+    description: "Background information and situational context the model needs"
+  - name: objective
+    type: string
+    required: true
+    default: ""
+    description: "The specific goal or task to accomplish"
+  - name: style
+    type: string
+    required: false
+    default: "professional"
+    description: "Writing style (e.g., academic, conversational, journalistic, technical)"
+  - name: tone
+    type: string
+    required: false
+    default: "neutral"
+    description: "Emotional quality of the response (e.g., formal, friendly, urgent, empathetic)"
+  - name: audience
+    type: string
+    required: true
+    default: ""
+    description: "The intended reader or consumer of the output"
+  - name: response_format
+    type: string
+    required: false
+    default: "paragraph"
+    description: "Desired output structure (e.g., bullet points, essay, JSON, table)"
+
+template: |
+  ## Context
+  {context}
+
+  ## Objective
+  {objective}
+
+  ## Style
+  {style}
+
+  ## Tone
+  {tone}
+
+  ## Audience
+  {audience}
+
+  ## Response Format
+  {response_format}
+
+variants:
+  - name: compact
+    description: "Single-block format for shorter prompts where section headers add unnecessary overhead"
+    template: |
+      Context: {context}
+      Objective: {objective}
+      Style: {style} | Tone: {tone}
+      Audience: {audience}
+      Format: {response_format}
+
+  - name: with-input
+    description: "Adds an explicit input data section for processing tasks"
+    template: |
+      ## Context
+      {context}
+
+      ## Objective
+      {objective}
+
+      ## Style
+      {style}
+
+      ## Tone
+      {tone}
+
+      ## Audience
+      {audience}
+
+      ## Response Format
+      {response_format}
+
+      ## Input to Process
+      {input}
+
+usage_notes: "CO-STAR is ideal for content generation, communication drafting, and any task where tone and audience matter. It forces you to think through all dimensions of the request. Particularly effective for marketing copy, emails, reports, and user-facing content."
+composes_with: ["role-prompting", "few-shot", "chain-of-thought", "injection-defense"]

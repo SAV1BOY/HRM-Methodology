@@ -1,0 +1,119 @@
+id: step-back
+name: "Step-Back Prompting"
+version: "1.0"
+category: reasoning
+description: "First asks a higher-level abstraction question to retrieve relevant principles, then applies those principles to answer the specific question."
+
+parameters:
+  - name: original_question
+    type: string
+    required: true
+    default: ""
+    description: "The specific, detailed question to answer"
+  - name: domain
+    type: string
+    required: false
+    default: ""
+    description: "The knowledge domain (e.g., physics, history, law) to guide abstraction"
+  - name: abstraction_hint
+    type: string
+    required: false
+    default: ""
+    description: "Optional hint for what kind of step-back question to formulate"
+  - name: examples
+    type: list
+    required: false
+    default: []
+    description: "Optional examples of original question -> step-back question -> answer chains"
+
+template: |
+  I need to answer the following question:
+  {original_question}
+
+  Before answering directly, let me first step back and ask a more general question to establish the underlying principles.
+
+  {%- if domain %}
+  Domain: {domain}
+  {%- endif %}
+
+  Step-back question: [A higher-level question about the general principles, concepts, or facts relevant to the original question]
+
+  Step-back answer: [Answer the general question first, establishing the key principles]
+
+  Now, applying these principles to the original question:
+
+  Final answer:
+
+variants:
+  - name: two-phase
+    description: "Explicitly separates abstraction and application into two distinct phases"
+    template: |
+      ## Phase 1: Abstraction
+      Original question: {original_question}
+      {%- if domain %}
+      Domain: {domain}
+      {%- endif %}
+
+      What is the general principle, concept, or category of knowledge needed to answer this question? Formulate a broader question and answer it.
+
+      Step-back question:
+      Step-back answer:
+
+      ## Phase 2: Application
+      Now use the principles from Phase 1 to answer the original question.
+
+      Reasoning:
+      Final answer:
+
+  - name: with-examples
+    description: "Includes worked examples showing the step-back pattern"
+    template: |
+      To answer specific questions well, it helps to first consider the broader principles. Here are examples:
+
+      {examples}
+
+      ---
+
+      Now apply the same approach:
+      Question: {original_question}
+
+      Step-back question:
+      Step-back answer:
+
+      Original answer:
+
+  - name: multi-level
+    description: "Allows multiple levels of abstraction for deeply specific questions"
+    template: |
+      Question: {original_question}
+      {%- if domain %}
+      Domain: {domain}
+      {%- endif %}
+
+      Step back to increasingly general questions until you reach a level where you can confidently state the relevant principles:
+
+      Level 1 (slightly more general):
+      Question:
+      Answer:
+
+      Level 2 (broader principles):
+      Question:
+      Answer:
+
+      Now apply these layered principles to the original question:
+
+      Final answer:
+
+usage_notes: >
+  Step-back prompting is especially effective for knowledge-intensive tasks
+  in science, history, and technical domains where the model has the
+  underlying knowledge but struggles with specific details. By first
+  retrieving general principles, the model creates a correct reasoning
+  framework before handling specifics. This reduces factual errors and
+  improves accuracy on questions that require domain knowledge.
+  Particularly useful for STEM, legal, and medical questions.
+composes_with:
+  - "chain-of-thought"
+  - "few-shot"
+  - "self-refine"
+  - "chain-of-verification"

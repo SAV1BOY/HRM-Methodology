@@ -1,0 +1,110 @@
+id: output-format
+name: "Output Format Control"
+version: "1.0"
+category: foundations
+description: "Constrains the model's response to a specific structure, schema, or format for reliable parsing and downstream integration."
+
+parameters:
+  - name: task_description
+    type: string
+    required: true
+    default: ""
+    description: "Description of the task the model should perform"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The input data or question to process"
+  - name: format_type
+    type: enum
+    required: true
+    default: "json"
+    description: "The output format to enforce: json, markdown_table, yaml, csv, xml, bulleted_list"
+  - name: schema
+    type: string
+    required: false
+    default: ""
+    description: "An explicit schema, example structure, or field definitions for the output"
+  - name: strict_mode
+    type: string
+    required: false
+    default: "Return ONLY the formatted output with no additional text, explanation, or markdown code fences."
+    description: "Instruction to enforce strict format compliance"
+
+template: |
+  {task_description}
+
+  Input: {input}
+
+  Respond in the following format:
+  {schema}
+
+  {strict_mode}
+
+variants:
+  - name: json
+    description: "Enforce JSON output with a defined schema"
+    template: |
+      {task_description}
+
+      Input: {input}
+
+      Respond with a JSON object matching this schema exactly:
+      ```json
+      {schema}
+      ```
+
+      Return ONLY valid JSON. No additional text or explanation.
+
+  - name: markdown_table
+    description: "Enforce markdown table output with defined columns"
+    template: |
+      {task_description}
+
+      Input: {input}
+
+      Return your answer as a markdown table with the following columns:
+      | {columns} |
+
+      Include only the table. No additional text.
+
+  - name: yaml
+    description: "Enforce YAML output"
+    template: |
+      {task_description}
+
+      Input: {input}
+
+      Respond with valid YAML matching this structure:
+      ```yaml
+      {schema}
+      ```
+
+      Return ONLY valid YAML. No additional text.
+
+  - name: xml
+    description: "Enforce XML output with defined elements"
+    template: |
+      {task_description}
+
+      Input: {input}
+
+      Respond with valid XML following this structure:
+      {schema}
+
+      Return ONLY valid XML. No additional text.
+
+  - name: csv
+    description: "Enforce CSV output with defined headers"
+    template: |
+      {task_description}
+
+      Input: {input}
+
+      Return your answer as CSV with the following headers:
+      {headers}
+
+      Return ONLY the CSV data (including the header row). No additional text.
+
+usage_notes: "Always provide an explicit schema or example of the desired format. Combine with system-level JSON mode (when available) for guaranteed valid JSON. For complex schemas, include a fully filled example. Repeat format constraints at both the beginning and end of the prompt for better compliance. Models follow format instructions more reliably when the schema is shown as a concrete example rather than described abstractly."
+composes_with: ["few-shot", "context-stuffing", "role-prompting", "prompt-scaffolding", "chain-of-thought"]

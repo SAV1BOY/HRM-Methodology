@@ -1,0 +1,130 @@
+id: chain-of-verification
+name: "Chain-of-Verification"
+version: "1.0"
+category: verification
+description: "Generate an initial response, plan verification questions, answer them independently, then produce a revised final response."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The original task or question to answer"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The specific input to process"
+  - name: num_verification_questions
+    type: integer
+    required: false
+    default: 3
+    description: "Number of verification questions to generate"
+  - name: verification_focus
+    type: string
+    required: false
+    default: "factual accuracy, logical consistency, and completeness"
+    description: "What aspects the verification questions should target"
+
+template: |
+  {task}
+
+  Input: {input}
+
+  Follow these steps:
+
+  ## Step 1: Baseline Response
+  Generate your initial response to the task.
+
+  ## Step 2: Plan Verification
+  Based on your response, generate {num_verification_questions} verification questions that check for {verification_focus}. These should target the claims or facts most likely to be wrong.
+
+  ## Step 3: Independent Verification
+  Answer each verification question independently — do not look at your original response while answering. Use only your knowledge and reasoning.
+
+  ## Step 4: Revised Response
+  Compare your verification answers to the original response. If any inconsistencies are found, produce a corrected final response. If all checks pass, confirm the original.
+
+  Final Response:
+
+variants:
+  - name: factored
+    description: "Verification questions are answered in a separate context to prevent bias from the original response"
+    template: |
+      {task}
+
+      Input: {input}
+
+      ## Phase 1: Generate
+      Produce an initial response.
+
+      ## Phase 2: Plan Verification
+      List {num_verification_questions} specific, answerable questions that would verify the key claims in your response. Focus on {verification_focus}.
+
+      Verification questions:
+      1.
+      2.
+      3.
+
+      ## Phase 3: Execute Verification
+      [IMPORTANT: Answer each question below as if you had NOT seen the original response. Consider only the original input and your knowledge.]
+
+      Q1 answer:
+      Q2 answer:
+      Q3 answer:
+
+      ## Phase 4: Revise
+      Cross-reference your verification answers with your initial response. List any discrepancies and produce the corrected final response.
+
+      Discrepancies found:
+      Final Response:
+
+  - name: joint
+    description: "Verification questions are answered in the same context for efficiency when bias risk is low"
+    template: |
+      {task}
+
+      Input: {input}
+
+      1. Answer the question.
+      2. Generate {num_verification_questions} fact-check questions for your answer.
+      3. Answer the fact-check questions.
+      4. Revise your original answer if needed.
+
+      Response:
+      Fact-checks:
+      Revised response:
+
+  - name: iterative
+    description: "Applies multiple rounds of verification for high-stakes outputs"
+    template: |
+      {task}
+
+      Input: {input}
+
+      Perform iterative verification:
+
+      Round 1 — Generate initial response and verify:
+      Response:
+      Verification questions:
+      Verification answers:
+      Revised response:
+
+      Round 2 — Verify the revised response:
+      New verification questions (targeting different aspects):
+      Verification answers:
+      Final response:
+
+usage_notes: >
+  Chain-of-Verification (CoVe) is highly effective at reducing hallucination
+  in factual tasks. The factored variant (where verification is done
+  independently) is more reliable but uses more tokens. Use CoVe for
+  fact-heavy responses, biographical information, technical claims, and
+  any output where accuracy is critical. The technique works because
+  the model is better at verifying specific claims than generating
+  correct information from scratch.
+composes_with:
+  - "chain-of-thought"
+  - "self-refine"
+  - "zero-shot-cot"
+  - "plan-and-solve"

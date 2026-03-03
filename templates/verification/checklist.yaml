@@ -1,0 +1,157 @@
+id: checklist
+name: "Verification Checklist"
+version: "1.0"
+category: verification
+description: "Applies a structured checklist of verification criteria to validate output quality, correctness, and completeness before finalizing."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task being verified"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The input that was processed"
+  - name: response_to_verify
+    type: string
+    required: false
+    default: ""
+    description: "The response to verify — if empty, generate then verify"
+  - name: checklist_items
+    type: list
+    required: true
+    default: []
+    description: "List of verification criteria, each a specific yes/no checkable statement"
+  - name: pass_threshold
+    type: string
+    required: false
+    default: "all items must pass"
+    description: "Minimum passing criteria (e.g., all items, 80%, all critical items)"
+  - name: remediation
+    type: enum
+    required: false
+    default: "revise"
+    description: "What to do when checks fail"
+    options:
+      - "revise"
+      - "flag"
+      - "reject"
+
+template: |
+  {task}
+
+  Input: {input}
+
+  {%- if response_to_verify %}
+  Response to verify:
+  {response_to_verify}
+  {%- else %}
+  First, generate your response to the task. Then verify it.
+  {%- endif %}
+
+  ## Verification Checklist
+  Evaluate the response against each criterion. Mark PASS or FAIL and provide a brief justification.
+
+  {%- for item in checklist_items %}
+  - [ ] {item}
+    Status: PASS / FAIL
+    Notes:
+  {%- endfor %}
+
+  ## Summary
+  Items passed: ?/{checklist_items|length}
+  Threshold: {pass_threshold}
+  Overall: PASS / FAIL
+
+  {%- if remediation == "revise" %}
+  ## Remediation
+  If any items failed, revise the response to address the failures and re-verify.
+  {%- elif remediation == "flag" %}
+  ## Flagged Issues
+  List all failed items with recommended fixes.
+  {%- elif remediation == "reject" %}
+  ## Decision
+  If any critical items failed, reject the response entirely and regenerate.
+  {%- endif %}
+
+  ## Final Output
+
+variants:
+  - name: code-review
+    description: "Pre-built checklist for code review verification"
+    template: |
+      Review the following code against this checklist:
+
+      Code:
+      {input}
+
+      Checklist:
+      - [ ] Correctness: Does the code produce the expected output for all cases?
+      - [ ] Edge cases: Are boundary conditions and error cases handled?
+      - [ ] Security: Are there injection, overflow, or access control issues?
+      - [ ] Performance: Are there obvious inefficiencies or O(n^2) traps?
+      - [ ] Readability: Is the code clear, well-named, and documented?
+      - [ ] Standards: Does it follow the project's coding conventions?
+
+      For each FAIL, explain the issue and suggest a fix.
+
+      Revised code (if needed):
+
+  - name: factual-accuracy
+    description: "Pre-built checklist for factual content verification"
+    template: |
+      Verify the following content for factual accuracy:
+
+      Content:
+      {response_to_verify}
+
+      Checklist:
+      - [ ] All named entities (people, places, organizations) are correct
+      - [ ] All dates and numbers are accurate
+      - [ ] All causal claims are supported and logical
+      - [ ] No statements contradict well-established facts
+      - [ ] Sources or references, if cited, are real and relevant
+      - [ ] No fabricated quotes or statistics
+
+      For each FAIL, provide the correct information.
+
+      Corrected content:
+
+  - name: requirements
+    description: "Verifies output against a list of requirements or acceptance criteria"
+    template: |
+      Verify the response meets all requirements:
+
+      Task: {task}
+      Input: {input}
+
+      Response:
+      {response_to_verify}
+
+      Requirements checklist:
+      {%- for item in checklist_items %}
+      - [ ] {item}
+      {%- endfor %}
+
+      Gap analysis: List any requirements not fully met and what is missing.
+
+      Pass threshold: {pass_threshold}
+      Verdict: PASS / FAIL
+
+usage_notes: >
+  Checklists are the simplest and most reliable verification technique.
+  They work because they convert vague quality expectations into specific,
+  binary checks. Use domain-specific checklists for code review, factual
+  verification, compliance checking, and requirements validation. Checklists
+  compose naturally with self-refine (use the checklist as the critique
+  criteria) and chain-of-verification (use checklist items as verification
+  questions). Keep items specific and testable — "is the code good?" is
+  useless; "does the function handle null input?" is actionable.
+composes_with:
+  - "self-refine"
+  - "chain-of-verification"
+  - "role-prompting"
+  - "plan-and-solve"

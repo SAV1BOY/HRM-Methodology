@@ -1,0 +1,119 @@
+id: least-to-most
+name: "Least-to-Most Prompting"
+version: "1.0"
+category: reasoning
+description: "Decomposes a complex problem into simpler sub-problems, solves them sequentially, and builds each answer on previous results."
+
+parameters:
+  - name: problem
+    type: string
+    required: true
+    default: ""
+    description: "The complex problem to decompose and solve"
+  - name: context
+    type: string
+    required: false
+    default: ""
+    description: "Background information or domain context relevant to the problem"
+  - name: decomposition_hint
+    type: string
+    required: false
+    default: ""
+    description: "Optional guidance on how to break down the problem"
+  - name: max_subproblems
+    type: integer
+    required: false
+    default: 5
+    description: "Maximum number of sub-problems to decompose into"
+
+template: |
+  To solve the following problem, first break it down into simpler sub-problems. Then solve each sub-problem in order, using the results from earlier sub-problems to help solve later ones.
+
+  {%- if context %}
+  Context: {context}
+  {%- endif %}
+
+  Problem: {problem}
+
+  Step 1 — Decompose: What are the simpler sub-problems that need to be solved to answer the full problem? List them from simplest to most complex.
+
+  Step 2 — Solve sequentially: Solve each sub-problem one at a time, starting with the simplest. Use the answers from previous sub-problems in your reasoning for later ones.
+
+  Step 3 — Synthesize: Combine the sub-problem answers to produce the final answer.
+
+variants:
+  - name: explicit-decomposition
+    description: "Separates the decomposition and solving into two distinct prompt phases"
+    template: |
+      Phase 1 — Decomposition:
+      Break this problem into {max_subproblems} or fewer sub-problems, ordered from simplest to most complex:
+
+      Problem: {problem}
+
+      {%- if decomposition_hint %}
+      Hint: {decomposition_hint}
+      {%- endif %}
+
+      Sub-problems:
+      1.
+      2.
+      ...
+
+      Phase 2 — Sequential Solving:
+      Now solve each sub-problem in order. For each one, clearly state what previous answers you are building on.
+
+      Sub-problem 1:
+      Answer:
+
+      Sub-problem 2 (using answer from 1):
+      Answer:
+
+      ...continue until all sub-problems are solved...
+
+      Final Answer:
+
+  - name: with-examples
+    description: "Includes a worked decomposition example before presenting the target problem"
+    template: |
+      I will show you how to solve complex problems by breaking them into simpler parts.
+
+      Example:
+      Problem: {example_problem}
+      Decomposition:
+      {example_decomposition}
+      Sequential solution:
+      {example_solution}
+
+      ---
+
+      Now solve this problem using the same approach:
+      Problem: {problem}
+
+      Decomposition:
+
+  - name: recursive
+    description: "Allows sub-problems to be further decomposed if still too complex"
+    template: |
+      Solve this problem by recursive decomposition. If any sub-problem is still complex, decompose it further before solving.
+
+      Problem: {problem}
+
+      For each sub-problem:
+      1. Assess if it can be solved directly.
+      2. If not, decompose it further.
+      3. Solve the simplest pieces first, then build up.
+
+      Begin decomposition:
+
+usage_notes: >
+  Least-to-most is particularly effective for compositional generalization —
+  problems that require combining multiple skills or knowledge pieces.
+  It outperforms standard CoT on tasks where the reasoning chain is long and
+  each step depends on previous steps. Best for math word problems,
+  multi-hop reasoning, and complex coding tasks. The key insight is that
+  solving sub-problems first provides grounding for harder reasoning.
+composes_with:
+  - "chain-of-thought"
+  - "few-shot"
+  - "self-refine"
+  - "plan-and-solve"

@@ -1,0 +1,79 @@
+id: chain-of-thought
+name: "Chain-of-Thought Prompting"
+version: "1.0"
+category: reasoning
+description: "Elicits step-by-step reasoning by providing worked examples with explicit intermediate reasoning steps before the final answer."
+
+parameters:
+  - name: examples_with_reasoning
+    type: list
+    required: true
+    default: []
+    description: "List of example problems with detailed step-by-step reasoning and final answers"
+  - name: question
+    type: string
+    required: true
+    default: ""
+    description: "The new question or problem to solve"
+  - name: domain
+    type: string
+    required: false
+    default: ""
+    description: "The problem domain (e.g., math, logic, coding) to contextualize reasoning style"
+
+template: |
+  Solve the following problem by thinking through it step by step, as shown in the examples.
+
+  {examples_with_reasoning}
+
+  ---
+
+  Question: {question}
+
+  Let me work through this step by step:
+
+variants:
+  - name: math
+    description: "Optimized for mathematical problem-solving with explicit computation steps"
+    template: |
+      Solve the following math problem. Show all work and reasoning for each step.
+
+      {examples_with_reasoning}
+
+      ---
+
+      Question: {question}
+
+      Solution:
+      Step 1:
+
+  - name: logical
+    description: "Optimized for logical reasoning, deduction, and inference chains"
+    template: |
+      Reason through the following problem carefully. State each premise, inference, and conclusion explicitly.
+
+      {examples_with_reasoning}
+
+      ---
+
+      Question: {question}
+
+      Reasoning:
+      Premise 1:
+
+  - name: code
+    description: "Optimized for programming problems with algorithm design reasoning"
+    template: |
+      Solve the following programming problem. Think through the approach, consider edge cases, then implement.
+
+      {examples_with_reasoning}
+
+      ---
+
+      Problem: {question}
+
+      Approach:
+      1. First, let me understand what we need:
+
+usage_notes: "Chain-of-thought is one of the most impactful prompting techniques. It dramatically improves performance on reasoning-heavy tasks (math, logic, multi-step problems). Provide 2-3 worked examples with clear, detailed reasoning. The quality of your example reasoning directly affects output quality. Works best with larger models."
+composes_with: ["few-shot", "role-prompting", "self-consistency", "self-refine"]

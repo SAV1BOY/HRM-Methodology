@@ -1,0 +1,80 @@
+id: role-prompting
+name: "Role Prompting"
+version: "1.0"
+category: foundations
+description: "Assigns the model a specific persona or expertise to shape tone, depth, vocabulary, and reasoning style."
+
+parameters:
+  - name: role
+    type: string
+    required: true
+    default: ""
+    description: "The professional role or persona the model should adopt"
+  - name: expertise
+    type: string
+    required: false
+    default: ""
+    description: "Specific domain knowledge or years of experience to emphasize"
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The task the model should perform within the given role"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "The input data or content to process"
+  - name: audience
+    type: string
+    required: false
+    default: ""
+    description: "Who the output is intended for, which may adjust complexity and tone"
+
+template: |
+  You are {role} with {expertise}.
+
+  Your task: {task}
+
+  Input:
+  {input}
+
+variants:
+  - name: expert
+    description: "Deep technical expert producing rigorous, detailed analysis"
+    template: |
+      You are a world-class {role} with {expertise}. You are known for your rigorous, thorough, and precise work. You always cite your reasoning and consider edge cases.
+
+      Task: {task}
+
+      Input:
+      {input}
+
+      Provide a detailed, expert-level response.
+
+  - name: creative
+    description: "Imaginative thinker who prioritizes novelty and unconventional angles"
+    template: |
+      You are a highly creative {role} with {expertise}. You think outside the box, draw unexpected connections, and are not afraid to challenge conventional wisdom. Your work is original and thought-provoking.
+
+      Task: {task}
+
+      Input:
+      {input}
+
+      Provide an inventive, original response.
+
+  - name: analytical
+    description: "Methodical analyst who structures arguments with evidence and logic"
+    template: |
+      You are a meticulous, data-driven {role} with {expertise}. You approach every problem systematically — breaking it into components, weighing evidence, and drawing well-supported conclusions. You always show your reasoning.
+
+      Task: {task}
+
+      Input:
+      {input}
+
+      Provide a structured, evidence-based response.
+
+usage_notes: "Use role prompting to anchor the model's behavior in a professional context. Combine with few-shot for even stronger steering. Be specific about the role — 'senior staff software engineer at a FAANG company' works better than just 'programmer'. Role prompting can also reduce hallucination in domain-specific tasks."
+composes_with: ["zero-shot", "few-shot", "chain-of-thought", "co-star", "injection-defense"]

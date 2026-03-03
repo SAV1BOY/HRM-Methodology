@@ -1,0 +1,84 @@
+id: pas
+name: "PAS Framework"
+version: "1.0"
+category: foundations
+description: "Problem, Agitation, Solution — a persuasion framework that identifies a pain point, amplifies urgency, then presents the resolution."
+
+parameters:
+  - name: problem
+    type: string
+    required: true
+    default: ""
+    description: "The core problem, pain point, or challenge faced by the audience"
+  - name: agitation
+    type: string
+    required: true
+    default: ""
+    description: "Details that amplify the problem — consequences, frustrations, missed opportunities"
+  - name: solution
+    type: string
+    required: true
+    default: ""
+    description: "The proposed solution, product, or approach that resolves the problem"
+  - name: audience
+    type: string
+    required: false
+    default: ""
+    description: "The target audience experiencing this problem"
+
+template: |
+  Write content using the PAS (Problem-Agitation-Solution) framework for {audience}:
+
+  ## Problem
+  {problem}
+
+  ## Agitation
+  {agitation}
+
+  ## Solution
+  {solution}
+
+variants:
+  - name: empathetic
+    description: "Leads with empathy and shared experience rather than fear"
+    template: |
+      Write empathetic content for {audience} using PAS:
+
+      **Problem** — Acknowledge the struggle:
+      {problem}
+
+      **Agitation** — Show you understand the depth of the issue:
+      {agitation}
+
+      **Solution** — Offer genuine relief:
+      {solution}
+
+      Tone: Warm, understanding, and hopeful. Avoid fear-mongering.
+
+  - name: data-driven
+    description: "Uses statistics and evidence to agitate and convince"
+    template: |
+      Write data-backed content for {audience} using PAS:
+
+      **Problem** — State the problem with supporting data:
+      {problem}
+
+      **Agitation** — Quantify the cost of inaction:
+      {agitation}
+
+      **Solution** — Present the evidence-based solution:
+      {solution}
+
+      Include specific numbers, percentages, and sources wherever possible.
+
+  - name: micro-copy
+    description: "Ultra-short version for UI copy, social media, or headlines"
+    template: |
+      Write a short PAS statement (under 50 words) for {audience}:
+
+      Problem: {problem}
+      Agitation: {agitation}
+      Solution: {solution}
+
+usage_notes: "PAS is the workhorse of direct-response copywriting. It works because it connects emotionally before offering a rational solution. Use it for landing pages, sales emails, social posts, and any context where you need to move someone from awareness to action quickly. The agitation step is critical — without it, the problem feels abstract."
+composes_with: ["role-prompting", "aida", "bab", "co-star", "injection-defense"]

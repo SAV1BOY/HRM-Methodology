@@ -1,0 +1,207 @@
+id: planner-worker-solver
+name: "Planner-Worker-Solver"
+version: "1.0"
+category: agents
+description: "Three-phase orchestration pattern where a Planner decomposes work, Workers execute subtasks in parallel, and a Solver synthesizes the final result."
+
+parameters:
+  - name: task
+    type: string
+    required: true
+    default: ""
+    description: "The complex task to decompose and solve"
+  - name: input
+    type: string
+    required: true
+    default: ""
+    description: "Input data or context for the task"
+  - name: available_tools
+    type: list
+    required: false
+    default: []
+    description: "Tools available to the Worker agents"
+  - name: max_subtasks
+    type: integer
+    required: false
+    default: 5
+    description: "Maximum number of subtasks the Planner can create"
+  - name: worker_model
+    type: string
+    required: false
+    default: ""
+    description: "Optional model specification for Worker agents (can be smaller/cheaper)"
+  - name: solver_strategy
+    type: enum
+    required: false
+    default: "synthesize"
+    description: "How the Solver combines Worker results"
+    options:
+      - "synthesize"
+      - "select-best"
+      - "merge"
+      - "vote"
+
+template: |
+  ## Phase 1: Planner
+
+  You are the Planner. Your job is to analyze the task and break it into independent subtasks that can be executed in parallel.
+
+  Task: {task}
+  Input: {input}
+
+  Create up to {max_subtasks} subtasks. For each subtask, specify:
+  - Subtask ID
+  - Description of what needs to be done
+  - Required input (what data the Worker needs)
+  - Expected output format
+
+  Subtask plan:
+
+  ---
+
+  ## Phase 2: Workers
+
+  For each subtask from the Planner, a Worker executes independently:
+
+  {%- if available_tools %}
+  Available tools: {available_tools}
+  {%- endif %}
+
+  Worker 1 — Subtask 1:
+  [Execute subtask, produce result]
+
+  Worker 2 — Subtask 2:
+  [Execute subtask, produce result]
+
+  Worker 3 — Subtask 3:
+  [Execute subtask, produce result]
+
+  ...continue for all subtasks...
+
+  ---
+
+  ## Phase 3: Solver
+
+  You are the Solver. You receive all Worker results and must produce the final output.
+
+  Strategy: {solver_strategy}
+
+  Worker results:
+  [All worker outputs collected here]
+
+  Synthesize the results into a coherent final response that fully addresses the original task.
+
+  Final Output:
+
+variants:
+  - name: orchestrated
+    description: "Designed for programmatic orchestration with clear API boundaries between phases"
+    template: |
+      # PLANNER PROMPT
+      # (Run first, parse output to create worker tasks)
+
+      Analyze this task and output a JSON plan:
+      Task: {task}
+      Input: {input}
+
+      Output format:
+      {
+        "subtasks": [
+          {"id": 1, "description": "...", "input": "...", "output_format": "..."},
+          ...
+        ],
+        "dependencies": [],
+        "solver_instructions": "..."
+      }
+
+      ---
+
+      # WORKER PROMPT (run once per subtask, can be parallelized)
+
+      Execute this subtask:
+      {subtask.description}
+
+      Input: {subtask.input}
+
+      Output your result in this format: {subtask.output_format}
+
+      ---
+
+      # SOLVER PROMPT (run after all workers complete)
+
+      Original task: {task}
+
+      Worker results:
+      {worker_results}
+
+      Strategy: {solver_strategy}
+
+      Produce the final, complete answer.
+
+  - name: with-quality-gate
+    description: "Adds a quality verification step between Workers and Solver"
+    template: |
+      ## Planner
+      Task: {task}
+      Input: {input}
+      Create subtask plan (max {max_subtasks} subtasks):
+
+      ## Workers
+      Execute each subtask independently.
+
+      ## Quality Gate
+      Before synthesis, evaluate each Worker result:
+      - Is the result complete?
+      - Is it accurate?
+      - Does it address the subtask?
+
+      Flag any results that need re-execution or contain errors.
+
+      ## Solver
+      Using only verified Worker results, {solver_strategy} them into the final output.
+      Note any gaps from flagged results.
+
+      Final Output:
+
+  - name: hierarchical
+    description: "Allows Workers to spawn sub-Workers for further decomposition"
+    template: |
+      ## Lead Planner
+      Task: {task}
+      Input: {input}
+      Decompose into high-level subtasks:
+
+      ## Senior Workers
+      Each Senior Worker receives a high-level subtask.
+      If the subtask is complex, further decompose it and delegate to Junior Workers.
+
+      Senior Worker 1:
+        Subtask:
+        Sub-decomposition (if needed):
+          Junior Worker 1a:
+          Junior Worker 1b:
+        Aggregated result:
+
+      Senior Worker 2:
+        Subtask:
+        Result:
+
+      ## Solver
+      Combine all Senior Worker results.
+      Final Output:
+
+usage_notes: >
+  Planner-Worker-Solver is the standard architecture for complex agentic
+  tasks. The Planner can be a high-capability model while Workers can be
+  smaller, cheaper models — optimizing cost. The pattern naturally supports
+  parallelism (Workers run independently) and quality control (Solver can
+  reject poor Worker outputs). Use the orchestrated variant for production
+  systems with programmatic control. The quality gate variant adds
+  reliability at the cost of an extra verification step. This pattern
+  is the backbone of most multi-agent frameworks.
+composes_with:
+  - "tool-calling"
+  - "prompt-chaining"
+  - "react"
+  - "self-refine"
+  - "instruction-hierarchy"
