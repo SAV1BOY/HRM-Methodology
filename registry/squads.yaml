@@ -1,0 +1,90 @@
+# Squads Registry
+# Specialized squads with internal architecture and delegation protocols
+version: "1.0"
+last_updated: "2026-03-03"
+total: 2
+
+squads:
+
+  - id: copy-squad
+    name: "Squad de Copy"
+    chief: "copy-chief"
+    domain: "copywriting"
+    path: "SQUADS/Squad de Copy/"
+    capabilities:
+      - "Direct response copywriting"
+      - "Sales page creation"
+      - "Email sequence design"
+      - "Headline and hook generation"
+      - "Persuasion framework application"
+      - "Voice and tone matching"
+      - "A/B copy variants"
+      - "Conversion optimization copy"
+    internal_architecture: |
+      Reference library (138 files): psychology principles, copywriting books,
+      persuasion frameworks, and swipe files. Organized in 4 stages:
+      Stage 1 (Authority): voice profiles, canonical frameworks
+      Stage 2 (Scripts): templates, agents, workflows
+      Stage 3 (Data): swipe files, phrases, data collections
+      Stage 4 (Reference): psychology, books, frameworks knowledge base
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the copy needs to achieve"
+        - audience: "Target audience profile"
+        - tone: "Voice/tone requirements"
+        - format: "Deliverable format (email, sales page, headline, etc.)"
+        - constraints: "Word limits, brand guidelines, compliance"
+        - reference_materials: "Relevant swipe files or frameworks to use"
+      optional_fields:
+        - competitor_examples: "What to differentiate from"
+        - conversion_goal: "Specific CTA or conversion metric"
+        - psychological_triggers: "Specific principles to apply"
+    deliverables:
+      - "Copy drafts with framework annotations"
+      - "A/B variants when requested"
+      - "Persuasion analysis of copy"
+      - "Framework-backed recommendations"
+    quality_integration:
+      gate_owner: "copy-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> copy-chief -> internal review -> delivery"
+
+  - id: hrm-squad
+    name: "Squad HRM"
+    chief: "hrm-architect"
+    domain: "orchestration"
+    path: "SQUADS/Squad HRM/"
+    capabilities:
+      - "Task triage and classification"
+      - "Complexity assessment (5 dimensions)"
+      - "Prompt engineering (75 techniques)"
+      - "Execution plan generation"
+      - "Agent/skill selection and routing"
+      - "Quality gate verification"
+      - "Convergence monitoring"
+      - "Backtracking with credit assignment"
+      - "Squad delegation"
+      - "Prompt generation for agents"
+    internal_architecture: |
+      Knowledge base of 75 prompt engineering techniques organized in 13 categories.
+      HRM Agent with technique-selector (4-phase scoring) and pipeline-builder.
+      Asset registry cataloging all skills, agents, squads, MCPs, and frameworks.
+      Prompt generator producing tailored prompts per workstream.
+      Quality gates with 4-level verification cascade.
+      Execution engine with delegation protocols for all modes.
+    delegation_protocol: "self"
+    deliverables:
+      - "Triage classification"
+      - "ExecutionPlan (evolving v1->vN)"
+      - "Skill Execution Timeline (SET)"
+      - "Generated prompts per workstream"
+      - "Quality gate results"
+      - "Convergence reports"
+      - "Diagnostic reports on escalation"
+    quality_integration:
+      gate_owner: "hrm-architect"
+      verification_levels: [syntax, local, global, semantic]
+      acceptance_threshold: "domain-specific (0.80-0.95)"
+      feedback_loop: "self-monitoring via Steps 10-12"

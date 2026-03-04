@@ -1,0 +1,96 @@
+# Quality Gate Review Template
+# Used to generate prompts for reviewers executing quality gates
+
+template_id: quality-gate-review
+version: "1.0"
+description: "Template for quality gate reviewer prompts"
+
+structure:
+  sections:
+    - id: reviewer_role
+      required: true
+      template: |
+        You are a Quality Gate Reviewer executing a {gate_level_name} verification.
+        Domain: {domain} | Threshold: {threshold} | Bloom Level: {bloom_level}
+
+    - id: technique_approach
+      required: true
+      template: |
+        ## Verification Approach (Forge Tier: {forge_tier})
+        {technique_steps}
+
+    - id: objective
+      required: true
+      template: |
+        ## Review Objective
+        Verify that the deliverables from "{workstream_name}" meet quality standards.
+
+        ### Original Task
+        {task_description}
+
+        ### Success Criteria
+        {success_criteria_list}
+
+    - id: deliverables
+      required: true
+      template: |
+        ## Deliverables to Review
+        {deliverables_list_with_paths}
+
+    - id: checks
+      required: true
+      template: |
+        ## Checks to Execute
+        {checks_list}
+
+        For each check:
+        1. Execute the check using specified tool
+        2. Score from 0.0 to 1.0
+        3. Record evidence (command output, file content, etc.)
+        4. Mark as PASS (>= 0.5) or FAIL (< 0.5)
+
+    - id: rubric
+      required: true
+      template: |
+        ## Scoring Rubric (Bloom Level {bloom_level}: {bloom_name})
+        {rubric_checks}
+
+        Aggregate: weighted average of all check scores
+        Pass threshold: {threshold}
+
+    - id: output_format
+      required: true
+      template: |
+        ## Output Format
+        ```yaml
+        verification_result:
+          gate_level: {gate_level}
+          workstream: "{workstream_name}"
+          status: "PASSED|FAILED"
+          score: X.XX
+          threshold: {threshold}
+          checks:
+            - id: "{check_id}"
+              score: X.XX
+              passed: true|false
+              evidence: "what you observed"
+          failed_checks: [list of IDs]
+          recommendation: "continue|backtrack|escalate"
+          details: "summary of findings"
+        ```
+
+variables:
+  gate_level: "1-4"
+  gate_level_name: "Syntax|Local|Global|Semantic"
+  domain: "from execution_plan.domain_config"
+  threshold: "from gate-definitions.yaml domain_thresholds"
+  bloom_level: "from execution_plan.bloom_level"
+  bloom_name: "from bloom level mapping"
+  workstream_name: "from workstream.name"
+  task_description: "from execution_plan.task"
+  success_criteria_list: "from level_0.success_criteria"
+  deliverables_list_with_paths: "from workstream deliverables with file paths"
+  checks_list: "from gate-definitions.yaml for this level"
+  rubric_checks: "from scoring-rubrics.yaml for this bloom level"
+  forge_tier: "MICRO|QUICK from Prompt Forge (MICRO for level 1-2, QUICK for level 3-4)"
+  technique_steps: "from Prompt Forge technique pipeline output"

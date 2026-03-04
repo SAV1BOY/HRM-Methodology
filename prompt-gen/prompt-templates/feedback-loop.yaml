@@ -1,0 +1,92 @@
+# Feedback Loop Template
+# Used when HRM sends revision feedback to an agent or chief after a quality gate failure
+
+template_id: feedback-loop
+version: "1.0"
+description: "Template for HRM -> agent feedback when revision is needed"
+
+structure:
+  sections:
+    - id: feedback_header
+      required: true
+      template: |
+        ## Revision Required by HRM Architect
+        Status: {revision_status}
+        Loop: {loop_number}/{max_loops}
+        Previous Score: {previous_score}/{threshold}
+
+    - id: issue_description
+      required: true
+      template: |
+        ### Issue Detected
+        **Gate level**: {failed_gate_level} ({gate_level_name})
+        **Failed checks**:
+        {failed_checks_list}
+
+        **Root cause analysis**:
+        {root_cause_description}
+
+    - id: action_required
+      required: true
+      template: |
+        ### Action Required
+        {action_description}
+
+        **Files to modify**:
+        {files_to_modify}
+
+        **Specific instructions**:
+        {specific_instructions}
+
+    - id: revision_approach
+      required: true
+      template: |
+        ### Revision Approach (Forge Tier: {forge_tier})
+        {technique_steps}
+
+    - id: acceptance_criteria
+      required: true
+      template: |
+        ### Acceptance Criteria
+        The HRM will verify:
+        {acceptance_checks}
+
+        Target score: >= {threshold}
+
+    - id: budget_remaining
+      required: true
+      template: |
+        ### Budget
+        Remaining tool calls for this workstream: {remaining_budget}
+        Use efficiently — focus on the specific issue identified above.
+
+    - id: context_additions
+      required: false
+      condition: "additional context available from previous attempt"
+      template: |
+        ### Additional Context
+        From the previous attempt, these worked well (keep them):
+        {what_worked}
+
+        These need fixing:
+        {what_failed}
+
+variables:
+  revision_status: "NEEDS_REVISION|CRITICAL_FAILURE"
+  loop_number: "current loop count"
+  max_loops: "from hyperparameters.backtrack_limit"
+  previous_score: "from verification_result.score"
+  threshold: "from domain_thresholds"
+  failed_gate_level: "1-4"
+  gate_level_name: "Syntax|Local|Global|Semantic"
+  failed_checks_list: "from verification_result.failed_checks"
+  root_cause_description: "from Step 12 root-cause analysis"
+  action_description: "from Step 12 recommended action"
+  files_to_modify: "from credit assignment"
+  specific_instructions: "from HRM analysis"
+  acceptance_checks: "from gate-definitions.yaml"
+  remaining_budget: "from budget tracker"
+  what_worked: "from previous verification passing checks"
+  what_failed: "from previous verification failing checks"
+  forge_tier: "MICRO from Prompt Forge (feedback targets always MICRO tier)"
+  technique_steps: "from Prompt Forge technique pipeline output"

@@ -1,0 +1,142 @@
+# Dispatch Profiles
+# Defines prompt forge behavior for each dispatch entity type.
+# Used by prompt-forge.md to determine tier, techniques, and templates per dispatch point.
+
+version: "1.0"
+description: "Profiles controlling how the Prompt Forge generates prompts for each dispatch type"
+
+# ── Dispatch Profiles ─────────────────────────────────────────────
+
+dispatch_profiles:
+
+  triage-agent:
+    description: "Agent dispatched in TRIAGE mode for simple tasks"
+    default_tier: MICRO
+    tier_ceiling: MICRO
+    micro_techniques: [role-prompting, zero-shot-cot]
+    template: agent-handoff
+    notes: "Minimal prompt engineering; task is simple enough for direct execution"
+
+  workstream-agent:
+    description: "Agent executing a workstream in FULL_LIGHT or FULL mode"
+    default_tier: MODE_DEPENDENT
+    tier_map:
+      TRIAGE: MICRO
+      FULL_LIGHT: QUICK
+      FULL: FULL
+    template: agent-handoff
+    notes: "Tier scales with HRM mode; FULL uses technique-selector scoring"
+
+  swarm-member:
+    description: "Agent within a swarm dispatch"
+    default_tier: QUICK
+    tier_ceiling: QUICK
+    template: agent-handoff
+    notes: "QUICK tier via technique-mapper; swarm members don't need FULL scoring"
+
+  team-member:
+    description: "Teammate in an Agent Teams session"
+    default_tier: QUICK
+    tier_ceiling: QUICK
+    template: agent-handoff
+    notes: "QUICK tier; team-kickoff handles coordination, not technique depth"
+
+  team-lead:
+    description: "Team Lead coordinating an Agent Teams session"
+    default_tier: QUICK
+    technique_overlays:
+      always_add: [planner-worker-solver, checklist-prompting]
+    template: team-kickoff
+    notes: "QUICK + orchestration overlays for coordination techniques"
+
+  squad-chief:
+    description: "Squad chief receiving a delegated workstream"
+    default_tier: QUICK
+    technique_overlays:
+      always_add: [step-back-prompting, plan-and-solve, checklist-prompting]
+    template: squad-brief
+    notes: "QUICK + strategic overlays; chief manages internal process"
+
+  gate-reviewer:
+    description: "Quality gate reviewer executing verification"
+    default_tier: MICRO
+    tier_upgrade_condition: "gate_level >= 3"
+    tier_on_upgrade: QUICK
+    micro_techniques: [chain-of-verification, checklist-prompting]
+    quick_techniques: [chain-of-verification, contrastive-cot, checklist-prompting, output-format]
+    template: quality-gate-review
+    notes: "MICRO for syntax/local gates; upgrades to QUICK for global/semantic"
+
+  feedback-target:
+    description: "Agent receiving revision feedback after quality gate failure"
+    default_tier: MICRO
+    tier_ceiling: MICRO
+    micro_techniques: [self-refine, checklist-prompting]
+    template: feedback-loop
+    notes: "MICRO; feedback is targeted, not exploratory"
+
+  escalation-report:
+    description: "Escalation report to user after exhausting backtracking loops"
+    default_tier: MICRO
+    tier_ceiling: MICRO
+    micro_techniques: [output-format]
+    template: escalation-report
+    notes: "MICRO; structured output only, no reasoning techniques needed"
+
+# ── Tier Rules ────────────────────────────────────────────────────
+
+tier_rules:
+
+  MICRO:
+    max_techniques: 2
+    validation: none
+    reads_files: false
+    source: "technique-index.yaml (micro_defaults or profile-specific)"
+    description: "Minimal technique injection. Zero extra reads. Always available."
+
+  QUICK:
+    max_techniques: 5
+    validation: lightweight
+    reads_files: false
+    source: "technique-mapper.md (pre-computed by archetype)"
+    description: "Archetype-mapped techniques via technique-mapper. No 4-phase scoring."
+
+  FULL:
+    max_techniques: 7
+    validation: full
+    reads_files: true
+    source: "technique-selector.md (4-phase scoring) + pipeline-builder.md"
+    description: "Full technique selection with scoring, dependency resolution, validation."
+
+# ── Tier Resolution Matrix ────────────────────────────────────────
+# Determines tier based on (hrm_mode, dispatch_type, granularity)
+
+tier_resolution:
+  # HRM Mode -> Task granularity -> Tier
+  TRIAGE:
+    task: MICRO
+    subtask: N/A
+    mini_task: N/A
+
+  FULL_LIGHT:
+    task: QUICK
+    subtask: MICRO
+    mini_task: MICRO
+
+  FULL:
+    task: FULL
+    subtask: QUICK
+    mini_task: MICRO
+
+# ── Granularity Definitions ───────────────────────────────────────
+
+granularity:
+  task:
+    description: "Top-level workstream or primary dispatch unit"
+    example: "Build the auth module"
+  subtask:
+    description: "Sub-component within a workstream"
+    example: "Implement JWT token refresh logic"
+  mini_task:
+    description: "Atomic unit within a subtask"
+    example: "Write the token expiry check function"

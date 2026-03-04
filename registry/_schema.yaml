@@ -1,0 +1,184 @@
+# Asset Registry Schema
+# All registry entries must conform to this schema
+
+version: "1.0"
+
+schemas:
+
+  skill_entry:
+    required: [id, name, phase, category]
+    properties:
+      id:
+        type: string
+        description: "Unique skill identifier (kebab-case)"
+      name:
+        type: string
+        description: "Human-readable name"
+      phase:
+        type: integer
+        enum: [0, 1, 2, 3]
+        description: "Execution phase (0=startup, 1=planning, 2=execution, 3=review)"
+      category:
+        type: string
+        enum: [startup, planning, development, frontend, documents, writing, browser, integration, skills, routing, review]
+      trigger_conditions:
+        type: array
+        items: string
+        description: "Conditions from CLAUDE.md route table"
+      domain_affinity:
+        type: array
+        items: string
+        description: "Domains where this skill is most useful"
+      inputs:
+        type: array
+        items: string
+        description: "Expected inputs"
+      outputs:
+        type: array
+        items: string
+        description: "Expected outputs"
+      estimated_cost:
+        type: object
+        properties:
+          min: { type: integer }
+          max: { type: integer }
+        description: "Estimated tool calls range"
+      composability:
+        type: array
+        items: string
+        description: "Skills this can chain with"
+      model_preference:
+        type: string
+        enum: [opus, sonnet, haiku, any]
+        default: any
+
+  agent_entry:
+    required: [id, name, framework, subagent_type]
+    properties:
+      id:
+        type: string
+        description: "Unique agent identifier"
+      name:
+        type: string
+        description: "Human-readable name"
+      framework:
+        type: string
+        description: "Framework this agent belongs to"
+      subagent_type:
+        type: string
+        description: "Value for Agent tool subagent_type parameter"
+      capabilities:
+        type: array
+        items: string
+        description: "What this agent can do"
+      tools_available:
+        type: array
+        items: string
+        description: "Tools this agent has access to"
+      archetype_mapping:
+        type: array
+        items:
+          type: string
+          enum: [L-Architect, L-Builder-Frontend, L-Builder-Backend, L-Builder-Test, L-Builder-Infra, L-Critic, L-Researcher, L-Builder-Data, L-Optimizer]
+        description: "HRM archetypes this agent can fill"
+      domain_affinity:
+        type: array
+        items: string
+      cost_tier:
+        type: string
+        enum: [low, medium, high]
+        description: "Relative cost of using this agent"
+
+  squad_entry:
+    required: [id, name, chief, domain]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      chief:
+        type: string
+        description: "Chief agent/role of the squad"
+      domain:
+        type: string
+        description: "Primary domain covered"
+      capabilities:
+        type: array
+        items: string
+      delegation_protocol:
+        type: string
+        description: "How HRM delegates to this squad"
+      internal_architecture:
+        type: string
+        description: "Brief description of internal structure"
+      deliverables:
+        type: array
+        items: string
+      quality_integration:
+        type: string
+        description: "How quality gates integrate with this squad"
+
+  mcp_entry:
+    required: [id, name, provider]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      provider:
+        type: string
+        description: "MCP server provider"
+      capabilities:
+        type: array
+        items: string
+      domain_affinity:
+        type: array
+        items: string
+      use_cases:
+        type: array
+        items: string
+      authentication:
+        type: string
+        enum: [none, oauth, api_key, session]
+
+  playbook_entry:
+    required: [id, name, domain]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      domain:
+        type: string
+      techniques_used:
+        type: array
+        items: string
+      trigger_conditions:
+        type: array
+        items: string
+      estimated_cost:
+        type: object
+        properties:
+          min: { type: integer }
+          max: { type: integer }
+
+  framework_entry:
+    required: [id, name, agent_count]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      philosophy:
+        type: string
+      strengths:
+        type: array
+        items: string
+      agent_count:
+        type: integer
+      when_to_use:
+        type: array
+        items: string
+      when_to_avoid:
+        type: array
+        items: string

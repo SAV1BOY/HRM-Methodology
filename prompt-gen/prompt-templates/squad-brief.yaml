@@ -1,0 +1,117 @@
+# Squad Brief Template
+# Used to generate briefs for squad chiefs when delegating workstreams to specialized squads
+
+template_id: squad-brief
+version: "1.0"
+description: "Template for briefing a squad chief (e.g., Copy Squad chief) on a delegated workstream"
+
+structure:
+  sections:
+    - id: brief_header
+      required: true
+      template: |
+        # Squad Brief: {squad_name}
+        From: HRM Architect (Supreme Squad Chief)
+        Priority: {priority_level}
+        Budget: {budget_tool_calls} tool calls
+
+    - id: objective
+      required: true
+      template: |
+        ## Objective
+        {workstream_objective}
+
+        ### What Success Looks Like
+        {success_criteria_list}
+
+    - id: audience_context
+      required: false
+      condition: "squad handles audience-facing content"
+      template: |
+        ## Audience
+        - Target: {target_audience}
+        - Tone: {tone_requirements}
+        - Format: {deliverable_format}
+
+    - id: scope
+      required: true
+      template: |
+        ## Scope & Deliverables
+        {deliverables_list}
+
+        ### Constraints
+        {constraints_list}
+
+    - id: technique_guidance
+      required: true
+      template: |
+        ## Strategic Approach (Forge Tier: {forge_tier})
+        {technique_steps}
+
+    - id: reference_materials
+      required: false
+      template: |
+        ## Reference Materials
+        {reference_materials_list}
+
+    - id: internal_architecture
+      required: false
+      template: |
+        ## Internal Architecture Guidance
+        Use your internal squad architecture to:
+        {architecture_guidance}
+
+    - id: quality_gates
+      required: true
+      template: |
+        ## Quality Gates
+        - Internal verification: {internal_gates}
+        - HRM acceptance threshold: {verification_threshold}
+        - Bloom level rubric: {bloom_rubric_summary}
+
+    - id: reporting
+      required: true
+      template: |
+        ## Reporting Protocol
+        Report to HRM Architect:
+        - On completion of each major deliverable
+        - When encountering blockers or scope changes
+        - Final delivery with self-assessment score
+
+        Format:
+        ```
+        === SQUAD DELIVERY REPORT ===
+        Squad: {squad_name}
+        Deliverables: [list with status]
+        Self-Assessment: X.XX/{verification_threshold}
+        Issues: [any issues encountered]
+        ==============================
+        ```
+
+    - id: timeline
+      required: false
+      template: |
+        ## Timeline
+        - Expected completion: {estimated_timeline}
+        - Checkpoint: {checkpoint_description}
+
+variables:
+  squad_name: "from registry/squads.yaml name"
+  priority_level: "HIGH|MEDIUM|LOW based on critical path"
+  budget_tool_calls: "from workstream.predicted_cost"
+  workstream_objective: "from level_1 objective"
+  success_criteria_list: "from level_0.success_criteria filtered for this workstream"
+  target_audience: "from user request context"
+  tone_requirements: "from user request or defaults"
+  deliverable_format: "from workstream deliverables"
+  deliverables_list: "from workstream.deliverables"
+  constraints_list: "from level_0.constraints + squad-specific"
+  reference_materials_list: "from relevant squad assets"
+  architecture_guidance: "optional guidance for squad internal process"
+  internal_gates: "from squad quality_integration"
+  verification_threshold: "from domain_thresholds"
+  bloom_rubric_summary: "from scoring-rubrics.yaml for bloom_level"
+  estimated_timeline: "from workstream.estimated_effort"
+  checkpoint_description: "from workstream.verification"
+  forge_tier: "QUICK from Prompt Forge (squad chiefs always QUICK tier)"
+  technique_steps: "from Prompt Forge technique pipeline output"

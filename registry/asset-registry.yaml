@@ -1,0 +1,62 @@
+# Asset Registry — Master Index
+# Points to all sub-registries for the HRM orchestrator
+
+version: "1.0"
+last_updated: "2026-03-03"
+schema: "_schema.yaml"
+
+registries:
+  - id: skills
+    file: "skills.yaml"
+    count: 44
+    description: "All available skills (slash commands)"
+
+  - id: agents
+    file: "agents.yaml"
+    count: 103
+    description: "All agents across 14 frameworks"
+
+  - id: squads
+    file: "squads.yaml"
+    count: 2
+    description: "Specialized squads with internal architecture"
+
+  - id: mcps
+    file: "mcps.yaml"
+    count: 27
+    description: "MCP servers providing external integrations"
+
+  - id: playbooks
+    file: "playbooks.yaml"
+    count: 7
+    description: "Pre-built technique pipelines for common domains"
+
+  - id: frameworks
+    file: "frameworks.yaml"
+    count: 14
+    description: "Agent frameworks with philosophies and strengths"
+
+totals:
+  skills: 44
+  agents: 103
+  squads: 2
+  mcps: 27
+  playbooks: 7
+  frameworks: 14
+  techniques: 75
+
+lookup_protocol:
+  description: |
+    The HRM uses the registry in Step 0.7 (Registry Lookup) to find
+    matching assets for each workstream. The lookup flow is:
+    1. Extract domain, type, and complexity from triage
+    2. Query skills.yaml for phase-appropriate skills
+    3. Query agents.yaml for archetype-matching agents
+    4. Query squads.yaml for domain-covered squads
+    5. Query mcps.yaml for integration opportunities
+    6. Return registry_matches to HRM for plan construction
+  query_by:
+    - domain_affinity
+    - archetype_mapping
+    - trigger_conditions
+    - capabilities

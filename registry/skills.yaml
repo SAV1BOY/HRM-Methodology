@@ -1,0 +1,706 @@
+# Skills Registry
+# Complete catalog of all 44 skills available in the system
+version: "1.0"
+last_updated: "2026-03-03"
+total: 44
+
+skills:
+
+  # ============================================================
+  # PHASE 0 - STARTUP (mandatory, always executed)
+  # ============================================================
+
+  - id: hrm-architect
+    name: "HRM Architect"
+    phase: 0
+    category: startup
+    trigger_conditions:
+      - "EVERY conversation, ALWAYS first skill invoked (PASSO 0)"
+      - "Classifies task type, domain, complexity, artifact"
+      - "Calculates complexity_score and decides mode (TRIAGE/FULL_LIGHT/FULL)"
+      - "Creates Plano v1 (ExecutionPlan prototype)"
+      - "No other skill may execute before this one"
+    domain_affinity: [ALL]
+    inputs: [user_request]
+    outputs: [triage_result, complexity_score, hrm_mode, plano_v1, execution_plan]
+    estimated_cost: {min: 2, max: 15}
+    composability: [using-superpowers, agent-router, swarm-orchestrator, agent-teams-protocol]
+    model_preference: opus
+
+  - id: using-superpowers
+    name: "Using Superpowers"
+    phase: 0
+    category: startup
+    trigger_conditions:
+      - "EVERY conversation, ALWAYS (PASSO 0.5, in parallel with hrm-architect)"
+      - "Scans all available skills, agents, workflows, swarms"
+      - "Returns updated catalog of available capabilities to HRM"
+    domain_affinity: [ALL]
+    inputs: [user_request, triage_result]
+    outputs: [skills_catalog, agents_catalog, workflows_catalog, swarms_catalog]
+    estimated_cost: {min: 1, max: 5}
+    composability: [hrm-architect, agent-router]
+    model_preference: any
+
+  - id: skill-router
+    name: "Skill Router"
+    phase: 0
+    category: startup
+    trigger_conditions:
+      - "Formats SET based on HRM Plano v1"
+      - "Called after hrm-architect and using-superpowers complete"
+      - "Routes task to appropriate skill combination per route table"
+    domain_affinity: [ALL]
+    inputs: [triage_result, plano_v1, skills_catalog]
+    outputs: [skill_execution_timeline, route_assignments]
+    estimated_cost: {min: 1, max: 3}
+    composability: [hrm-architect, using-superpowers]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 1 - PLANNING
+  # ============================================================
+
+  - id: brainstorming
+    name: "Brainstorming"
+    phase: 1
+    category: planning
+    trigger_conditions:
+      - "TIPO in [BUILD, DESIGN]"
+      - "user mentions feature, component, functionality"
+      - "DOMINIO in [WEB, REACT, REACT_NATIVE, ART]"
+    domain_affinity: [WEB, REACT, REACT_NATIVE, ART, DESIGN]
+    inputs: [user_request, triage_result]
+    outputs: [ideas_list, concept_selection]
+    estimated_cost: {min: 3, max: 10}
+    composability: [planning-with-files, writing-plans, frontend-design, ui-ux-pro-max]
+    model_preference: any
+
+  - id: planning-with-files
+    name: "Planning with Files"
+    phase: 1
+    category: planning
+    trigger_conditions:
+      - "COMPLEXIDADE in [COMPLEXA, PARALELA]"
+      - "estimated tool calls > 5"
+    domain_affinity: [ALL]
+    inputs: [user_request, triage_result, plano_v1]
+    outputs: [detailed_plan, file_structure, task_breakdown]
+    estimated_cost: {min: 5, max: 20}
+    composability: [writing-plans, dispatching-parallel-agents, agent-router, brainstorming]
+    model_preference: any
+
+  - id: writing-plans
+    name: "Writing Plans"
+    phase: 1
+    category: planning
+    trigger_conditions:
+      - "TIPO == BUILD"
+      - "COMPLEXIDADE >= MODERADA"
+      - "spec or requirements provided"
+    domain_affinity: [ALL]
+    inputs: [user_request, triage_result, requirements, plano_v1]
+    outputs: [written_plan, spec_document, implementation_roadmap]
+    estimated_cost: {min: 5, max: 15}
+    composability: [planning-with-files, test-driven-development, executing-plans]
+    model_preference: any
+
+  - id: dispatching-parallel-agents
+    name: "Dispatching Parallel Agents"
+    phase: 1
+    category: planning
+    trigger_conditions:
+      - "PARALELA == true"
+      - "2+ independent subsystems detected"
+    domain_affinity: [ALL]
+    inputs: [plano_v1, task_breakdown]
+    outputs: [parallel_dispatch_plan, agent_assignments]
+    estimated_cost: {min: 3, max: 10}
+    composability: [planning-with-files, agent-router, swarm-orchestrator]
+    model_preference: any
+
+  - id: context-engineering
+    name: "Context Engineering"
+    phase: 1
+    category: planning
+    trigger_conditions:
+      - "DOMINIO == AGENT"
+      - "user mentions agente, context window, multi-agent"
+    domain_affinity: [AGENT]
+    inputs: [user_request, triage_result]
+    outputs: [context_strategy, context_window_plan, agent_architecture]
+    estimated_cost: {min: 5, max: 15}
+    composability: [writing-plans, mcp-builder, agent-router]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Development
+  # ============================================================
+
+  - id: test-driven-development
+    name: "Test-Driven Development"
+    phase: 2
+    category: development
+    trigger_conditions:
+      - "TIPO in [BUILD, FIX]"
+      - "ARTEFATO == CODIGO"
+    domain_affinity: [ALL]
+    inputs: [plano_v1, written_plan, requirements]
+    outputs: [test_suite, implementation_code, passing_tests]
+    estimated_cost: {min: 10, max: 40}
+    composability: [systematic-debugging, executing-plans, requesting-code-review, verification-before-completion]
+    model_preference: any
+
+  - id: subagent-driven-development
+    name: "Subagent-Driven Development"
+    phase: 2
+    category: development
+    trigger_conditions:
+      - "plan exists"
+      - "independent tasks identified"
+      - "current session"
+    domain_affinity: [ALL]
+    inputs: [plano_v1, task_breakdown, agent_assignments]
+    outputs: [implemented_features, subagent_results]
+    estimated_cost: {min: 10, max: 50}
+    composability: [executing-plans, test-driven-development, swarm-orchestrator]
+    model_preference: any
+
+  - id: executing-plans
+    name: "Executing Plans"
+    phase: 2
+    category: development
+    trigger_conditions:
+      - "plan exists"
+      - "review checkpoints defined"
+    domain_affinity: [ALL]
+    inputs: [written_plan, plano_v1, task_breakdown]
+    outputs: [completed_tasks, checkpoint_results, implementation_artifacts]
+    estimated_cost: {min: 5, max: 30}
+    composability: [test-driven-development, systematic-debugging, verification-before-completion]
+    model_preference: any
+
+  - id: systematic-debugging
+    name: "Systematic Debugging"
+    phase: 2
+    category: development
+    trigger_conditions:
+      - "TIPO == FIX"
+      - "any test failure during work"
+      - "error or broken behavior detected"
+    domain_affinity: [ALL]
+    inputs: [error_description, failing_tests, code_context]
+    outputs: [root_cause, fix_implementation, regression_tests]
+    estimated_cost: {min: 5, max: 30}
+    composability: [test-driven-development, verification-before-completion]
+    model_preference: any
+
+  - id: using-git-worktrees
+    name: "Using Git Worktrees"
+    phase: 2
+    category: development
+    trigger_conditions:
+      - "TIPO == BUILD"
+      - "COMPLEXIDADE >= MODERADA"
+      - "git repo present"
+      - "isolation needed"
+    domain_affinity: [ALL]
+    inputs: [plano_v1, repo_context]
+    outputs: [isolated_worktree, branch_setup]
+    estimated_cost: {min: 2, max: 8}
+    composability: [test-driven-development, finishing-a-development-branch]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Frontend/UI
+  # ============================================================
+
+  - id: frontend-design
+    name: "Frontend Design"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO in [WEB, REACT]"
+      - "TIPO in [BUILD, DESIGN]"
+    domain_affinity: [WEB, REACT]
+    inputs: [user_request, triage_result, design_brief]
+    outputs: [frontend_implementation, component_code, styled_ui]
+    estimated_cost: {min: 10, max: 40}
+    composability: [react-best-practices, ui-ux-pro-max, web-design-guidelines, test-driven-development]
+    model_preference: any
+
+  - id: ui-ux-pro-max
+    name: "UI/UX Pro Max"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "design system mentioned"
+      - "estilo, paleta, tipografia, cores, UI design mentioned"
+      - "user experience design needed"
+    domain_affinity: [WEB, REACT, REACT_NATIVE, DESIGN]
+    inputs: [design_requirements, brand_guidelines, user_research]
+    outputs: [design_system, ui_specifications, ux_patterns, component_library]
+    estimated_cost: {min: 10, max: 40}
+    composability: [frontend-design, brand-guidelines, theme-factory, web-design-guidelines]
+    model_preference: any
+
+  - id: react-best-practices
+    name: "React Best Practices"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO == REACT"
+      - ".jsx or .tsx files present"
+    domain_affinity: [REACT]
+    inputs: [react_code, component_structure, plano_v1]
+    outputs: [optimized_react_code, best_practice_implementation]
+    estimated_cost: {min: 5, max: 20}
+    composability: [frontend-design, composition-patterns, test-driven-development]
+    model_preference: any
+
+  - id: react-native-skills
+    name: "React Native Skills"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO == REACT_NATIVE"
+      - "react native or expo mentioned"
+      - "mobile app context"
+    domain_affinity: [REACT_NATIVE]
+    inputs: [mobile_requirements, expo_config, plano_v1]
+    outputs: [react_native_implementation, mobile_components]
+    estimated_cost: {min: 10, max: 40}
+    composability: [react-best-practices, composition-patterns, test-driven-development]
+    model_preference: any
+
+  - id: composition-patterns
+    name: "Composition Patterns"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "compound component mentioned"
+      - "render prop mentioned"
+      - "composicao or slot pattern mentioned"
+    domain_affinity: [REACT, REACT_NATIVE]
+    inputs: [component_requirements, architecture_context]
+    outputs: [composition_implementation, pattern_documentation]
+    estimated_cost: {min: 5, max: 20}
+    composability: [react-best-practices, frontend-design]
+    model_preference: any
+
+  - id: web-design-guidelines
+    name: "Web Design Guidelines"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "TIPO == REVIEW"
+      - "DOMINIO in [WEB, REACT]"
+      - "accessibility or a11y mentioned"
+    domain_affinity: [WEB, REACT]
+    inputs: [existing_ui, accessibility_requirements]
+    outputs: [design_audit, accessibility_report, improvement_recommendations]
+    estimated_cost: {min: 5, max: 15}
+    composability: [ui-ux-pro-max, frontend-design]
+    model_preference: any
+
+  - id: web-artifacts-builder
+    name: "Web Artifacts Builder"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "ARTEFATO == VISUAL"
+      - "DOMINIO == WEB"
+      - "multi-component output needed"
+    domain_affinity: [WEB]
+    inputs: [visual_requirements, component_specs, design_system]
+    outputs: [html_artifact, visual_component, interactive_prototype]
+    estimated_cost: {min: 10, max: 35}
+    composability: [frontend-design, canvas-design, ui-ux-pro-max]
+    model_preference: any
+
+  - id: canvas-design
+    name: "Canvas Design"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "ARTEFATO == VISUAL"
+      - "poster, arte, design visual mentioned"
+      - "PNG or PDF output needed"
+    domain_affinity: [ART, WEB]
+    inputs: [visual_brief, dimensions, brand_assets]
+    outputs: [canvas_design, png_export, pdf_export]
+    estimated_cost: {min: 5, max: 20}
+    composability: [algorithmic-art, brand-guidelines, web-artifacts-builder]
+    model_preference: any
+
+  - id: algorithmic-art
+    name: "Algorithmic Art"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO == ART"
+      - "generativo, p5.js, particulas, flow field mentioned"
+    domain_affinity: [ART]
+    inputs: [art_concept, algorithm_parameters, canvas_specs]
+    outputs: [generative_art_code, visual_output]
+    estimated_cost: {min: 10, max: 30}
+    composability: [canvas-design, web-artifacts-builder]
+    model_preference: any
+
+  - id: brand-guidelines
+    name: "Brand Guidelines"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO == BRAND"
+      - "marca Anthropic or brand colors mentioned"
+      - "logo or brand identity context"
+    domain_affinity: [BRAND]
+    inputs: [brand_brief, existing_assets, target_audience]
+    outputs: [brand_guide, color_palette, typography_spec, logo_usage]
+    estimated_cost: {min: 5, max: 20}
+    composability: [ui-ux-pro-max, theme-factory, canvas-design]
+    model_preference: any
+
+  - id: theme-factory
+    name: "Theme Factory"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "tema or theme mentioned"
+      - "estilizar mentioned"
+      - "theming slides, docs, or landing pages"
+    domain_affinity: [WEB, REACT, DESIGN]
+    inputs: [theme_requirements, base_styles, brand_guidelines]
+    outputs: [theme_tokens, styled_components, theme_configuration]
+    estimated_cost: {min: 5, max: 20}
+    composability: [brand-guidelines, ui-ux-pro-max, frontend-design]
+    model_preference: any
+
+  - id: slack-gif-creator
+    name: "Slack GIF Creator"
+    phase: 2
+    category: frontend
+    trigger_conditions:
+      - "DOMINIO == GIF"
+      - "GIF para Slack mentioned"
+      - "gif or animacao mentioned"
+    domain_affinity: [GIF]
+    inputs: [gif_concept, animation_spec, slack_requirements]
+    outputs: [animated_gif, slack_ready_file]
+    estimated_cost: {min: 5, max: 15}
+    composability: [canvas-design, web-artifacts-builder]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Documents
+  # ============================================================
+
+  - id: docx
+    name: "DOCX"
+    phase: 2
+    category: documents
+    trigger_conditions:
+      - "ARTEFATO == DOCUMENTO"
+      - ".docx format or Word document mentioned"
+    domain_affinity: [DOCUMENT]
+    inputs: [document_content, formatting_requirements]
+    outputs: [docx_file, word_document]
+    estimated_cost: {min: 3, max: 15}
+    composability: [doc-coauthoring, pdf]
+    model_preference: any
+
+  - id: pdf
+    name: "PDF"
+    phase: 2
+    category: documents
+    trigger_conditions:
+      - "ARTEFATO == DOCUMENTO"
+      - ".pdf format mentioned"
+      - "read, create, merge, or OCR PDFs needed"
+    domain_affinity: [DOCUMENT]
+    inputs: [document_source, pdf_requirements]
+    outputs: [pdf_file, merged_pdf, ocr_result]
+    estimated_cost: {min: 3, max: 15}
+    composability: [doc-coauthoring, docx, pptx]
+    model_preference: any
+
+  - id: pptx
+    name: "PPTX"
+    phase: 2
+    category: documents
+    trigger_conditions:
+      - "ARTEFATO == DOCUMENTO"
+      - ".pptx format mentioned"
+      - "PowerPoint, apresentacao, slides, or deck mentioned"
+    domain_affinity: [DOCUMENT, DESIGN]
+    inputs: [presentation_content, slide_structure, design_theme]
+    outputs: [pptx_file, powerpoint_presentation]
+    estimated_cost: {min: 5, max: 20}
+    composability: [doc-coauthoring, theme-factory, pdf]
+    model_preference: any
+
+  - id: xlsx
+    name: "XLSX"
+    phase: 2
+    category: documents
+    trigger_conditions:
+      - "ARTEFATO == DOCUMENTO"
+      - ".xlsx, .csv, or .tsv format mentioned"
+      - "planilha, Excel, or spreadsheet mentioned"
+    domain_affinity: [DOCUMENT]
+    inputs: [data_content, spreadsheet_structure, formulas]
+    outputs: [xlsx_file, excel_spreadsheet, csv_export]
+    estimated_cost: {min: 3, max: 15}
+    composability: [doc-coauthoring, pdf]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Writing
+  # ============================================================
+
+  - id: doc-coauthoring
+    name: "Doc Co-authoring"
+    phase: 2
+    category: writing
+    trigger_conditions:
+      - "TIPO == WRITE"
+      - "co-authoring docs, proposals, or specs"
+    domain_affinity: [DOCUMENT, ALL]
+    inputs: [content_outline, writing_requirements, existing_draft]
+    outputs: [coauthored_document, refined_content]
+    estimated_cost: {min: 5, max: 25}
+    composability: [docx, pdf, pptx, xlsx, humanizer]
+    model_preference: any
+
+  - id: humanizer
+    name: "Humanizer"
+    phase: 2
+    category: writing
+    trigger_conditions:
+      - "humanizar mentioned"
+      - "parece IA mentioned"
+      - "remover padroes IA mentioned"
+      - "tornar natural mentioned"
+    domain_affinity: [ALL]
+    inputs: [ai_generated_text, tone_requirements]
+    outputs: [humanized_text, natural_language_content]
+    estimated_cost: {min: 3, max: 10}
+    composability: [doc-coauthoring, internal-comms]
+    model_preference: any
+
+  - id: internal-comms
+    name: "Internal Comms"
+    phase: 2
+    category: writing
+    trigger_conditions:
+      - "status report mentioned"
+      - "newsletter mentioned"
+      - "FAQ mentioned"
+      - "relatorio de incidente mentioned"
+      - "comunicacao interna mentioned"
+    domain_affinity: [ALL]
+    inputs: [communication_topic, audience, format_requirements]
+    outputs: [internal_communication, report, newsletter, faq]
+    estimated_cost: {min: 3, max: 15}
+    composability: [doc-coauthoring, humanizer, docx]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Browser/Testing
+  # ============================================================
+
+  - id: dev-browser
+    name: "Dev Browser"
+    phase: 2
+    category: browser
+    trigger_conditions:
+      - "DOMINIO == BROWSER"
+      - "navegar, screenshot, or testar no browser mentioned"
+    domain_affinity: [BROWSER, WEB]
+    inputs: [url_or_app, browser_task, viewport_config]
+    outputs: [screenshot, browser_result, page_content]
+    estimated_cost: {min: 3, max: 15}
+    composability: [webapp-testing, systematic-debugging]
+    model_preference: any
+
+  - id: webapp-testing
+    name: "Webapp Testing"
+    phase: 2
+    category: browser
+    trigger_conditions:
+      - "testar meu app mentioned"
+      - "Playwright mentioned"
+      - "teste de integracao web mentioned"
+    domain_affinity: [BROWSER, WEB]
+    inputs: [app_url, test_scenarios, acceptance_criteria]
+    outputs: [test_results, playwright_tests, integration_report]
+    estimated_cost: {min: 10, max: 30}
+    composability: [dev-browser, test-driven-development, systematic-debugging]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Integration
+  # ============================================================
+
+  - id: mcp-builder
+    name: "MCP Builder"
+    phase: 2
+    category: integration
+    trigger_conditions:
+      - "DOMINIO == AGENT"
+      - "MCP server mentioned"
+      - "integracao LLM mentioned"
+      - "tool server mentioned"
+    domain_affinity: [AGENT]
+    inputs: [mcp_requirements, api_specs, tool_definitions]
+    outputs: [mcp_server_code, tool_implementations, integration_config]
+    estimated_cost: {min: 10, max: 40}
+    composability: [context-engineering, test-driven-development, writing-plans]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Skills
+  # ============================================================
+
+  - id: skill-creator
+    name: "Skill Creator"
+    phase: 2
+    category: skills
+    trigger_conditions:
+      - "criar skill mentioned"
+      - "nova skill mentioned"
+    domain_affinity: [ALL]
+    inputs: [skill_requirements, skill_purpose, trigger_conditions]
+    outputs: [new_skill_file, skill_documentation]
+    estimated_cost: {min: 5, max: 20}
+    composability: [writing-skills, verification-before-completion]
+    model_preference: any
+
+  - id: writing-skills
+    name: "Writing Skills"
+    phase: 2
+    category: skills
+    trigger_conditions:
+      - "editar skill mentioned"
+      - "atualizar skill mentioned"
+      - "verificar skill mentioned"
+    domain_affinity: [ALL]
+    inputs: [existing_skill, modification_requirements]
+    outputs: [updated_skill_file, skill_changelog]
+    estimated_cost: {min: 3, max: 15}
+    composability: [skill-creator, verification-before-completion]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 2 - EXECUTION: Routing (multi-agent dispatch)
+  # ============================================================
+
+  - id: agent-router
+    name: "Agent Router"
+    phase: 2
+    category: routing
+    trigger_conditions:
+      - "COMPLEXIDADE >= COMPLEXA"
+      - "multi-agent needed"
+      - "delegar, varios agents, swarm, projeto grande mentioned"
+      - "criar varios arquivos mentioned"
+      - "NOTE: This is PHASE 2, not PHASE 0. HRM must have executed first"
+    domain_affinity: [ALL]
+    inputs: [plano_v1, hrm_recommendation, skills_catalog, triage_result]
+    outputs: [swarm_plan, agent_assignments, execution_mode, workstreams]
+    estimated_cost: {min: 5, max: 20}
+    composability: [swarm-orchestrator, agent-teams-protocol, planning-with-files]
+    model_preference: any
+
+  - id: swarm-orchestrator
+    name: "Swarm Orchestrator"
+    phase: 2
+    category: routing
+    trigger_conditions:
+      - "Swarm Plan generated by agent-router"
+      - "execution_mode != agent_teams"
+    domain_affinity: [ALL]
+    inputs: [swarm_plan, agent_assignments, workstreams]
+    outputs: [swarm_execution_results, phase_results, convergence_report]
+    estimated_cost: {min: 10, max: 60}
+    composability: [agent-router, verification-before-completion]
+    model_preference: any
+
+  # ============================================================
+  # PHASE 3 - REVIEW AND COMPLETION
+  # ============================================================
+
+  - id: requesting-code-review
+    name: "Requesting Code Review"
+    phase: 3
+    category: review
+    trigger_conditions:
+      - "TIPO in [BUILD, FIX]"
+      - "ARTEFATO == CODIGO"
+      - "task completed"
+    domain_affinity: [ALL]
+    inputs: [implementation_code, test_suite, pr_context]
+    outputs: [code_review_request, pr_description, review_checklist]
+    estimated_cost: {min: 3, max: 10}
+    composability: [receiving-code-review, verification-before-completion]
+    model_preference: any
+
+  - id: receiving-code-review
+    name: "Receiving Code Review"
+    phase: 3
+    category: review
+    trigger_conditions:
+      - "code review feedback received"
+    domain_affinity: [ALL]
+    inputs: [review_feedback, original_code]
+    outputs: [addressed_feedback, revised_implementation]
+    estimated_cost: {min: 5, max: 20}
+    composability: [requesting-code-review, test-driven-development, verification-before-completion]
+    model_preference: any
+
+  - id: verification-before-completion
+    name: "Verification Before Completion"
+    phase: 3
+    category: review
+    trigger_conditions:
+      - "ALWAYS before saying done/completed"
+      - "ARTEFATO == CODIGO"
+      - "Cannot be skipped when code is present"
+    domain_affinity: [ALL]
+    inputs: [implementation_artifacts, test_results, requirements]
+    outputs: [verification_report, completion_sign_off]
+    estimated_cost: {min: 3, max: 15}
+    composability: [requesting-code-review, finishing-a-development-branch]
+    model_preference: any
+
+  - id: finishing-a-development-branch
+    name: "Finishing a Development Branch"
+    phase: 3
+    category: review
+    trigger_conditions:
+      - "TIPO == BUILD"
+      - "implementation complete"
+      - "tests passing"
+      - "feature branch present"
+    domain_affinity: [ALL]
+    inputs: [completed_implementation, test_suite, branch_context]
+    outputs: [merged_branch, pr_closed, release_notes]
+    estimated_cost: {min: 3, max: 10}
+    composability: [verification-before-completion, requesting-code-review]
+    model_preference: any
+
+  - id: simplify
+    name: "Simplify"
+    phase: 3
+    category: review
+    trigger_conditions:
+      - "simplification needed after implementation"
+      - "refactor for clarity requested"
+      - "reduce complexity of existing solution"
+    domain_affinity: [ALL]
+    inputs: [existing_implementation, complexity_analysis]
+    outputs: [simplified_code, refactored_solution, complexity_reduction_report]
+    estimated_cost: {min: 3, max: 15}
+    composability: [verification-before-completion, requesting-code-review, systematic-debugging]
+    model_preference: any

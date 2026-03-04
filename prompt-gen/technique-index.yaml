@@ -1,0 +1,724 @@
+# Compact Technique Index
+# Quick-lookup index for the Prompt Forge. Each technique condensed for fast tier selection.
+# Source: taxonomy.yaml | Full details: techniques/<category>/<id>.md
+
+version: "1.0"
+source: "taxonomy.yaml"
+total: 75
+
+# Legend:
+#   cat: category | c: complexity (low/medium/high) | tc: token_cost | nc: num_calls
+#   best: best_for[] | avoid: avoid_when[] | composes: composes_with[]
+
+index:
+
+  # ── A: Foundations ──────────────────────────────────────────────
+
+  zero-shot:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [simple-tasks, classification, summarization, translation]
+    avoid: [complex-reasoning, ambiguous-tasks]
+    composes: [role-prompting, output-format, prompt-scaffolding]
+
+  few-shot:
+    cat: foundations
+    c: low
+    tc: medium
+    nc: 1
+    best: [format-control, style-transfer, nuanced-classification]
+    avoid: [tight-token-budget, example-bias-risk]
+    composes: [role-prompting, chain-of-thought, output-format, checklist-prompting]
+
+  one-shot:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [format-demonstration, quick-calibration]
+    avoid: [complex-tasks-needing-diverse-examples]
+    composes: [role-prompting, output-format]
+
+  role-prompting:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [domain-expertise, style-control, creative-tasks]
+    avoid: [factual-precision, role-bias-risk]
+    composes: [zero-shot, few-shot, chain-of-thought, output-format, plan-and-solve]
+
+  context-stuffing:
+    cat: foundations
+    c: low
+    tc: variable
+    nc: 1
+    best: [grounded-generation, RAG, domain-QA]
+    avoid: [context-exceeds-window, noisy-context]
+    composes: [role-prompting, output-format, chain-of-thought]
+
+  output-format:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [API-integration, data-extraction, structured-responses]
+    avoid: [free-form-creative-output]
+    composes: [role-prompting, few-shot, chain-of-thought, checklist-prompting]
+
+  prompt-frameworks:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [prompt-construction, completeness-checks, team-standardization]
+    avoid: [simple-tasks, experienced-engineers]
+    composes: [role-prompting, output-format]
+
+  prompt-scaffolding:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [complex-prompts, multi-section-inputs, injection-defense]
+    avoid: [very-short-prompts]
+    composes: [role-prompting, context-stuffing, output-format]
+
+  prompt-repetition:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [critical-constraints, instruction-adherence]
+    avoid: [tight-token-budget]
+    composes: [prompt-scaffolding, role-prompting]
+
+  emotion-prompting:
+    cat: foundations
+    c: low
+    tc: low
+    nc: 1
+    best: [performance-boost, important-tasks]
+    avoid: [objective-analysis, formal-outputs]
+    composes: [role-prompting, chain-of-thought]
+
+  # ── B: Reasoning ────────────────────────────────────────────────
+
+  chain-of-thought:
+    cat: reasoning
+    c: low
+    tc: medium
+    nc: 1
+    best: [math, logic, multi-step-reasoning, complex-QA]
+    avoid: [simple-factual-recall, tight-budget]
+    composes: [role-prompting, few-shot, step-back-prompting, output-format, chain-of-verification]
+
+  zero-shot-cot:
+    cat: reasoning
+    c: low
+    tc: medium
+    nc: 1
+    best: [quick-reasoning-boost, no-examples-available]
+    avoid: [few-shot-cot-available, very-simple-tasks]
+    composes: [role-prompting, output-format, checklist-prompting]
+
+  self-consistency:
+    cat: reasoning
+    c: medium
+    tc: high
+    nc: 5-40
+    best: [math, high-stakes-reasoning, variance-reduction]
+    avoid: [latency-sensitive, budget-constrained]
+    composes: [chain-of-thought, few-shot]
+
+  least-to-most:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 2+
+    best: [compositional-generalization, multi-step-problems]
+    avoid: [single-step-tasks, latency-sensitive]
+    composes: [chain-of-thought, role-prompting]
+
+  plan-and-solve:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [math-word-problems, structured-problem-solving]
+    avoid: [simple-tasks, creative-generation]
+    composes: [role-prompting, chain-of-thought, checklist-prompting]
+
+  self-ask:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1-N
+    best: [multi-hop-questions, compositional-reasoning]
+    avoid: [single-hop-questions, latency-sensitive]
+    composes: [chain-of-thought, grounding-via-sources]
+
+  tree-of-thoughts:
+    cat: reasoning
+    c: high
+    tc: high
+    nc: variable
+    best: [creative-puzzles, strategic-planning, exploration]
+    avoid: [simple-tasks, time-critical]
+    composes: [chain-of-thought, self-consistency]
+
+  graph-of-thoughts:
+    cat: reasoning
+    c: high
+    tc: high
+    nc: variable
+    best: [merge-refine-operations, complex-reasoning-networks]
+    avoid: [linear-reasoning-sufficient]
+    composes: [chain-of-thought, tree-of-thoughts]
+
+  react:
+    cat: reasoning
+    c: medium
+    tc: variable
+    nc: variable
+    best: [tool-use-tasks, knowledge-intensive-QA, web-interaction]
+    avoid: [no-tools-available, pure-reasoning]
+    composes: [tool-augmented-prompting, chain-of-thought]
+
+  rewoo:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 2
+    best: [multi-tool-tasks, cost-efficient-agents]
+    avoid: [adaptive-tool-use-needed]
+    composes: [plan-and-solve, tool-augmented-prompting]
+
+  program-of-thoughts:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [numerical-computation, data-manipulation, algorithmic-tasks]
+    avoid: [no-code-interpreter, qualitative-reasoning]
+    composes: [role-prompting, output-format]
+
+  chain-of-draft:
+    cat: reasoning
+    c: low
+    tc: low
+    nc: 1
+    best: [token-efficient-reasoning, high-volume-processing]
+    avoid: [need-detailed-explanations, debugging-reasoning]
+    composes: [role-prompting, output-format]
+
+  buffer-of-thoughts:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [recurring-problem-types, efficiency-at-scale]
+    avoid: [novel-problem-types, one-off-tasks]
+    composes: [chain-of-thought, few-shot]
+
+  skeleton-of-thought:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1+N
+    best: [long-form-generation, latency-reduction]
+    avoid: [short-answers, sequential-reasoning-required]
+    composes: [plan-and-solve, role-prompting]
+
+  contrastive-cot:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [error-prone-tasks, teaching-correct-reasoning]
+    avoid: [limited-prompt-space, straightforward-tasks]
+    composes: [chain-of-thought, few-shot, chain-of-verification]
+
+  thread-of-thought:
+    cat: reasoning
+    c: low
+    tc: medium
+    nc: 1
+    best: [long-chaotic-contexts, conversational-QA]
+    avoid: [clean-structured-input]
+    composes: [chain-of-thought, context-stuffing]
+
+  algorithm-of-thoughts:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [search-exploration-problems, single-call-efficiency]
+    avoid: [simple-problems, no-algorithmic-structure]
+    composes: [tree-of-thoughts, chain-of-thought]
+
+  tab-cot:
+    cat: reasoning
+    c: low
+    tc: medium
+    nc: 1
+    best: [multi-variable-tracking, structured-reasoning]
+    avoid: [simple-reasoning, narrative-outputs]
+    composes: [chain-of-thought, output-format]
+
+  analogical-prompting:
+    cat: reasoning
+    c: medium
+    tc: medium
+    nc: 1
+    best: [novel-problems, no-examples-available]
+    avoid: [good-few-shot-examples-exist]
+    composes: [chain-of-thought, role-prompting, self-refine]
+
+  cumulative-reasoning:
+    cat: reasoning
+    c: high
+    tc: high
+    nc: variable
+    best: [complex-proofs, multi-step-construction]
+    avoid: [simple-tasks, time-sensitive]
+    composes: [chain-of-thought, chain-of-verification]
+
+  # ── C: Advanced Reasoning ───────────────────────────────────────
+
+  everything-of-thoughts:
+    cat: advanced-reasoning
+    c: high
+    tc: variable
+    nc: 1-2
+    best: [complex-problem-solving, optimal-thought-structures]
+    avoid: [no-external-solver, simple-tasks]
+    composes: [tree-of-thoughts, graph-of-thoughts]
+
+  thought-propagation:
+    cat: advanced-reasoning
+    c: high
+    tc: high
+    nc: variable
+    best: [analogous-subproblems, graph-tasks]
+    avoid: [unique-problems-no-analogs]
+    composes: [tree-of-thoughts, analogical-prompting]
+
+  step-back-prompting:
+    cat: advanced-reasoning
+    c: medium
+    tc: medium
+    nc: 2
+    best: [physics, chemistry, first-principles-reasoning]
+    avoid: [already-abstract-questions]
+    composes: [chain-of-thought, role-prompting, plan-and-solve]
+
+  rephrase-and-respond:
+    cat: advanced-reasoning
+    c: low
+    tc: low
+    nc: 1-2
+    best: [ambiguous-questions, quick-accuracy-boost]
+    avoid: [questions-already-clear]
+    composes: [chain-of-thought, zero-shot-cot]
+
+  meta-prompting:
+    cat: advanced-reasoning
+    c: high
+    tc: high
+    nc: variable
+    best: [complex-multi-domain-tasks, expert-routing]
+    avoid: [single-domain-tasks, latency-sensitive]
+    composes: [role-prompting, planner-worker-solver]
+
+  # ── D: Verification & Grounding ─────────────────────────────────
+
+  chain-of-verification:
+    cat: verification
+    c: medium
+    tc: high
+    nc: 3-4
+    best: [reducing-hallucination, factual-accuracy]
+    avoid: [latency-sensitive, creative-tasks]
+    composes: [chain-of-thought, checklist-prompting, contrastive-cot]
+
+  self-refine:
+    cat: verification
+    c: medium
+    tc: high
+    nc: 2-5
+    best: [writing-quality, code-improvement, iterative-polish]
+    avoid: [first-draft-sufficient, tight-budget]
+    composes: [role-prompting, chain-of-thought, checklist-prompting]
+
+  reflexion:
+    cat: verification
+    c: high
+    tc: high
+    nc: variable
+    best: [multi-trial-tasks, agent-self-improvement]
+    avoid: [single-shot-tasks, no-feedback-signal]
+    composes: [react, self-refine, memory-prompting]
+
+  multi-agent-debate:
+    cat: verification
+    c: high
+    tc: very-high
+    nc: N*rounds
+    best: [high-stakes-decisions, reducing-bias]
+    avoid: [budget-constrained, simple-tasks]
+    composes: [role-prompting, chain-of-thought]
+
+  checklist-prompting:
+    cat: verification
+    c: low
+    tc: low
+    nc: 1
+    best: [quality-assurance, completeness-verification]
+    avoid: [no-clear-verification-criteria]
+    composes: [role-prompting, output-format, chain-of-thought, self-refine]
+
+  grounding-via-sources:
+    cat: verification
+    c: low
+    tc: medium
+    nc: 1
+    best: [factual-reports, research-synthesis]
+    avoid: [no-source-material-available]
+    composes: [chain-of-thought, self-ask, context-stuffing]
+
+  chain-of-knowledge:
+    cat: verification
+    c: high
+    tc: high
+    nc: variable
+    best: [multi-source-grounding, heterogeneous-knowledge]
+    avoid: [single-source-sufficient]
+    composes: [grounding-via-sources, chain-of-thought]
+
+  chain-of-note:
+    cat: verification
+    c: medium
+    tc: medium
+    nc: 1
+    best: [RAG-robustness, noisy-retrieval-results]
+    avoid: [high-quality-retrieval-guaranteed]
+    composes: [context-stuffing, chain-of-thought]
+
+  self-rag:
+    cat: verification
+    c: high
+    tc: variable
+    nc: variable
+    best: [adaptive-retrieval, quality-aware-generation]
+    avoid: [always-retrieve-patterns-sufficient]
+    composes: [context-stuffing, reflexion]
+
+  corrective-rag:
+    cat: verification
+    c: high
+    tc: variable
+    nc: 2-3
+    best: [unreliable-retrieval, web-augmented-QA]
+    avoid: [high-quality-retrieval-guaranteed]
+    composes: [self-rag, chain-of-verification]
+
+  # ── E: Perception & Context ─────────────────────────────────────
+
+  system-2-attention:
+    cat: perception
+    c: medium
+    tc: high
+    nc: 2
+    best: [noisy-biased-context, sycophancy-reduction]
+    avoid: [clean-context, tight-token-budget]
+    composes: [context-stuffing, chain-of-thought]
+
+  simtom:
+    cat: perception
+    c: medium
+    tc: medium
+    nc: 2
+    best: [perspective-based-reasoning, multi-stakeholder-scenarios]
+    avoid: [single-perspective-tasks]
+    composes: [role-prompting, chain-of-thought]
+
+  directional-stimulus:
+    cat: perception
+    c: medium
+    tc: low
+    nc: 1
+    best: [guided-generation, summary-key-point-inclusion]
+    avoid: [no-domain-knowledge-for-hints]
+    composes: [role-prompting, few-shot]
+
+  # ── F: Agents & Tool Use ────────────────────────────────────────
+
+  tool-augmented-prompting:
+    cat: agents
+    c: medium
+    tc: variable
+    nc: variable
+    best: [external-data-access, computation, real-world-actions]
+    avoid: [no-tools-available]
+    composes: [react, role-prompting, output-format]
+
+  prompt-chaining:
+    cat: agents
+    c: medium
+    tc: medium
+    nc: 2+
+    best: [multi-stage-workflows, complex-transformations]
+    avoid: [single-step-sufficient]
+    composes: [plan-and-solve, output-format]
+
+  planner-worker-solver:
+    cat: agents
+    c: high
+    tc: high
+    nc: variable
+    best: [complex-project-execution, parallel-sub-tasks]
+    avoid: [simple-tasks, tight-budget]
+    composes: [plan-and-solve, role-prompting, checklist-prompting]
+
+  memory-prompting:
+    cat: agents
+    c: medium
+    tc: variable
+    nc: variable
+    best: [long-conversations, persistent-context]
+    avoid: [short-interactions]
+    composes: [context-stuffing, reflexion]
+
+  # ── G: Prompt Programming ───────────────────────────────────────
+
+  lmql:
+    cat: prompt-programming
+    c: medium
+    tc: variable
+    nc: variable
+    best: [constrained-generation, programmatic-prompting]
+    avoid: [simple-prompts, no-programming-needed]
+    composes: [output-format]
+
+  guidance:
+    cat: prompt-programming
+    c: medium
+    tc: variable
+    nc: 1
+    best: [template-driven-generation, interleaved-control-flow]
+    avoid: [simple-API-calls-sufficient]
+    composes: [output-format, prompt-scaffolding]
+
+  outlines:
+    cat: prompt-programming
+    c: medium
+    tc: low
+    nc: 1
+    best: [guaranteed-valid-JSON, regex-constrained-output]
+    avoid: [using-API-native-JSON-mode]
+    composes: [output-format]
+
+  sglang:
+    cat: prompt-programming
+    c: medium
+    tc: low
+    nc: variable
+    best: [high-throughput-serving, KV-cache-optimization]
+    avoid: [single-request, API-only-access]
+    composes: [output-format]
+
+  # ── H: Optimization ────────────────────────────────────────────
+
+  dspy:
+    cat: optimization
+    c: high
+    tc: variable
+    nc: variable
+    best: [production-pipelines, systematic-optimization]
+    avoid: [one-off-prompts, no-training-data]
+    composes: [few-shot, chain-of-thought]
+
+  opro:
+    cat: optimization
+    c: high
+    tc: high
+    nc: variable
+    best: [instruction-optimization, meta-optimization]
+    avoid: [no-evaluation-metric, small-budget]
+    composes: [chain-of-thought]
+
+  ape:
+    cat: optimization
+    c: high
+    tc: high
+    nc: variable
+    best: [automatic-instruction-generation, prompt-search]
+    avoid: [manual-tuning-sufficient]
+    composes: [few-shot]
+
+  textgrad:
+    cat: optimization
+    c: high
+    tc: high
+    nc: variable
+    best: [compound-AI-systems, differentiable-text-optimization]
+    avoid: [simple-prompts, no-optimization-loop]
+    composes: [self-refine]
+
+  promptbreeder:
+    cat: optimization
+    c: high
+    tc: very-high
+    nc: variable
+    best: [long-running-optimization, diverse-prompt-exploration]
+    avoid: [limited-compute-budget]
+    composes: [ape, chain-of-thought]
+
+  evoprompt:
+    cat: optimization
+    c: high
+    tc: high
+    nc: variable
+    best: [discrete-prompt-optimization, genetic-search]
+    avoid: [limited-iterations-available]
+    composes: [ape]
+
+  protegi:
+    cat: optimization
+    c: high
+    tc: high
+    nc: variable
+    best: [targeted-prompt-improvement, error-analysis]
+    avoid: [no-error-examples-available]
+    composes: [self-refine, chain-of-thought]
+
+  # ── I: Soft Prompts ─────────────────────────────────────────────
+
+  prompt-tuning:
+    cat: soft-prompts
+    c: high
+    tc: low
+    nc: 1
+    best: [task-specific-adaptation, parameter-efficient-fine-tuning]
+    avoid: [API-only-access, no-training-infrastructure]
+    composes: []
+
+  prefix-tuning:
+    cat: soft-prompts
+    c: high
+    tc: low
+    nc: 1
+    best: [generation-tasks, multi-task-shared-backbone]
+    avoid: [API-only-access]
+    composes: []
+
+  p-tuning-v2:
+    cat: soft-prompts
+    c: high
+    tc: low
+    nc: 1
+    best: [NLU-tasks, smaller-models]
+    avoid: [API-only-access]
+    composes: []
+
+  # ── J: Security & Defense ───────────────────────────────────────
+
+  prompt-injection-defense:
+    cat: security
+    c: medium
+    tc: low
+    nc: 1
+    best: [user-facing-apps, untrusted-input-processing]
+    avoid: [closed-internal-systems]
+    composes: [prompt-scaffolding, instruction-hierarchy]
+
+  instruction-hierarchy:
+    cat: security
+    c: medium
+    tc: low
+    nc: 1
+    best: [multi-layer-instruction-systems, system-prompt-defense]
+    avoid: [single-prompt-systems]
+    composes: [prompt-scaffolding, prompt-injection-defense]
+
+  sanitization-guardrails:
+    cat: security
+    c: medium
+    tc: variable
+    nc: 1-3
+    best: [production-safety, content-filtering]
+    avoid: [internal-trusted-use-only]
+    composes: [prompt-injection-defense, instruction-hierarchy]
+
+  # ── K: Alignment ────────────────────────────────────────────────
+
+  constitutional-ai:
+    cat: alignment
+    c: high
+    tc: high
+    nc: variable
+    best: [safety-alignment, principle-based-behavior]
+    avoid: [inference-only-prompting-sufficient]
+    composes: [self-refine, checklist-prompting]
+
+  # ── L: Reasoning Tokens ────────────────────────────────────────
+
+  extended-thinking-claude:
+    cat: reasoning-tokens
+    c: low
+    tc: variable
+    nc: 1
+    best: [complex-reasoning, math, code, analysis]
+    avoid: [simple-tasks, low-latency-required]
+    composes: [role-prompting]
+
+  o1-o3-reasoning:
+    cat: reasoning-tokens
+    c: low
+    tc: variable
+    nc: 1
+    best: [STEM, competitive-programming, complex-analysis]
+    avoid: [simple-tasks, streaming-required]
+    composes: []
+
+  deepseek-r1:
+    cat: reasoning-tokens
+    c: low
+    tc: variable
+    nc: 1
+    best: [open-source-deployment, math, reasoning]
+    avoid: [proprietary-model-preferred]
+    composes: []
+
+  # ── M: Multimodal ──────────────────────────────────────────────
+
+  multimodal-cot:
+    cat: multimodal
+    c: medium
+    tc: medium
+    nc: 1
+    best: [image-reasoning, visual-QA, diagram-analysis]
+    avoid: [text-only-models]
+    composes: [chain-of-thought, role-prompting]
+
+  vision-language-prompting:
+    cat: multimodal
+    c: medium
+    tc: variable
+    nc: 1
+    best: [image-understanding, visual-grounding, OCR-tasks]
+    avoid: [text-only-input]
+    composes: [role-prompting, output-format]
+
+# ── Forge Quick-Select: Precomputed sets for MICRO tier ──────────
+
+micro_defaults:
+  universal: [role-prompting, zero-shot-cot]
+  code_fix: [role-prompting, zero-shot-cot]
+  code_build: [role-prompting, zero-shot-cot]
+  review: [role-prompting, checklist-prompting]
+  document: [role-prompting, output-format]
+  creative: [role-prompting, zero-shot-cot]

@@ -1,0 +1,161 @@
+# Quality Gate Definitions
+# 4-level verification cascade with domain-specific thresholds
+version: "1.0"
+last_updated: "2026-03-03"
+
+levels:
+
+  - level: 1
+    name: "Syntax"
+    description: "Fastest gate — structural and syntactic correctness"
+    checks:
+      - id: syntax_valid
+        description: "Code compiles / parses without errors"
+        how: "Run lint, build, or type-check via agent"
+        required: true
+      - id: no_parse_errors
+        description: "No syntax errors in generated files"
+        how: "Language-specific parser check"
+        required: true
+      - id: format_correct
+        description: "Output matches requested format (JSON, YAML, Markdown, etc.)"
+        how: "Schema validation or format check"
+        required: true
+      - id: files_exist
+        description: "All expected deliverable files exist and are non-empty"
+        how: "Glob for expected files, check size > 0"
+        required: true
+    pass_condition: "ALL required checks must pass"
+    failure_action: "Identify specific syntax error, refine prompt, re-execute single agent"
+    estimated_cost: "~2-3 tool calls"
+
+  - level: 2
+    name: "Local"
+    description: "Per-module / per-workstream functional correctness"
+    checks:
+      - id: unit_tests_pass
+        description: "Unit tests for this module pass"
+        how: "Run test suite for the specific workstream"
+        required: true
+      - id: deliverables_complete
+        description: "All deliverables for this workstream are present"
+        how: "Compare against workstream specification"
+        required: true
+      - id: internal_consistency
+        description: "No contradictions within the module"
+        how: "Cross-reference internal references and dependencies"
+        required: true
+      - id: interface_contract_output
+        description: "Outputs match interface contract specification"
+        how: "Validate output schema against contract"
+        required: false
+      - id: documentation_present
+        description: "Required docs/comments exist"
+        how: "Check for required doc artifacts"
+        required: false
+    pass_condition: "ALL required checks pass AND score >= domain threshold"
+    failure_action: "Re-execute workstream with refined prompt and additional context"
+    estimated_cost: "~5-10 tool calls"
+
+  - level: 3
+    name: "Global"
+    description: "Cross-workstream integration correctness"
+    checks:
+      - id: integration_tests_pass
+        description: "Cross-module integration tests pass"
+        how: "Run integration test suite"
+        required: true
+      - id: no_file_conflicts
+        description: "No overlapping file ownership between workstreams"
+        how: "Compare file lists across workstreams"
+        required: true
+      - id: interface_contracts_met
+        description: "All interface contracts between workstreams are satisfied"
+        how: "Validate each contract against actual outputs"
+        required: true
+      - id: dependency_graph_valid
+        description: "All inter-workstream dependencies resolved correctly"
+        how: "Trace dependency graph, verify each edge"
+        required: true
+      - id: no_regressions
+        description: "Existing functionality not broken"
+        how: "Run full test suite if available"
+        required: false
+    pass_condition: "ALL required checks pass AND integration score >= threshold"
+    failure_action: "Correct interface contracts, re-execute affected workstreams"
+    estimated_cost: "~10-15 tool calls"
+
+  - level: 4
+    name: "Semantic"
+    description: "Does the result fulfill the original user intent?"
+    checks:
+      - id: success_criteria_met
+        description: "All success criteria from level_0 objective are satisfied"
+        how: "Evaluate each criterion against deliverables"
+        required: true
+      - id: bloom_rubric_passed
+        description: "Output meets scoring rubric for the Bloom level"
+        how: "Apply bloom-level-specific rubric from scoring-rubrics.yaml"
+        required: true
+      - id: user_intent_satisfied
+        description: "Result addresses what the user actually asked for"
+        how: "Compare deliverables against original request"
+        required: true
+      - id: quality_bar_met
+        description: "Overall quality meets domain threshold"
+        how: "Aggregate scores from all checks"
+        required: true
+      - id: no_scope_creep
+        description: "No unnecessary additions beyond what was requested"
+        how: "Compare deliverables against plan scope"
+        required: false
+    pass_condition: "ALL required checks pass AND semantic score >= threshold"
+    failure_action: "Root-cause analysis -> credit assignment -> targeted backtracking"
+    estimated_cost: "~5-8 tool calls"
+
+domain_thresholds:
+  code:
+    level_2: 0.88
+    level_3: 0.85
+    level_4: 0.88
+  security:
+    level_2: 0.95
+    level_3: 0.95
+    level_4: 0.95
+  documentation:
+    level_2: 0.80
+    level_3: 0.78
+    level_4: 0.80
+  design:
+    level_2: 0.85
+    level_3: 0.82
+    level_4: 0.85
+  math:
+    level_2: 0.92
+    level_3: 0.90
+    level_4: 0.92
+  infrastructure:
+    level_2: 0.90
+    level_3: 0.88
+    level_4: 0.90
+  qa_multihop:
+    level_2: 0.80
+    level_3: 0.78
+    level_4: 0.80
+  fullstack:
+    level_2: 0.88
+    level_3: 0.85
+    level_4: 0.88
+
+auto_level_policy:
+  description: "Determines how many gate levels to run based on complexity"
+  rules:
+    - condition: "complexity_score < 3"
+      max_level: 2
+    - condition: "complexity_score < 6"
+      max_level: 3
+    - condition: "complexity_score >= 6"
+      max_level: 4
+    - condition: "domain == security"
+      max_level: 4
+      override: true

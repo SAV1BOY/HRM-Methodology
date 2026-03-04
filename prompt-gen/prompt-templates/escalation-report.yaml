@@ -1,0 +1,94 @@
+# Escalation Report Template
+# Used when HRM needs to escalate to the user after exhausting backtracking loops
+
+template_id: escalation-report
+version: "1.0"
+description: "Template for HRM escalation to user when quality loops are exhausted"
+
+structure:
+  sections:
+    - id: report_header
+      required: true
+      template: |
+        === HRM DIAGNOSTIC REPORT ===
+        Task: {task_description}
+        Status: ESCALATION_REQUIRED
+        Loops Executed: {loops_used}/{max_loops}
+        Forge Tier: MICRO | Technique: output-format
+
+    - id: current_state
+      required: true
+      template: |
+        ## Current State
+        - Best score achieved: {best_score}/{threshold}
+        - Workstreams completed: {completed_count}/{total_count}
+        - Budget used: {budget_used}/{total_budget}
+
+    - id: root_cause
+      required: true
+      template: |
+        ## Root Cause Analysis
+        - Failed gate level: {failed_gate_level} ({gate_level_name})
+        - Problematic workstream: {problematic_workstream}
+        - Responsible agent: {responsible_agent}
+        - Credit score: {credit_score}
+
+        **Diagnosis**: {root_cause_diagnosis}
+        **Patterns detected**: {detected_patterns}
+
+    - id: attempt_history
+      required: true
+      template: |
+        ## Attempt History
+        {attempt_history_blocks}
+
+        Each attempt:
+        ```
+        Loop {N}: {action_taken}
+          Result: {result}
+          Score: {score}/{threshold}
+          Why it failed: {failure_reason}
+        ```
+
+    - id: options
+      required: true
+      template: |
+        ## Options for You
+        {options_list}
+
+        Standard options:
+        A) Simplify requirements — {simplify_suggestion}
+        B) Increase loop budget — Allow {extra_loops} more attempts (cost: ~{extra_cost})
+        C) Manual intervention — You handle {problematic_area} and I continue the rest
+        D) Accept partial result — Current quality: {best_score}/{threshold}
+
+    - id: recommendation
+      required: true
+      template: |
+        ## My Recommendation
+        {recommendation}
+
+variables:
+  task_description: "from execution_plan.task"
+  loops_used: "count of backtracking loops"
+  max_loops: "from hyperparameters.backtrack_limit"
+  best_score: "highest score achieved across all attempts"
+  threshold: "from domain_thresholds"
+  completed_count: "workstreams that passed"
+  total_count: "total workstreams"
+  budget_used: "from budget tracker"
+  total_budget: "from execution_plan.budget.total_estimated"
+  failed_gate_level: "1-4"
+  gate_level_name: "Syntax|Local|Global|Semantic"
+  problematic_workstream: "from credit assignment"
+  responsible_agent: "from credit assignment"
+  credit_score: "from credit assignment"
+  root_cause_diagnosis: "from Step 12 analysis"
+  detected_patterns: "repeated failure patterns"
+  attempt_history_blocks: "from backtracking log"
+  simplify_suggestion: "specific constraint to remove"
+  extra_loops: "recommended additional loops"
+  extra_cost: "estimated cost of extra loops"
+  problematic_area: "what the user would need to handle"
+  recommendation: "HRM's recommended option with reasoning"
+  forge_tier: "MICRO (always — escalation reports use output-format technique only)"

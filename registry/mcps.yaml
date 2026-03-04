@@ -1,0 +1,307 @@
+# MCPs Registry
+# MCP servers providing external integrations
+version: "1.0"
+last_updated: "2026-03-03"
+total: 27
+
+mcps:
+
+  # --- Productivity & Project Management ---
+
+  - id: notion
+    name: "Notion"
+    provider: "claude.ai"
+    capabilities: [search, fetch, create_pages, update_pages, create_database, comments]
+    domain_affinity: [DOCUMENTATION, PROJECT_MANAGEMENT]
+    use_cases:
+      - "Knowledge base management"
+      - "Project documentation"
+      - "Database creation and queries"
+    authentication: oauth
+
+  - id: asana
+    name: "Asana"
+    provider: "claude.ai"
+    capabilities: [get_tasks, update_tasks, create_tasks, search, projects, portfolios]
+    domain_affinity: [PROJECT_MANAGEMENT]
+    use_cases:
+      - "Task management"
+      - "Project tracking"
+      - "Team coordination"
+    authentication: oauth
+
+  - id: clickup
+    name: "ClickUp"
+    provider: "claude.ai"
+    capabilities: [search, create_task, update_task, comments, time_tracking, documents, chat]
+    domain_affinity: [PROJECT_MANAGEMENT]
+    use_cases:
+      - "Task and project management"
+      - "Time tracking"
+      - "Document collaboration"
+    authentication: oauth
+
+  - id: google-calendar
+    name: "Google Calendar"
+    provider: "claude.ai"
+    capabilities: [list_events, create_event, update_event, find_free_time, find_meeting_times]
+    domain_affinity: [SCHEDULING]
+    use_cases:
+      - "Meeting scheduling"
+      - "Calendar management"
+      - "Availability checking"
+    authentication: oauth
+
+  - id: gmail
+    name: "Gmail"
+    provider: "claude.ai"
+    capabilities: [search_messages, read_message, read_thread, create_draft]
+    domain_affinity: [COMMUNICATION]
+    use_cases:
+      - "Email search and reading"
+      - "Draft composition"
+      - "Thread analysis"
+    authentication: oauth
+
+  - id: slack
+    name: "Slack"
+    provider: "claude.ai"
+    capabilities: [send_message, search, read_channel, read_thread, create_canvas]
+    domain_affinity: [COMMUNICATION]
+    use_cases:
+      - "Team messaging"
+      - "Channel search"
+      - "Canvas creation"
+    authentication: oauth
+
+  # --- Development & Infrastructure ---
+
+  - id: vercel
+    name: "Vercel"
+    provider: "claude.ai"
+    capabilities: [deploy, list_projects, list_deployments, build_logs, runtime_logs]
+    domain_affinity: [WEB, REACT, DEPLOYMENT]
+    use_cases:
+      - "Web application deployment"
+      - "Build log analysis"
+      - "Project management"
+    authentication: oauth
+
+  - id: supabase
+    name: "Supabase"
+    provider: "claude.ai"
+    capabilities: [execute_sql, list_tables, apply_migration, deploy_edge_function, branches]
+    domain_affinity: [BACKEND, DATABASE]
+    use_cases:
+      - "Database management"
+      - "SQL execution"
+      - "Edge function deployment"
+      - "Migration management"
+    authentication: oauth
+
+  - id: cloudflare
+    name: "Cloudflare Developer Platform"
+    provider: "claude.ai"
+    capabilities: [workers, kv_namespaces, r2_buckets, d1_databases, hyperdrive]
+    domain_affinity: [BACKEND, INFRASTRUCTURE]
+    use_cases:
+      - "Edge computing (Workers)"
+      - "KV storage management"
+      - "R2 object storage"
+      - "D1 database operations"
+    authentication: oauth
+
+  # --- Design ---
+
+  - id: figma
+    name: "Figma"
+    provider: "claude.ai"
+    capabilities: [get_screenshot, get_design_context, get_metadata, generate_diagram, code_connect]
+    domain_affinity: [DESIGN, WEB, REACT]
+    use_cases:
+      - "Design-to-code conversion"
+      - "Design system analysis"
+      - "FigJam diagram creation"
+      - "Code Connect mapping"
+    authentication: oauth
+
+  - id: canva
+    name: "Canva"
+    provider: "claude.ai"
+    capabilities: [search_designs, create_design, export, edit, generate_design, brand_kits]
+    domain_affinity: [DESIGN, VISUAL]
+    use_cases:
+      - "Presentation creation"
+      - "Visual design generation"
+      - "Brand-consistent content"
+    authentication: oauth
+
+  # --- Content & Documents ---
+
+  - id: gamma
+    name: "Gamma"
+    provider: "claude.ai"
+    capabilities: [generate_presentation, get_themes, get_folders]
+    domain_affinity: [DOCUMENT, VISUAL]
+    use_cases:
+      - "AI-powered presentation creation"
+      - "Document generation"
+      - "Webpage creation"
+    authentication: oauth
+
+  - id: mermaid-chart
+    name: "Mermaid Chart"
+    provider: "claude.ai"
+    capabilities: [validate_and_render_mermaid_diagram]
+    domain_affinity: [DOCUMENTATION, VISUAL]
+    use_cases:
+      - "Diagram rendering"
+      - "Flowchart creation"
+      - "Architecture visualization"
+    authentication: none
+
+  # --- Research & Data ---
+
+  - id: context7
+    name: "Context7"
+    provider: "claude.ai"
+    capabilities: [resolve_library_id, query_docs]
+    domain_affinity: [RESEARCH, DEVELOPMENT]
+    use_cases:
+      - "Library documentation lookup"
+      - "Up-to-date API reference"
+      - "Code examples retrieval"
+    authentication: none
+
+  - id: consensus
+    name: "Consensus"
+    provider: "claude.ai"
+    capabilities: [search_academic_papers]
+    domain_affinity: [RESEARCH]
+    use_cases:
+      - "Academic paper search"
+      - "Evidence-based research"
+      - "Scientific literature review"
+    authentication: none
+
+  - id: hugging-face
+    name: "Hugging Face"
+    provider: "claude.ai"
+    capabilities: [space_search, repo_search, paper_search, doc_search, dynamic_space]
+    domain_affinity: [ML, RESEARCH]
+    use_cases:
+      - "Model discovery"
+      - "ML paper search"
+      - "Documentation lookup"
+      - "Space exploration"
+    authentication: oauth
+
+  - id: mt-newswires
+    name: "MT Newswires"
+    provider: "claude.ai"
+    capabilities: [search, fetch, rules]
+    domain_affinity: [FINANCE, DATA]
+    use_cases:
+      - "Financial data access"
+      - "News search"
+      - "Market data retrieval"
+    authentication: api_key
+
+  # --- Blockchain ---
+
+  - id: blockscout
+    name: "Blockscout"
+    provider: "claude.ai"
+    capabilities: [get_block, get_transactions, get_tokens, get_contract, read_contract]
+    domain_affinity: [BLOCKCHAIN]
+    use_cases:
+      - "Blockchain exploration"
+      - "Smart contract analysis"
+      - "Transaction history"
+      - "Portfolio analysis"
+    authentication: none
+
+  - id: crypto-com
+    name: "Crypto.com"
+    provider: "claude.ai"
+    capabilities: [get_tickers, get_trades, get_book, get_candlestick, get_instruments]
+    domain_affinity: [BLOCKCHAIN, FINANCE]
+    use_cases:
+      - "Crypto market data"
+      - "Price tracking"
+      - "Order book analysis"
+    authentication: none
+
+  # --- URL & Links ---
+
+  - id: bitly
+    name: "Bitly"
+    provider: "claude.ai"
+    capabilities: [create_short_link, link_metrics, qr_codes, bulk_upload, analytics]
+    domain_affinity: [MARKETING, ANALYTICS]
+    use_cases:
+      - "URL shortening"
+      - "QR code creation"
+      - "Link analytics"
+      - "Campaign tracking"
+    authentication: oauth
+
+  # --- Automation ---
+
+  - id: make
+    name: "Make (Integromat)"
+    provider: "claude.ai"
+    capabilities: [scenarios, data_stores, hooks, organizations, teams, tools]
+    domain_affinity: [AUTOMATION, INTEGRATION]
+    use_cases:
+      - "Workflow automation"
+      - "Integration scenarios"
+      - "Data store management"
+      - "Webhook configuration"
+    authentication: oauth
+
+  # --- Website Building ---
+
+  - id: wix
+    name: "Wix"
+    provider: "claude.ai"
+    capabilities: [search_docs, manage_site, call_site_api, list_sites]
+    domain_affinity: [WEB]
+    use_cases:
+      - "Website management"
+      - "Wix API integration"
+      - "Documentation search"
+    authentication: oauth
+
+  # --- Media ---
+
+  - id: play-sheet-music
+    name: "Play Sheet Music"
+    provider: "claude.ai"
+    capabilities: [play_sheet_music]
+    domain_affinity: [MUSIC, CREATIVE]
+    use_cases:
+      - "Sheet music playback"
+      - "Musical notation rendering"
+    authentication: none
+
+  - id: threejs-viewer
+    name: "Three.js 3D Viewer"
+    provider: "claude.ai"
+    capabilities: [show_threejs_scene, learn_threejs]
+    domain_affinity: [3D, VISUAL, WEB]
+    use_cases:
+      - "3D scene rendering"
+      - "Three.js learning"
+      - "3D visualization"
+    authentication: none
+
+  - id: pdf-viewer
+    name: "PDF Viewer"
+    provider: "claude.ai"
+    capabilities: [list_pdfs, read_pdf, display_pdf]
+    domain_affinity: [DOCUMENT]
+    use_cases:
+      - "PDF reading and display"
+      - "Document viewing"
+    authentication: none

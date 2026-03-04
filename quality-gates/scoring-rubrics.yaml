@@ -1,0 +1,148 @@
+# Scoring Rubrics
+# Bloom-level-specific verification rubrics for quality gate assessment
+version: "1.0"
+last_updated: "2026-03-03"
+
+rubrics:
+
+  - bloom_level: 1
+    name: "Remember"
+    type: factual_check
+    threshold: 1.0  # ALL must be true
+    checks:
+      - id: exact_match
+        description: "Response contains exact requested information"
+        weight: 0.40
+        scoring: "binary — correct or not"
+      - id: contains_key_facts
+        description: "All key facts from source material are present"
+        weight: 0.35
+        scoring: "count(present_facts) / count(required_facts)"
+      - id: no_contradictions
+        description: "No statements contradict source material"
+        weight: 0.25
+        scoring: "binary — any contradiction = fail"
+
+  - bloom_level: 2
+    name: "Understand"
+    type: coherence_check
+    threshold: 0.75
+    checks:
+      - id: main_idea_present
+        description: "Main idea / concept is correctly identified"
+        weight: 0.30
+        scoring: "0 (absent) | 0.5 (partial) | 1.0 (complete)"
+      - id: supporting_details
+        description: "At least 2 supporting details provided"
+        weight: 0.25
+        scoring: "min(count(details), 3) / 3"
+      - id: logical_flow
+        description: "Explanation follows logical progression"
+        weight: 0.25
+        scoring: "0 (incoherent) | 0.5 (mostly logical) | 1.0 (clear flow)"
+      - id: accurate_interpretation
+        description: "Interpretation is accurate, not distorted"
+        weight: 0.20
+        scoring: "0 (wrong) | 0.5 (partially correct) | 1.0 (accurate)"
+
+  - bloom_level: 3
+    name: "Apply"
+    type: execution_validation
+    threshold: 0.90
+    checks:
+      - id: pass_rate
+        description: "Percentage of test cases that pass"
+        weight: 0.50
+        scoring: "count(passed) / count(total_tests)"
+      - id: edge_cases_handled
+        description: "Edge cases are properly handled"
+        weight: 0.25
+        scoring: "count(handled_edges) / count(known_edges)"
+      - id: correct_approach
+        description: "Solution uses appropriate method/algorithm"
+        weight: 0.15
+        scoring: "0 (wrong approach) | 0.5 (suboptimal) | 1.0 (correct)"
+      - id: failed_cases_identified
+        description: "Any failures are clearly identified with cause"
+        weight: 0.10
+        scoring: "binary — if failures exist, are they documented?"
+
+  - bloom_level: 4
+    name: "Analyze"
+    type: structural_validation
+    threshold: 0.80
+    checks:
+      - id: components_identified
+        description: "At least 3 components/parts correctly identified"
+        weight: 0.25
+        scoring: "min(count(components), 5) / 5"
+      - id: relationships_clear
+        description: "At least 2 relationships between parts are explicit"
+        weight: 0.25
+        scoring: "min(count(relationships), 4) / 4"
+      - id: structure_coherent
+        description: "Overall analysis structure is coherent and well-organized"
+        weight: 0.25
+        scoring: "0 (disorganized) | 0.5 (mostly coherent) | 1.0 (clear structure)"
+      - id: evidence_based
+        description: "Claims are supported by evidence from the analysis"
+        weight: 0.25
+        scoring: "count(supported_claims) / count(total_claims)"
+
+  - bloom_level: 5
+    name: "Evaluate"
+    type: criteria_based_validation
+    threshold: 0.85
+    checks:
+      - id: criteria_explicit
+        description: "At least 2 evaluation criteria are explicitly stated"
+        weight: 0.25
+        scoring: "min(count(criteria), 4) / 4"
+      - id: judgments_justified
+        description: "Each judgment is backed by reasoning"
+        weight: 0.30
+        scoring: "count(justified) / count(total_judgments)"
+      - id: balanced_perspective
+        description: "Multiple viewpoints considered, not one-sided"
+        weight: 0.20
+        scoring: "0 (one-sided) | 0.5 (mostly one side) | 1.0 (balanced)"
+      - id: internal_consistency
+        description: "Evaluations don't contradict each other"
+        weight: 0.25
+        scoring: "binary — any contradiction = 0"
+
+  - bloom_level: 6
+    name: "Create"
+    type: novelty_and_coherence
+    threshold: 0.75
+    checks:
+      - id: originality
+        description: "Solution has novel elements, not just copying"
+        weight: 0.25
+        scoring: "0 (copy) | 0.3 (minor variation) | 0.7 (adapted) | 1.0 (novel)"
+      - id: coherence
+        description: "Created artifact is internally consistent"
+        weight: 0.25
+        scoring: "0 (inconsistent) | 0.5 (mostly coherent) | 1.0 (fully coherent)"
+      - id: completeness
+        description: "All required parts of the creation are present"
+        weight: 0.25
+        scoring: "count(present_parts) / count(required_parts)"
+      - id: feasibility
+        description: "Created solution is implementable/usable"
+        weight: 0.15
+        scoring: "0 (impossible) | 0.5 (needs work) | 1.0 (ready to use)"
+      - id: novel_elements
+        description: "At least 1 genuinely novel element"
+        weight: 0.10
+        scoring: "binary — has at least 1 novel element"
+
+aggregate_scoring:
+  method: "weighted_average"
+  formula: "sum(check.weight * check.score) for all checks in rubric"
+  pass: "aggregate >= rubric.threshold"
+  output_format:
+    score: "float (0.0-1.0)"
+    passed: "boolean"
+    failed_checks: "list of check IDs that scored below 0.5"
+    details: "per-check scores"

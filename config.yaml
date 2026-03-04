@@ -1,0 +1,113 @@
+# Squad HRM Configuration
+# Central config for the HRM orchestrator system
+
+version: "2.0"
+last_updated: "2026-03-04"
+
+squad:
+  name: "Squad HRM"
+  description: "Universal orchestration system for all user requests"
+  role: "Supreme Squad Chief + Prompt Engineering Knowledge Base"
+  chief: "hrm-architect"
+
+paths:
+  base: "SQUADS/Squad HRM"
+  registry: "registry/"
+  prompt_gen: "prompt-gen/"
+  quality_gates: "quality-gates/"
+  execution: "execution/"
+  integrations: "integrations/"
+  techniques: "techniques/"
+  templates: "templates/"
+  playbooks: "playbooks/"
+  checklists: "checklists/"
+  references: "references/"
+  hrm_agent: "hrm-agent/"
+  skill_md: "../../../hrm-architect/SKILL.md"
+  examples: "examples/"
+  orchestration_guide: "orchestration-guide.md"
+
+counts:
+  techniques: 75
+  technique_categories: 13
+  playbooks: 7
+  checklists: 5
+  skills_registered: 44
+  agents_registered: 103
+  agent_frameworks: 14
+  squads_registered: 2
+  mcps_registered: 27
+
+architecture:
+  triage_modes:
+    - id: TRIAGE
+      condition: "complexity_score < 3.0"
+      steps: [0]
+      supervisor_active: false
+    - id: FULL_LIGHT
+      condition: "complexity_score >= 3.0 and < 5.0"
+      steps: [0, 1, 2, 3, 4, 5, 9]
+      supervisor_active: "depends_on_uncertainty"
+    - id: FULL
+      condition: "complexity_score >= 5.0"
+      steps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      supervisor_active: true
+
+  execution_modes:
+    - id: single
+      condition: "1 subtask, Bloom 1-2, score < 3"
+      skill_target: "agent-router"
+    - id: parallel
+      condition: "2+ independent subtasks, no peer comm"
+      skill_target: "dispatching-parallel-agents"
+    - id: swarm
+      condition: "3+ subtasks, sequential dependencies"
+      skill_target: "swarm-orchestrator"
+    - id: agent_teams
+      condition: "2-5 workstreams, peer comm, 40+ tool calls"
+      skill_target: "agent-teams-protocol"
+    - id: squad_delegation
+      condition: "workstream maps to specialized squad domain"
+      skill_target: "squad chief (via delegation protocol)"
+
+  quality_gate_levels:
+    - syntax
+    - local
+    - global
+    - semantic
+
+domain_thresholds:
+  code: 0.88
+  security: 0.95
+  documentation: 0.80
+  design: 0.85
+  math: 0.92
+  infrastructure: 0.90
+  qa_multihop: 0.80
+  fullstack: 0.88
+
+prompt_forge:
+  version: "1.0"
+  tiers:
+    MICRO:
+      max_techniques: 2
+      validation: none
+      source: "prompt-gen/technique-index.yaml"
+    QUICK:
+      max_techniques: 5
+      validation: lightweight
+      source: "prompt-gen/technique-mapper.md"
+    FULL:
+      max_techniques: 7
+      validation: full
+      source: "prompt-gen/prompt-generator.md"
+  files:
+    forge_algorithm: "prompt-gen/prompt-forge.md"
+    technique_index: "prompt-gen/technique-index.yaml"
+    dispatch_profiles: "prompt-gen/dispatch-profiles.yaml"
+    technique_mapper: "prompt-gen/technique-mapper.md"
+    prompt_generator: "prompt-gen/prompt-generator.md"
+  scaling_matrix:
+    TRIAGE: { task: MICRO }
+    FULL_LIGHT: { task: QUICK, subtask: MICRO, mini_task: MICRO }
+    FULL: { task: FULL, subtask: QUICK, mini_task: MICRO }

@@ -1,0 +1,242 @@
+# Frameworks Registry
+# Agent frameworks with philosophies, strengths, and selection criteria
+version: "1.0"
+last_updated: "2026-03-03"
+total: 14
+
+frameworks:
+
+  - id: wshobson
+    name: "wshobson Claude Code Plugins"
+    philosophy: "Specialized expert agents for specific software engineering domains"
+    agent_count: 12
+    strengths:
+      - "Deep domain expertise per agent"
+      - "Code architecture and review"
+      - "Database and API design"
+      - "Performance optimization"
+      - "Security analysis"
+    when_to_use:
+      - "Need a specialist for a specific domain (frontend, backend, security, etc.)"
+      - "Code review with multi-dimensional analysis"
+      - "Database schema design or query optimization"
+      - "Migration planning"
+    when_to_avoid:
+      - "Simple tasks that don't need specialization"
+      - "Multi-agent coordination (no built-in orchestration)"
+
+  - id: ruvnet
+    name: "Claude Flow V3 (SONA Architecture)"
+    philosophy: "Self-Optimizing Neural Architecture with memory and reasoning tracking"
+    agent_count: 8
+    strengths:
+      - "Memory management with vector search (AgentDB)"
+      - "Advanced reasoning with trajectory tracking"
+      - "MCP server integration and bridging"
+      - "Performance monitoring"
+      - "Security boundary enforcement"
+    when_to_use:
+      - "Need persistent memory across agent sessions"
+      - "Complex reasoning requiring trajectory tracking"
+      - "MCP integration tasks"
+      - "Performance-critical workflows"
+    when_to_avoid:
+      - "Simple one-shot tasks"
+      - "When memory overhead is unnecessary"
+
+  - id: voltAgent
+    name: "VoltAgent Awesome Subagents"
+    philosophy: "Technology-specific experts for infrastructure and language specialization"
+    agent_count: 12
+    strengths:
+      - "Deep language expertise (Python, Rust, Go, TypeScript)"
+      - "Cloud infrastructure (AWS, Docker, Kubernetes, Terraform)"
+      - "Data pipeline design"
+      - "Accessibility and i18n"
+      - "ML engineering"
+    when_to_use:
+      - "Language-specific optimization needed"
+      - "Cloud infrastructure design"
+      - "Containerization and orchestration"
+      - "ML model deployment"
+    when_to_avoid:
+      - "Language-agnostic tasks"
+      - "Frontend-heavy work (better use wshobson-frontend)"
+
+  - id: zhsama
+    name: "Spec Workflow System"
+    philosophy: "Specification-driven development with full lifecycle coverage"
+    agent_count: 8
+    strengths:
+      - "Complete SDLC coverage (analyst -> architect -> developer -> tester -> reviewer -> validator)"
+      - "Spec-based validation"
+      - "Structured orchestration"
+    when_to_use:
+      - "Spec-driven development projects"
+      - "Need formal validation against requirements"
+      - "Full lifecycle management needed"
+    when_to_avoid:
+      - "Rapid prototyping"
+      - "Creative/exploratory tasks"
+
+  - id: avivl
+    name: "Claude 007 Advanced Agent System"
+    philosophy: "Exponential planning, safety-first validation, and learning intelligence"
+    agent_count: 8
+    strengths:
+      - "Exponential task planning"
+      - "Safety-first validation"
+      - "Self-learning and pattern recognition"
+      - "Parallel task execution"
+      - "Personality-driven agents"
+    when_to_use:
+      - "Complex tasks requiring exponential decomposition"
+      - "Safety-critical applications"
+      - "Tasks that benefit from learning across iterations"
+    when_to_avoid:
+      - "Simple linear tasks"
+      - "When personality/creativity overhead is unnecessary"
+
+  - id: synkra
+    name: "SynkraAI AIOS Framework"
+    philosophy: "Full product team simulation with Scrum methodology"
+    agent_count: 12
+    strengths:
+      - "Complete product team (PM, PO, SM, Dev, QA, UX, Architect, Analyst, DevOps, Data)"
+      - "Scrum-based task orchestration"
+      - "Story-driven implementation"
+      - "Squad creation and composition"
+    when_to_use:
+      - "Product development requiring full team roles"
+      - "Scrum-style project management"
+      - "When distinct product roles are needed"
+    when_to_avoid:
+      - "Small technical tasks"
+      - "When team overhead exceeds benefit"
+
+  - id: ralph
+    name: "Ralph Autonomous Development Loop"
+    philosophy: "Autonomous development with intelligent exit detection and circuit breaker"
+    agent_count: 1
+    strengths:
+      - "Autonomous loop execution"
+      - "Intelligent exit detection"
+      - "Circuit breaker for infinite loops"
+    when_to_use:
+      - "Tasks requiring autonomous iteration until completion"
+      - "When manual intervention should be minimized"
+    when_to_avoid:
+      - "Tasks requiring frequent human input"
+      - "Exploratory tasks with unclear endpoints"
+
+  - id: ccw
+    name: "Claude Code Workflow (CCW)"
+    philosophy: "JSON-driven workflow execution with semantic CLI and monitoring"
+    agent_count: 4
+    strengths:
+      - "JSON-driven workflow execution"
+      - "Issue decomposition and planning"
+      - "Real-time monitoring dashboards"
+      - "Semantic command-line orchestration"
+    when_to_use:
+      - "Workflow automation from JSON definitions"
+      - "Issue-to-implementation pipelines"
+      - "Need real-time monitoring of agent work"
+    when_to_avoid:
+      - "Ad-hoc tasks without workflow definitions"
+
+  - id: ab-method
+    name: "AB Method"
+    philosophy: "Incremental mission management with focused task execution"
+    agent_count: 1
+    strengths:
+      - "Incremental task management"
+      - "Focused execution of discrete missions"
+    when_to_use:
+      - "Sequential task execution with clear milestones"
+      - "Mission-based project management"
+    when_to_avoid:
+      - "Parallel workstreams"
+      - "Complex multi-agent coordination"
+
+  - id: compound
+    name: "Compound Engineering"
+    philosophy: "Identifying and applying compounding improvements across codebases"
+    agent_count: 5
+    strengths:
+      - "Compound improvement identification"
+      - "Strategic planning for compounding effects"
+      - "Code review ensuring compound benefits"
+      - "Pattern detection across codebase"
+    when_to_use:
+      - "Codebase-wide improvements"
+      - "Refactoring with compound benefits"
+      - "Technical debt reduction with strategic planning"
+    when_to_avoid:
+      - "Single-file changes"
+      - "New feature development"
+
+  - id: ccswarm
+    name: "ccswarm (Rust-Native)"
+    philosophy: "Rust-native swarm with git worktree isolation and collective intelligence"
+    agent_count: 5
+    strengths:
+      - "Git worktree isolation per agent"
+      - "Native PTY sessions"
+      - "Queen agent for collective intelligence"
+      - "Quality Judge system"
+    when_to_use:
+      - "Need physical file isolation between agents"
+      - "Rust/systems programming tasks"
+      - "When git worktree isolation prevents conflicts"
+    when_to_avoid:
+      - "Simple tasks not needing isolation"
+      - "Non-code tasks"
+
+  - id: contextkit
+    name: "ContextKit"
+    philosophy: "Context-driven development with quality validation"
+    agent_count: 3
+    strengths:
+      - "Context-aware feature development"
+      - "Project initialization with scope definition"
+      - "Quality validation with context-driven checks"
+    when_to_use:
+      - "Feature development needing strong context awareness"
+      - "Project bootstrapping"
+      - "Quality validation"
+    when_to_avoid:
+      - "Well-established projects with existing patterns"
+
+  - id: ccpm
+    name: "Claude Code PM (CCPM)"
+    philosophy: "Product management from PRD to production with GitHub integration"
+    agent_count: 5
+    strengths:
+      - "PRD generation"
+      - "Epic planning and task decomposition"
+      - "Parallel task execution and monitoring"
+      - "GitHub issue synchronization"
+    when_to_use:
+      - "Product management workflows"
+      - "PRD-driven development"
+      - "GitHub-integrated project tracking"
+    when_to_avoid:
+      - "Technical tasks without PM context"
+      - "Non-GitHub workflows"
+
+  - id: builtin
+    name: "Built-in Agents"
+    philosophy: "Core Claude Code agents for general-purpose and specialized tasks"
+    agent_count: 10
+    strengths:
+      - "General-purpose agent with all tools"
+      - "Fast exploration agent"
+      - "Plan mode for architecture"
+      - "Specialized: backend, security, git, tech debt, model eval"
+    when_to_use:
+      - "Default choice when no framework specialist is better"
+      - "Quick exploration and research"
+      - "Architecture planning"
+    when_to_avoid:
+      - "When a framework specialist exists for the domain"

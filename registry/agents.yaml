@@ -1,0 +1,1108 @@
+# Agents Registry
+# Complete catalog of all 103 agents across 14 frameworks
+version: "1.0"
+last_updated: "2026-03-03"
+total: 103
+frameworks_count: 14
+
+agents:
+
+  # ============================================================
+  # Framework 01 - wshobson Claude Code Plugins (11 agents)
+  # ============================================================
+
+  - id: "01-wshobson-code-architect"
+    name: "Code Architect"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-code-architect"
+    capabilities: ["feature architecture", "system design", "context-aware analysis", "technical planning"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "01-wshobson-code-reviewer-pro"
+    name: "Code Reviewer Pro"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-code-reviewer-pro"
+    capabilities: ["code review", "quality assessment", "best practices enforcement", "PR review"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "01-wshobson-api-designer"
+    name: "API Designer"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-api-designer"
+    capabilities: ["REST API design", "GraphQL design", "OpenAPI spec", "endpoint modeling"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect, L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "01-wshobson-database-architect"
+    name: "Database Architect"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-database-architect"
+    capabilities: ["schema design", "query optimization", "migration planning", "data modeling"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "01-wshobson-devops-engineer"
+    name: "DevOps Engineer"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-devops-engineer"
+    capabilities: ["CI/CD pipelines", "infrastructure as code", "deployment automation", "container orchestration"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "01-wshobson-documentation-writer"
+    name: "Documentation Writer"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-documentation-writer"
+    capabilities: ["technical writing", "API docs", "README generation", "inline documentation"]
+    tools_available: [Read, Write, Edit, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Writer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "01-wshobson-frontend-specialist"
+    name: "Frontend Specialist"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-frontend-specialist"
+    capabilities: ["UI implementation", "component development", "CSS styling", "responsive design"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: medium
+
+  - id: "01-wshobson-migration-specialist"
+    name: "Migration Specialist"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-migration-specialist"
+    capabilities: ["codebase migration", "framework upgrades", "data migration", "legacy modernization"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder, L-Architect]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: high
+
+  - id: "01-wshobson-performance-optimizer"
+    name: "Performance Optimizer"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-performance-optimizer"
+    capabilities: ["profiling", "bottleneck analysis", "optimization strategies", "benchmarking"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Reviewer, L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "01-wshobson-refactoring-expert"
+    name: "Refactoring Expert"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-refactoring-expert"
+    capabilities: ["code refactoring", "design pattern application", "technical debt reduction", "clean code"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep]
+    archetype_mapping: [L-Builder, L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "01-wshobson-security-analyst"
+    name: "Security Analyst"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-security-analyst"
+    capabilities: ["vulnerability scanning", "security audit", "OWASP compliance", "threat modeling"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch, WebFetch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  - id: "01-wshobson-test-strategist"
+    name: "Test Strategist"
+    framework: "wshobson"
+    subagent_type: "01-wshobson-test-strategist"
+    capabilities: ["test planning", "unit testing", "integration testing", "test coverage analysis"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Tester]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 02 - ruvnet Claude Flow V3 SONA (8 agents)
+  # ============================================================
+
+  - id: "02-ruvnet-sona-orchestrator"
+    name: "SONA Orchestrator"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-sona-orchestrator"
+    capabilities: ["multi-agent orchestration", "workflow coordination", "task delegation", "convergence monitoring"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: high
+
+  - id: "02-ruvnet-flow-executor"
+    name: "Flow Executor"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-flow-executor"
+    capabilities: ["task execution", "sequential workflow", "parallel execution", "state management"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  - id: "02-ruvnet-mcp-bridge"
+    name: "MCP Bridge"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-mcp-bridge"
+    capabilities: ["MCP protocol", "tool integration", "external service bridging", "LLM tool servers"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [AGENT, BACKEND]
+    cost_tier: medium
+
+  - id: "02-ruvnet-memory-agent"
+    name: "Memory Agent"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-memory-agent"
+    capabilities: ["context persistence", "memory management", "session continuity", "knowledge retrieval"]
+    tools_available: [Read, Write, Edit, Glob, Grep, Bash]
+    archetype_mapping: [L-Specialist]
+    domain_affinity: [AGENT]
+    cost_tier: low
+
+  - id: "02-ruvnet-performance-monitor"
+    name: "Performance Monitor"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-performance-monitor"
+    capabilities: ["system monitoring", "performance metrics", "bottleneck detection", "alerting"]
+    tools_available: [Read, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [BACKEND]
+    cost_tier: low
+
+  - id: "02-ruvnet-reasoning-agent"
+    name: "Reasoning Agent"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-reasoning-agent"
+    capabilities: ["logical reasoning", "problem decomposition", "decision making", "chain-of-thought"]
+    tools_available: [Read, Write, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: medium
+
+  - id: "02-ruvnet-security-guard"
+    name: "Security Guard"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-security-guard"
+    capabilities: ["access control", "input validation", "security policy enforcement", "threat detection"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [BACKEND, AGENT]
+    cost_tier: low
+
+  - id: "02-ruvnet-swarm-coordinator"
+    name: "Swarm Coordinator"
+    framework: "ruvnet"
+    subagent_type: "02-ruvnet-swarm-coordinator"
+    capabilities: ["swarm management", "agent spawning", "parallel coordination", "result aggregation"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: high
+
+  # ============================================================
+  # Framework 03 - VoltAgent Awesome Subagents (12 agents)
+  # ============================================================
+
+  - id: "03-voltAgent-accessibility-expert"
+    name: "Accessibility Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-accessibility-expert"
+    capabilities: ["WCAG compliance", "a11y auditing", "screen reader support", "accessibility fixes"]
+    tools_available: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Reviewer, L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: low
+
+  - id: "03-voltAgent-aws-architect"
+    name: "AWS Architect"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-aws-architect"
+    capabilities: ["AWS services design", "cloud architecture", "serverless patterns", "cost optimization"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: high
+
+  - id: "03-voltAgent-data-pipeline"
+    name: "Data Pipeline Engineer"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-data-pipeline"
+    capabilities: ["ETL pipelines", "data streaming", "batch processing", "data transformation"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "03-voltAgent-docker-specialist"
+    name: "Docker Specialist"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-docker-specialist"
+    capabilities: ["containerization", "Dockerfile optimization", "docker-compose", "image management"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: low
+
+  - id: "03-voltAgent-go-expert"
+    name: "Go Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-go-expert"
+    capabilities: ["Go development", "concurrency patterns", "Go modules", "performance tuning"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "03-voltAgent-i18n-specialist"
+    name: "i18n Specialist"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-i18n-specialist"
+    capabilities: ["internationalization", "localization", "translation management", "locale configuration"]
+    tools_available: [Read, Write, Edit, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: low
+
+  - id: "03-voltAgent-kubernetes-operator"
+    name: "Kubernetes Operator"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-kubernetes-operator"
+    capabilities: ["K8s cluster management", "Helm charts", "pod orchestration", "service mesh"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: high
+
+  - id: "03-voltAgent-ml-engineer"
+    name: "ML Engineer"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-ml-engineer"
+    capabilities: ["ML model development", "training pipelines", "model evaluation", "feature engineering"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Analyst]
+    domain_affinity: [BACKEND]
+    cost_tier: high
+
+  - id: "03-voltAgent-python-expert"
+    name: "Python Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-python-expert"
+    capabilities: ["Python development", "async programming", "package management", "Python best practices"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "03-voltAgent-rust-expert"
+    name: "Rust Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-rust-expert"
+    capabilities: ["Rust development", "memory safety", "ownership patterns", "performance optimization"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "03-voltAgent-terraform-expert"
+    name: "Terraform Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-terraform-expert"
+    capabilities: ["IaC with Terraform", "resource provisioning", "state management", "module development"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "03-voltAgent-typescript-expert"
+    name: "TypeScript Expert"
+    framework: "voltAgent"
+    subagent_type: "03-voltAgent-typescript-expert"
+    capabilities: ["TypeScript development", "type system design", "generics", "strict mode compliance"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 04 - zhsama Spec Workflow (8 agents)
+  # ============================================================
+
+  - id: "04-zhsama-analyst"
+    name: "Analyst"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-analyst"
+    capabilities: ["requirements analysis", "stakeholder interviews", "gap analysis", "use case definition"]
+    tools_available: [Read, Write, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "04-zhsama-architect"
+    name: "Architect"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-architect"
+    capabilities: ["system architecture", "technical design", "component design", "architectural patterns"]
+    tools_available: [Read, Write, Edit, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "04-zhsama-developer"
+    name: "Developer"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-developer"
+    capabilities: ["feature implementation", "code writing", "bug fixing", "spec adherence"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "04-zhsama-orchestrator"
+    name: "Orchestrator"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-orchestrator"
+    capabilities: ["workflow orchestration", "spec-driven coordination", "phase management", "agent delegation"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: high
+
+  - id: "04-zhsama-planner"
+    name: "Planner"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-planner"
+    capabilities: ["project planning", "sprint planning", "task breakdown", "timeline estimation"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "04-zhsama-reviewer"
+    name: "Reviewer"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-reviewer"
+    capabilities: ["spec review", "code review", "design review", "quality assessment"]
+    tools_available: [Read, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "04-zhsama-tester"
+    name: "Tester"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-tester"
+    capabilities: ["test writing", "test execution", "test coverage", "regression testing"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep]
+    archetype_mapping: [L-Tester]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "04-zhsama-validator"
+    name: "Validator"
+    framework: "zhsama"
+    subagent_type: "04-zhsama-validator"
+    capabilities: ["spec validation", "output validation", "acceptance criteria verification", "compliance checking"]
+    tools_available: [Read, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  # ============================================================
+  # Framework 05 - avivl Claude 007 (8 agents)
+  # ============================================================
+
+  - id: "05-avivl-auto-choreographer"
+    name: "Auto Choreographer"
+    framework: "avivl"
+    subagent_type: "05-avivl-auto-choreographer"
+    capabilities: ["workflow choreography", "agent coordination", "automatic task sequencing", "dependency resolution"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: high
+
+  - id: "05-avivl-exponential-planner"
+    name: "Exponential Planner"
+    framework: "avivl"
+    subagent_type: "05-avivl-exponential-planner"
+    capabilities: ["strategic planning", "exponential thinking", "long-horizon planning", "scenario modeling"]
+    tools_available: [Read, Write, Glob, WebSearch, WebFetch]
+    archetype_mapping: [L-Planner, L-Analyst]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  - id: "05-avivl-learning-intelligence"
+    name: "Learning Intelligence"
+    framework: "avivl"
+    subagent_type: "05-avivl-learning-intelligence"
+    capabilities: ["adaptive learning", "pattern recognition", "knowledge acquisition", "feedback integration"]
+    tools_available: [Read, Write, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [AGENT]
+    cost_tier: medium
+
+  - id: "05-avivl-parallel-executor"
+    name: "Parallel Executor"
+    framework: "avivl"
+    subagent_type: "05-avivl-parallel-executor"
+    capabilities: ["parallel task execution", "concurrent processing", "workload distribution", "synchronization"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent]
+    archetype_mapping: [L-Builder, L-Orchestrator]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  - id: "05-avivl-personality-engine"
+    name: "Personality Engine"
+    framework: "avivl"
+    subagent_type: "05-avivl-personality-engine"
+    capabilities: ["persona management", "tone adaptation", "communication style tuning", "user modeling"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Specialist]
+    domain_affinity: [WEB, AGENT]
+    cost_tier: low
+
+  - id: "05-avivl-safety-validator"
+    name: "Safety Validator"
+    framework: "avivl"
+    subagent_type: "05-avivl-safety-validator"
+    capabilities: ["safety checks", "output validation", "constraint enforcement", "risk assessment"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: low
+
+  - id: "05-avivl-vibe-coder"
+    name: "Vibe Coder"
+    framework: "avivl"
+    subagent_type: "05-avivl-vibe-coder"
+    capabilities: ["rapid prototyping", "creative coding", "experimental features", "quick iterations"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: medium
+
+  - id: "05-avivl-workflow-coordinator"
+    name: "Workflow Coordinator"
+    framework: "avivl"
+    subagent_type: "05-avivl-workflow-coordinator"
+    capabilities: ["workflow management", "cross-agent coordination", "phase transitions", "status tracking"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 06 - SynkraAI AIOS (12 agents)
+  # ============================================================
+
+  - id: "06-synkra-aios-analyst"
+    name: "AIOS Analyst"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-analyst"
+    capabilities: ["requirements gathering", "business analysis", "data analysis", "insight generation"]
+    tools_available: [Read, Write, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: low
+
+  - id: "06-synkra-aios-architect"
+    name: "AIOS Architect"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-architect"
+    capabilities: ["enterprise architecture", "system design", "solution architecture", "technical strategy"]
+    tools_available: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: high
+
+  - id: "06-synkra-aios-data-engineer"
+    name: "AIOS Data Engineer"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-data-engineer"
+    capabilities: ["data modeling", "ETL design", "data warehouse", "pipeline architecture"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder, L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "06-synkra-aios-dev"
+    name: "AIOS Developer"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-dev"
+    capabilities: ["full-stack development", "feature implementation", "code quality", "technical execution"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "06-synkra-aios-devops"
+    name: "AIOS DevOps"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-devops"
+    capabilities: ["CI/CD", "infrastructure management", "deployment pipelines", "monitoring setup"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "06-synkra-aios-master"
+    name: "AIOS Master"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-master"
+    capabilities: ["master orchestration", "squad management", "strategic oversight", "quality governance"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, REACT, AGENT]
+    cost_tier: high
+
+  - id: "06-synkra-aios-pm"
+    name: "AIOS Project Manager"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-pm"
+    capabilities: ["project management", "roadmap planning", "risk management", "stakeholder communication"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: low
+
+  - id: "06-synkra-aios-po"
+    name: "AIOS Product Owner"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-po"
+    capabilities: ["product ownership", "backlog management", "acceptance criteria", "user story writing"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Planner, L-Analyst]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: low
+
+  - id: "06-synkra-aios-qa"
+    name: "AIOS QA"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-qa"
+    capabilities: ["quality assurance", "test planning", "defect tracking", "test automation"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Tester]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "06-synkra-aios-sm"
+    name: "AIOS Scrum Master"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-sm"
+    capabilities: ["scrum facilitation", "sprint planning", "impediment removal", "agile coaching"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: low
+
+  - id: "06-synkra-aios-squad-creator"
+    name: "AIOS Squad Creator"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-squad-creator"
+    capabilities: ["squad composition", "team formation", "role assignment", "capability mapping"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Agent, WebSearch]
+    archetype_mapping: [L-Orchestrator, L-Planner]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: medium
+
+  - id: "06-synkra-aios-ux"
+    name: "AIOS UX Designer"
+    framework: "synkra"
+    subagent_type: "06-synkra-aios-ux"
+    capabilities: ["UX design", "user research", "wireframing", "usability testing"]
+    tools_available: [Read, Write, Edit, Glob, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Analyst]
+    domain_affinity: [WEB, REACT]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 07 - Ralph Autonomous (1 agent)
+  # ============================================================
+
+  - id: "07-ralph-ralph"
+    name: "Ralph"
+    framework: "ralph"
+    subagent_type: "07-ralph-ralph"
+    capabilities: ["autonomous task execution", "self-directed problem solving", "adaptive reasoning", "end-to-end delivery"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator, L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT, AGENT]
+    cost_tier: high
+
+  # ============================================================
+  # Framework 08 - CCW Claude Code Workflow (4 agents)
+  # ============================================================
+
+  - id: "08-ccw-codexlens"
+    name: "CodexLens"
+    framework: "ccw"
+    subagent_type: "08-ccw-codexlens"
+    capabilities: ["codebase analysis", "code comprehension", "dependency mapping", "code search"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Analyst, L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "08-ccw-issue-planner"
+    name: "Issue Planner"
+    framework: "ccw"
+    subagent_type: "08-ccw-issue-planner"
+    capabilities: ["GitHub issue planning", "task decomposition", "issue tracking", "work breakdown"]
+    tools_available: [Read, Write, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "08-ccw-semantic-cli"
+    name: "Semantic CLI"
+    framework: "ccw"
+    subagent_type: "08-ccw-semantic-cli"
+    capabilities: ["CLI tool development", "semantic versioning", "release management", "changelog generation"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: low
+
+  - id: "08-ccw-workflow-executor"
+    name: "Workflow Executor"
+    framework: "ccw"
+    subagent_type: "08-ccw-workflow-executor"
+    capabilities: ["workflow execution", "step-by-step processing", "checkpoint management", "execution logging"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent]
+    archetype_mapping: [L-Builder, L-Orchestrator]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 09 - AB Method (1 agent)
+  # ============================================================
+
+  - id: "09-ab-method-ab-task-manager"
+    name: "AB Task Manager"
+    framework: "ab-method"
+    subagent_type: "09-ab-method-ab-task-manager"
+    capabilities: ["A/B task management", "comparative analysis", "experiment tracking", "decision support"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Planner, L-Analyst]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 10 - Compound Engineering (5 agents)
+  # ============================================================
+
+  - id: "10-compound-compound-agent"
+    name: "Compound Agent"
+    framework: "compound"
+    subagent_type: "10-compound-compound-agent"
+    capabilities: ["compound task execution", "multi-step reasoning", "context integration", "adaptive execution"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "10-compound-compound-orchestrator"
+    name: "Compound Orchestrator"
+    framework: "compound"
+    subagent_type: "10-compound-compound-orchestrator"
+    capabilities: ["compound orchestration", "agent lifecycle management", "result synthesis", "convergence control"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, AGENT]
+    cost_tier: high
+
+  - id: "10-compound-plan-agent"
+    name: "Plan Agent"
+    framework: "compound"
+    subagent_type: "10-compound-plan-agent"
+    capabilities: ["execution planning", "task sequencing", "dependency analysis", "plan generation"]
+    tools_available: [Read, Write, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "10-compound-review-agent"
+    name: "Review Agent"
+    framework: "compound"
+    subagent_type: "10-compound-review-agent"
+    capabilities: ["output review", "quality gates", "acceptance testing", "feedback generation"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "10-compound-work-agent"
+    name: "Work Agent"
+    framework: "compound"
+    subagent_type: "10-compound-work-agent"
+    capabilities: ["direct task execution", "file manipulation", "code implementation", "technical delivery"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  # ============================================================
+  # Framework 11 - ccswarm Rust-Native (5 agents)
+  # ============================================================
+
+  - id: "11-ccswarm-backend-agent"
+    name: "ccswarm Backend Agent"
+    framework: "ccswarm"
+    subagent_type: "11-ccswarm-backend-agent"
+    capabilities: ["backend development", "API implementation", "database integration", "service layer"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "11-ccswarm-devops-agent"
+    name: "ccswarm DevOps Agent"
+    framework: "ccswarm"
+    subagent_type: "11-ccswarm-devops-agent"
+    capabilities: ["infrastructure automation", "deployment scripts", "monitoring", "CI/CD integration"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "11-ccswarm-frontend-agent"
+    name: "ccswarm Frontend Agent"
+    framework: "ccswarm"
+    subagent_type: "11-ccswarm-frontend-agent"
+    capabilities: ["frontend development", "React components", "UI implementation", "state management"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: medium
+
+  - id: "11-ccswarm-qa-agent"
+    name: "ccswarm QA Agent"
+    framework: "ccswarm"
+    subagent_type: "11-ccswarm-qa-agent"
+    capabilities: ["quality assurance", "test execution", "bug reporting", "regression testing"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep]
+    archetype_mapping: [L-Tester]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "11-ccswarm-sangha-queen"
+    name: "Sangha Queen"
+    framework: "ccswarm"
+    subagent_type: "11-ccswarm-sangha-queen"
+    capabilities: ["swarm queen orchestration", "colony management", "Rust-native coordination", "distributed task routing"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch]
+    archetype_mapping: [L-Orchestrator]
+    domain_affinity: [WEB, BACKEND, REACT, AGENT]
+    cost_tier: high
+
+  # ============================================================
+  # Framework 12 - ContextKit (3 agents)
+  # ============================================================
+
+  - id: "12-contextkit-feature-developer"
+    name: "Feature Developer"
+    framework: "contextkit"
+    subagent_type: "12-contextkit-feature-developer"
+    capabilities: ["feature development", "context-aware coding", "spec-driven implementation", "incremental delivery"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "12-contextkit-project-initializer"
+    name: "Project Initializer"
+    framework: "contextkit"
+    subagent_type: "12-contextkit-project-initializer"
+    capabilities: ["project scaffolding", "boilerplate generation", "environment setup", "initial configuration"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder, L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "12-contextkit-quality-agent"
+    name: "Quality Agent"
+    framework: "contextkit"
+    subagent_type: "12-contextkit-quality-agent"
+    capabilities: ["quality validation", "context consistency", "output verification", "acceptance checks"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer, L-Tester]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  # ============================================================
+  # Framework 13 - CCPM Claude Code PM (5 agents)
+  # ============================================================
+
+  - id: "13-ccpm-epic-planner"
+    name: "Epic Planner"
+    framework: "ccpm"
+    subagent_type: "13-ccpm-epic-planner"
+    capabilities: ["epic planning", "feature breakdown", "user story creation", "milestone mapping"]
+    tools_available: [Read, Write, Glob, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "13-ccpm-github-syncer"
+    name: "GitHub Syncer"
+    framework: "ccpm"
+    subagent_type: "13-ccpm-github-syncer"
+    capabilities: ["GitHub integration", "issue sync", "PR management", "branch tracking"]
+    tools_available: [Read, Write, Bash, Glob, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "13-ccpm-parallel-executor"
+    name: "Parallel Executor"
+    framework: "ccpm"
+    subagent_type: "13-ccpm-parallel-executor"
+    capabilities: ["parallel PM tasks", "concurrent issue handling", "multi-workstream execution", "cross-team coordination"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent]
+    archetype_mapping: [L-Orchestrator, L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "13-ccpm-pm-orchestrator"
+    name: "PM Orchestrator"
+    framework: "ccpm"
+    subagent_type: "13-ccpm-pm-orchestrator"
+    capabilities: ["PM orchestration", "delivery coordination", "cross-functional alignment", "project governance"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator, L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: high
+
+  - id: "13-ccpm-prd-creator"
+    name: "PRD Creator"
+    framework: "ccpm"
+    subagent_type: "13-ccpm-prd-creator"
+    capabilities: ["PRD writing", "product requirements", "feature specification", "acceptance criteria definition"]
+    tools_available: [Read, Write, Glob, WebSearch, WebFetch]
+    archetype_mapping: [L-Writer, L-Analyst]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  # ============================================================
+  # Built-in Agents (10 agents)
+  # ============================================================
+
+  - id: "builtin-general-purpose"
+    name: "General Purpose"
+    framework: "builtin"
+    subagent_type: "general-purpose"
+    capabilities: ["general task execution", "code writing", "analysis", "file manipulation", "research"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Analyst]
+    domain_affinity: [WEB, BACKEND, REACT, AGENT]
+    cost_tier: medium
+
+  - id: "builtin-explore"
+    name: "Explore"
+    framework: "builtin"
+    subagent_type: "Explore"
+    capabilities: ["codebase exploration", "file search", "pattern discovery", "read-only analysis"]
+    tools_available: [Read, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "builtin-plan"
+    name: "Plan"
+    framework: "builtin"
+    subagent_type: "Plan"
+    capabilities: ["task planning", "read-only analysis", "plan generation", "strategy formulation"]
+    tools_available: [Read, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Planner]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "builtin-hrm-architect"
+    name: "HRM Architect"
+    framework: "builtin"
+    subagent_type: "HRM Architect"
+    capabilities: ["task triage", "complexity assessment", "execution planning", "squad orchestration", "quality gates", "convergence monitoring"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch]
+    archetype_mapping: [L-Orchestrator, L-Architect]
+    domain_affinity: [WEB, BACKEND, REACT, AGENT]
+    cost_tier: high
+
+  - id: "builtin-backend-architect"
+    name: "Backend Architect"
+    framework: "builtin"
+    subagent_type: "backend-architect"
+    capabilities: ["backend architecture", "API design", "database schema", "service design", "scalability planning"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "builtin-api-security-audit"
+    name: "API Security Audit"
+    framework: "builtin"
+    subagent_type: "api-security-audit"
+    capabilities: ["API security scanning", "authentication review", "authorization audit", "OWASP API security"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch, WebFetch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "builtin-technical-debt-manager"
+    name: "Technical Debt Manager"
+    framework: "builtin"
+    subagent_type: "technical-debt-manager"
+    capabilities: ["tech debt identification", "debt prioritization", "refactoring strategy", "code quality metrics"]
+    tools_available: [Read, Write, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Analyst, L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium
+
+  - id: "builtin-model-evaluator"
+    name: "Model Evaluator"
+    framework: "builtin"
+    subagent_type: "model-evaluator"
+    capabilities: ["LLM evaluation", "benchmark analysis", "model comparison", "performance metrics"]
+    tools_available: [Read, Write, Glob, Grep, Bash, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [AGENT]
+    cost_tier: medium
+
+  - id: "builtin-git-flow-manager"
+    name: "Git Flow Manager"
+    framework: "builtin"
+    subagent_type: "git-flow-manager"
+    capabilities: ["git workflow management", "branch strategy", "merge conflict resolution", "release management"]
+    tools_available: [Read, Write, Bash, Glob, Grep]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "builtin-statusline-setup"
+    name: "Statusline Setup"
+    framework: "builtin"
+    subagent_type: "statusline-setup"
+    capabilities: ["development environment setup", "toolchain configuration", "status monitoring", "dev tooling"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [BACKEND]
+    cost_tier: low
+
+  # ============================================================
+  # Custom Agents in _Agents/ (10 agents)
+  # ============================================================
+
+  - id: "custom-api-security-audit"
+    name: "API Security Audit (Custom)"
+    framework: "custom"
+    subagent_type: "api-security-audit"
+    capabilities: ["API vulnerability scanning", "security header review", "injection detection", "auth bypass testing"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch, WebFetch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [BACKEND]
+    cost_tier: medium
+
+  - id: "custom-backend-architect"
+    name: "Backend Architect (Custom)"
+    framework: "custom"
+    subagent_type: "backend-architect"
+    capabilities: ["backend system design", "microservices architecture", "database design", "API contracts"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Architect]
+    domain_affinity: [BACKEND]
+    cost_tier: high
+
+  - id: "custom-code-reviewer"
+    name: "Code Reviewer (Custom)"
+    framework: "custom"
+    subagent_type: "code-reviewer"
+    capabilities: ["code review", "style enforcement", "logic validation", "PR feedback"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "custom-frontend-developer"
+    name: "Frontend Developer (Custom)"
+    framework: "custom"
+    subagent_type: "frontend-developer"
+    capabilities: ["React development", "component architecture", "CSS-in-JS", "frontend testing"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, REACT]
+    cost_tier: medium
+
+  - id: "custom-git-flow-manager"
+    name: "Git Flow Manager (Custom)"
+    framework: "custom"
+    subagent_type: "git-flow-manager"
+    capabilities: ["branch management", "commit conventions", "tag management", "changelog generation"]
+    tools_available: [Read, Write, Bash, Glob, Grep]
+    archetype_mapping: [L-Builder]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: low
+
+  - id: "custom-model-evaluator"
+    name: "Model Evaluator (Custom)"
+    framework: "custom"
+    subagent_type: "model-evaluator"
+    capabilities: ["model benchmarking", "evaluation harness", "metrics reporting", "comparative analysis"]
+    tools_available: [Read, Write, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Analyst]
+    domain_affinity: [AGENT]
+    cost_tier: medium
+
+  - id: "custom-prompt-engineer"
+    name: "Prompt Engineer (Custom)"
+    framework: "custom"
+    subagent_type: "prompt-engineer"
+    capabilities: ["prompt design", "prompt optimization", "few-shot examples", "system prompt crafting"]
+    tools_available: [Read, Write, Edit, Glob, WebSearch, WebFetch]
+    archetype_mapping: [L-Specialist, L-Writer]
+    domain_affinity: [AGENT]
+    cost_tier: medium
+
+  - id: "custom-react-expert"
+    name: "React Expert (Custom)"
+    framework: "custom"
+    subagent_type: "react-expert"
+    capabilities: ["React advanced patterns", "hooks design", "performance optimization", "React ecosystem"]
+    tools_available: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+    archetype_mapping: [L-Builder, L-Architect]
+    domain_affinity: [REACT]
+    cost_tier: medium
+
+  - id: "custom-security-auditor"
+    name: "Security Auditor (Custom)"
+    framework: "custom"
+    subagent_type: "security-auditor"
+    capabilities: ["full security audit", "dependency scanning", "CVE analysis", "security posture assessment"]
+    tools_available: [Read, Glob, Grep, Bash, WebSearch, WebFetch]
+    archetype_mapping: [L-Reviewer]
+    domain_affinity: [WEB, BACKEND]
+    cost_tier: medium
+
+  - id: "custom-technical-debt-manager"
+    name: "Technical Debt Manager (Custom)"
+    framework: "custom"
+    subagent_type: "technical-debt-manager"
+    capabilities: ["debt cataloging", "code smell detection", "refactoring roadmap", "complexity metrics"]
+    tools_available: [Read, Write, Glob, Grep, Bash, WebSearch]
+    archetype_mapping: [L-Analyst, L-Reviewer]
+    domain_affinity: [WEB, BACKEND, REACT]
+    cost_tier: medium

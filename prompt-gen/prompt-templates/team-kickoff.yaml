@@ -1,0 +1,120 @@
+# Team Kickoff Template
+# Used to generate the kickoff brief for agent-teams-protocol
+
+template_id: team-kickoff
+version: "1.0"
+description: "Template for initializing an Agent Teams session with peer-to-peer communication"
+
+structure:
+  sections:
+    - id: team_header
+      required: true
+      template: |
+        # Team Kickoff Brief
+        Task: {task_description}
+        Mode: Agent Teams ({teammate_count} teammates)
+        Total Budget: {total_budget} tool calls
+        Team Lead: {team_lead_agent}
+
+    - id: team_lead_approach
+      required: true
+      template: |
+        ## Team Lead Approach (Forge Tier: {lead_forge_tier})
+        {lead_technique_steps}
+
+    - id: team_composition
+      required: true
+      template: |
+        ## Team Composition
+        {teammate_blocks}
+
+        Each block:
+        ```
+        ### Teammate: {teammate_name}
+        Agent Type: {subagent_type}
+        Workstream: {workstream_name}
+        Role: {archetype}
+        File Ownership: {file_list}
+        Budget: {teammate_budget} tool calls
+        Forge Tier: {forge_tier}
+        Technique Pipeline: {teammate_technique_pipeline}
+        ```
+
+    - id: communication_protocol
+      required: true
+      template: |
+        ## Communication Protocol
+        - Teammates communicate via SendMessage (peer-to-peer)
+        - Team Lead coordinates and reports to HRM
+        - Use TaskList for shared task tracking
+        - Interface contracts define data exchange format
+
+        ### When to Message Peers
+        - Need data from another workstream
+        - Interface contract output is ready
+        - Discovered issue affecting another workstream
+        - Blocking dependency resolved
+
+        ### When to Message Team Lead
+        - Workstream complete
+        - Blocker encountered
+        - Scope change discovered
+        - Quality concern
+
+    - id: interface_contracts
+      required: true
+      template: |
+        ## Interface Contracts
+        {interface_contract_blocks}
+
+        Each contract:
+        ```
+        {workstream_a} <-> {workstream_b}:
+          What: {contract_description}
+          Format: {contract_format}
+          Owner: {contract_owner}
+          Delivery: {delivery_checkpoint}
+        ```
+
+    - id: task_list
+      required: true
+      template: |
+        ## Initial Task List
+        {task_list_items}
+
+        Tasks are created via TaskCreate and tracked via TaskList.
+        Each teammate claims tasks via TaskUpdate.
+
+    - id: quality_protocol
+      required: true
+      template: |
+        ## Quality Protocol
+        - Each teammate self-verifies before marking complete
+        - Team Lead runs gate-runner after each phase
+        - HRM runs final verification cascade
+        - Threshold: {verification_threshold}
+
+    - id: completion
+      required: true
+      template: |
+        ## Completion Protocol
+        1. All teammates mark their tasks complete
+        2. Team Lead verifies integration
+        3. Team Lead reports to HRM
+        4. HRM runs verification cascade
+        5. If passed: Team Lead sends shutdown_request to all teammates
+        6. If failed: HRM directs backtracking via Team Lead
+
+variables:
+  task_description: "from execution_plan.task"
+  teammate_count: "count of workstreams"
+  total_budget: "from execution_plan.budget.total_estimated"
+  team_lead_agent: "from execution_plan or default to general-purpose"
+  teammate_blocks: "generated from workstreams + registry"
+  interface_contract_blocks: "from execution_plan.interface_contracts"
+  task_list_items: "from workstream decomposition"
+  verification_threshold: "from domain_thresholds"
+  lead_forge_tier: "QUICK from Prompt Forge for team-lead dispatch type"
+  lead_technique_steps: "from Prompt Forge pipeline for team-lead"
+  forge_tier: "QUICK from Prompt Forge for team-member dispatch type"
+  teammate_technique_pipeline: "summary of technique pipeline per teammate"

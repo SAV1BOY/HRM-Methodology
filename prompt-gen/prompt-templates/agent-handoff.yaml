@@ -1,0 +1,109 @@
+# Agent Handoff Template
+# Used to generate prompts for individual agents executing a workstream
+
+template_id: agent-handoff
+version: "1.0"
+description: "Template for delegating a workstream to an individual agent"
+
+structure:
+  sections:
+    - id: role
+      required: true
+      template: |
+        You are a {archetype_name} specialist working on the "{workstream_name}" workstream.
+        Your expertise: {agent_capabilities}.
+
+    - id: objective
+      required: true
+      template: |
+        ## Objective
+        {workstream_objective}
+
+        ### Success Criteria
+        {success_criteria_list}
+
+    - id: scope
+      required: true
+      template: |
+        ## Scope
+        ### File Ownership (ONLY modify these files)
+        {file_ownership_list}
+
+        ### Deliverables
+        {deliverables_list}
+
+    - id: context
+      required: true
+      template: |
+        ## Project Context
+        - Tech stack: {tech_stack}
+        - Existing patterns: {existing_patterns}
+        - Constraints: {constraints_list}
+
+    - id: interface_contracts
+      required: false
+      condition: "workstream has dependencies"
+      template: |
+        ## Interface Contracts
+        ### Inputs (from other workstreams)
+        {inputs_from_list}
+
+        ### Outputs (to other workstreams)
+        {outputs_to_list}
+
+        ### Contract Format
+        {contract_format}
+
+    - id: technique_pipeline
+      required: true
+      template: |
+        ## Approach (Forge Tier: {forge_tier})
+        Follow this technique pipeline:
+        {technique_steps}
+
+    - id: quality
+      required: true
+      template: |
+        ## Quality Requirements
+        - Verification threshold: {verification_threshold}
+        - Bloom level: {bloom_level} ({bloom_name})
+        - Key checks: {quality_checks}
+
+    - id: budget
+      required: true
+      template: |
+        ## Budget
+        - Allocated tool calls: {budget_tool_calls}
+        - Maximum cycles: {max_cycles}
+
+    - id: backtracking_triggers
+      required: true
+      template: |
+        ## When to Report Problems
+        Report immediately to the HRM if:
+        {backtracking_triggers_list}
+
+variables:
+  archetype_name: "from workstream.archetype"
+  workstream_name: "from workstream.name"
+  agent_capabilities: "from registry/agents.yaml capabilities"
+  workstream_objective: "from level_1.name + context"
+  success_criteria_list: "from level_0.success_criteria"
+  file_ownership_list: "from workstream.file_ownership"
+  deliverables_list: "from workstream deliverables"
+  tech_stack: "from project analysis"
+  existing_patterns: "from codebase scan"
+  constraints_list: "from level_0.constraints"
+  inputs_from_list: "from interface_contracts where target=this_workstream"
+  outputs_to_list: "from interface_contracts where source=this_workstream"
+  contract_format: "from interface_contracts.format"
+  technique_steps: "from prompt-gen pipeline output"
+  forge_tier: "MICRO|QUICK|FULL from Prompt Forge tier resolution"
+  dispatch_type: "from dispatch_context.dispatch_type (workstream-agent|swarm-member|team-member|triage-agent)"
+  verification_threshold: "from domain_thresholds"
+  bloom_level: "from execution_plan.bloom_level"
+  bloom_name: "from bloom mapping"
+  quality_checks: "from gate-definitions.yaml"
+  budget_tool_calls: "from workstream.predicted_cost"
+  max_cycles: "from hyperparameters.max_cycles"
+  backtracking_triggers_list: "from execution_plan.loop_protocol.backtracking_triggers"

@@ -1,0 +1,96 @@
+# Swarm Dispatch Template
+# Used to generate the dispatch prompt for swarm-orchestrator
+
+template_id: swarm-dispatch
+version: "1.0"
+description: "Template for dispatching a swarm of agents via swarm-orchestrator"
+
+structure:
+  sections:
+    - id: swarm_header
+      required: true
+      template: |
+        # Swarm Dispatch Plan
+        Task: {task_description}
+        Mode: Swarm ({agent_count} agents)
+        Total Budget: {total_budget} tool calls
+
+    - id: agent_assignments
+      required: true
+      template: |
+        ## Agent Assignments
+        {agent_assignment_blocks}
+
+        Each block contains:
+        ```
+        ### Agent: {agent_name} ({subagent_type})
+        Workstream: {workstream_name}
+        Role: {archetype}
+        Forge Tier: {forge_tier}
+        Technique Pipeline: {agent_technique_pipeline}
+        Prompt: [see agent-handoff for this workstream, QUICK-forged]
+        Budget: {workstream_budget} tool calls
+        Dependencies: {dependency_list}
+        ```
+
+    - id: execution_order
+      required: true
+      template: |
+        ## Execution Order
+        {execution_phases}
+
+        Phase format:
+        ```
+        Phase N: [agents that can run in parallel]
+          Wait for: [dependencies from previous phase]
+          Deliver: [outputs needed by next phase]
+        ```
+
+    - id: coordination
+      required: true
+      template: |
+        ## Coordination Rules
+        - File ownership is EXCLUSIVE: no two agents modify the same file
+        - Interface contracts define ALL cross-agent communication
+        - Results collected by swarm-orchestrator after each phase
+        - Failed agents trigger fallback selection from registry
+
+    - id: failure_handling
+      required: true
+      template: |
+        ## Failure Handling
+        - If agent fails: select fallback agent from same archetype in registry
+        - If 2+ agents fail: pause swarm, report to HRM for plan revision
+        - If integration fails: re-run affected agents with corrected contracts
+        - Max retries per agent: {max_retries}
+
+    - id: quality_gates
+      required: true
+      template: |
+        ## Quality Gates
+        After each phase:
+        1. Run gate-runner at appropriate level
+        2. Report results to HRM
+        3. Continue only if gate passes
+        4. Backtrack if gate fails (HRM decides scope)
+
+    - id: completion
+      required: true
+      template: |
+        ## Completion Criteria
+        - ALL agents have delivered their workstream outputs
+        - ALL interface contracts satisfied
+        - Gate cascade passed at level {max_gate_level}
+        - Aggregate score >= {verification_threshold}
+
+variables:
+  task_description: "from execution_plan.task"
+  agent_count: "count of workstreams"
+  total_budget: "from execution_plan.budget.total_estimated"
+  agent_assignment_blocks: "generated from workstreams + registry lookup"
+  execution_phases: "generated from dependency graph"
+  max_retries: "from hyperparameters.backtrack_limit"
+  max_gate_level: "from auto_level_policy"
+  verification_threshold: "from domain_thresholds"
+  forge_tier: "QUICK from Prompt Forge for swarm-member dispatch type"
+  agent_technique_pipeline: "summary of forged technique pipeline per agent"

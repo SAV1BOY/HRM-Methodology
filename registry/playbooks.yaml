@@ -1,0 +1,126 @@
+# Playbooks Registry
+# Pre-built technique pipelines for common domains
+version: "1.0"
+last_updated: "2026-03-03"
+total: 7
+
+playbooks:
+
+  - id: agent-orchestration
+    name: "Agent Orchestration"
+    domain: "agents"
+    file: "playbooks/agent-orchestration.md"
+    techniques_used:
+      - planner-worker-solver
+      - prompt-chaining
+      - tool-augmented-prompting
+      - memory-prompting
+      - meta-prompting
+    trigger_conditions:
+      - "DOMINIO == AGENT"
+      - "multi-agent system design"
+      - "agent coordination"
+    estimated_cost: {min: 15, max: 40}
+    description: "Pipeline for designing and orchestrating multi-agent systems"
+
+  - id: code-generation
+    name: "Code Generation"
+    domain: "code"
+    file: "playbooks/code-generation.md"
+    techniques_used:
+      - chain-of-thought
+      - plan-and-solve
+      - program-of-thoughts
+      - self-refine
+      - checklist-prompting
+    trigger_conditions:
+      - "TIPO == BUILD"
+      - "ARTEFATO == CODIGO"
+      - "code generation task"
+    estimated_cost: {min: 10, max: 30}
+    description: "Pipeline for generating high-quality code with planning and verification"
+
+  - id: creative-writing
+    name: "Creative Writing"
+    domain: "writing"
+    file: "playbooks/creative-writing.md"
+    techniques_used:
+      - role-prompting
+      - skeleton-of-thought
+      - self-refine
+      - few-shot
+      - emotion-prompting
+    trigger_conditions:
+      - "TIPO == WRITE"
+      - "creative content"
+      - "copywriting"
+    estimated_cost: {min: 8, max: 25}
+    description: "Pipeline for creative and persuasive writing with iterative refinement"
+
+  - id: data-extraction
+    name: "Data Extraction"
+    domain: "extraction"
+    file: "playbooks/data-extraction.md"
+    techniques_used:
+      - output-format
+      - context-stuffing
+      - chain-of-note
+      - checklist-prompting
+    trigger_conditions:
+      - "data extraction task"
+      - "structured data from unstructured text"
+      - "parsing documents"
+    estimated_cost: {min: 5, max: 15}
+    description: "Pipeline for extracting structured data from unstructured sources"
+
+  - id: rag-pipeline
+    name: "RAG Pipeline"
+    domain: "retrieval"
+    file: "playbooks/rag-pipeline.md"
+    techniques_used:
+      - context-stuffing
+      - chain-of-note
+      - self-rag
+      - corrective-rag
+      - grounding-via-sources
+    trigger_conditions:
+      - "RAG system design"
+      - "retrieval augmented generation"
+      - "knowledge base Q&A"
+    estimated_cost: {min: 10, max: 30}
+    description: "Pipeline for building robust retrieval-augmented generation systems"
+
+  - id: research-and-analysis
+    name: "Research and Analysis"
+    domain: "research"
+    file: "playbooks/research-and-analysis.md"
+    techniques_used:
+      - step-back-prompting
+      - chain-of-thought
+      - self-ask
+      - chain-of-verification
+      - grounding-via-sources
+    trigger_conditions:
+      - "TIPO == REVIEW"
+      - "research task"
+      - "analysis and comparison"
+    estimated_cost: {min: 10, max: 35}
+    description: "Pipeline for deep research with verification and source grounding"
+
+  - id: design-system-analysis
+    name: "Design System Analysis"
+    domain: "design"
+    file: "playbooks/design-system-analysis.md"
+    techniques_used:
+      - step-back-prompting
+      - analogical-prompting
+      - chain-of-thought
+      - multi-agent-debate
+      - checklist-prompting
+    trigger_conditions:
+      - "DOMINIO in [DESIGN, WEB, REACT]"
+      - "design system"
+      - "component library analysis"
+      - "UI architecture"
+    estimated_cost: {min: 15, max: 40}
+    description: "Pipeline for analyzing and designing component-based design systems"
