@@ -37,6 +37,15 @@ federation §8.3 implemented + live; fitness squad-guard; skill dedup-first; lin
 Further audit cycles surface only asymptotic LOW nitpicks (nature of adversarial review); verdict is stable.
 Autonomous ceiling reached — remaining delta to "armed-live 100" is the human ceremony only.
 
+## SHADOW END-TO-END EXECUTION (run wf_0db7c2f6-d1c) — full pipeline run, not just selftests
+Dynamic Workflow ran every phase's loop scripts DISARMED in shadow/dry-run, then a 3-lens Gold/SOTA
+auditor per phase RE-RAN the scripts (did not trust this ledger), then a global integration synthesis.
+21 agents · 238 tool uses · ~514s. Result: **GLOBAL 96, integration_ok, Gold/SOTA QUALIFIED-YES,
+phase scores 95–97, blocking:[] (empty)**. Full evidence bundle: `_build/EXECUTION-EVIDENCE.md`.
+Confirms the orchestration (HRM + Pre-Programming + Deep-Research leaves, federation §8.3, lineage,
+canary, hazards) runs coherently end-to-end while disarmed. This is the post-commit (pushed-state)
+execution proof; complements the 3× fresh-clone reproducible-INTACT verification.
+
 Legend: ⬜ pending · 🔨 building · 🧪 verifying · 🔍 auditing · ✅ ≥95% passed · ♻️ fixing
 
 ## Notes
