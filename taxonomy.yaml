@@ -1,6 +1,26 @@
 version: "1.0"
-last_updated: "2026-03-03"
+last_updated: "2026-03-05"
 total_techniques: 75
+
+template_coverage:
+  with_templates: 35
+  without_templates: 40
+  note: |
+    40 techniques have template: null because they are inherently non-template-able.
+    These fall into categories where YAML prompt skeletons add no practical value:
+    - Prompt Programming (4): LMQL, Guidance, Outlines, SGLang — code-level DSLs, not prompt patterns
+    - Optimization (6): OPRO, APE, TextGrad, PromptBreeder, EvoPrompt, ProTeGi — automated search algorithms
+    - Soft Prompts (3): Prompt Tuning, Prefix Tuning, P-Tuning v2 — require model weight access
+    - Reasoning Tokens (3): Extended Thinking, o1/o3, DeepSeek-R1 — API parameter configs, not prompt templates
+    - Reasoning variants (12): Self-Ask, ReWOO, BoT, SoT, Contrastive-CoT, ThoT, AoT, Tab-CoT,
+      Analogical, Cumulative, XoT, Thought Propagation — highly dynamic/algorithmic patterns
+    - Verification/RAG (5): Source-Grounded, CoK, CoN, Self-RAG, CRAG — retrieval-dependent pipelines
+    - Security (1): Sanitization & Guardrails — defensive filters, not generative prompts
+    - Alignment (1): Constitutional AI — training methodology, not a prompt skeleton
+    - Perception (1): Directional Stimulus — task-specific hint generation
+    - Agents (1): Memory Prompting — context management strategy
+    - Foundations (2): Prompt Repetition, Emotion Prompting — trivial patterns
+    - Multimodal (1): Vision-Language Prompting — modality-dependent, not template-able
 
 categories:
   - id: foundations

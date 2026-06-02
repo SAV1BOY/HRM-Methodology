@@ -3,7 +3,12 @@
     "allow": [
       "Bash(ls:*)",
       "Bash(bash:*)",
-      "Bash(~/.claude/.task-complexity:*)"
+      "Bash(~/.claude/.task-complexity:*)",
+      "Bash(grep:*)",
+      "Bash(wc:*)",
+      "Read(//c/Users/migue/Desktop/Skills/hrm-architect/**)",
+      "Read(//c/Users/migue/Desktop/hrm-architect/**)",
+      "Bash(test:*)"
     ]
   }
 }

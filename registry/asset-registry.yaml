@@ -13,17 +13,17 @@ registries:
 
   - id: agents
     file: "agents.yaml"
-    count: 103
+    count: 104
     description: "All agents across 14 frameworks"
 
   - id: squads
     file: "squads.yaml"
-    count: 2
+    count: 12
     description: "Specialized squads with internal architecture"
 
   - id: mcps
     file: "mcps.yaml"
-    count: 27
+    count: 25
     description: "MCP servers providing external integrations"
 
   - id: playbooks
@@ -38,9 +38,9 @@ registries:
 
 totals:
   skills: 44
-  agents: 103
-  squads: 2
-  mcps: 27
+  agents: 104
+  squads: 12
+  mcps: 25
   playbooks: 7
   frameworks: 14
   techniques: 75

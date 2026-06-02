@@ -23,7 +23,7 @@ paths:
   checklists: "checklists/"
   references: "references/"
   hrm_agent: "hrm-agent/"
-  skill_md: "../../../hrm-architect/SKILL.md"
+  skill_md: "../../hrm-architect/SKILL.md"
   examples: "examples/"
   orchestration_guide: "orchestration-guide.md"
 
@@ -33,10 +33,10 @@ counts:
   playbooks: 7
   checklists: 5
   skills_registered: 44
-  agents_registered: 103
+  agents_registered: 104
   agent_frameworks: 14
-  squads_registered: 2
-  mcps_registered: 27
+  squads_registered: 12
+  mcps_registered: 25
 
 architecture:
   triage_modes:

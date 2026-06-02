@@ -177,6 +177,17 @@ User Request Arrives
 | Execution state machine | `execution/flow-engine.md` | FULL only |
 | Delegation mode flowchart | `execution/delegation-protocols.md` | FULL only |
 | Squad delegation protocol | `execution/squad-delegation.md` | When squad detected |
+| Copy Squad bridge | `integrations/copy-squad-bridge.md` | When copy/writing workstream detected |
+| Brand Squad bridge | `integrations/brand-squad-bridge.md` | When brand/identity workstream detected |
+| Design Squad bridge | `integrations/design-squad-bridge.md` | When UX/UI/design workstream detected |
+| Data Squad bridge | `integrations/data-squad-bridge.md` | When analytics/metrics workstream detected |
+| Cybersecurity Squad bridge | `integrations/cybersecurity-squad-bridge.md` | When security workstream detected |
+| C-Level Squad bridge | `integrations/c-level-squad-bridge.md` | When executive strategy workstream detected |
+| Storytelling Squad bridge | `integrations/storytelling-squad-bridge.md` | When narrative/story workstream detected |
+| Traffic Masters Squad bridge | `integrations/traffic-masters-squad-bridge.md` | When paid traffic workstream detected |
+| Hormozi Squad bridge | `integrations/hormozi-squad-bridge.md` | When business growth workstream detected |
+| Movement Squad bridge | `integrations/movement-squad-bridge.md` | When movement/community workstream detected |
+| Advisory Board Squad bridge | `integrations/advisory-board-squad-bridge.md` | When strategic advisory workstream detected |
 | Self-verification checklist | `checklists/hrm-self-check.md` | Before completing |
 | Prompt quality checklist | `checklists/prompt-quality.md` | Step 9.5 validation |
 | Technique deep-dive | `techniques/<category>/<technique>.md` | When technique-selector needs detail |

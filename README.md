@@ -12,9 +12,9 @@ Squad HRM/
 ├── registry/                    # Asset Registry — universal catalog
 │   ├── asset-registry.yaml      #   Master index
 │   ├── skills.yaml              #   44 skills cataloged
-│   ├── agents.yaml              #   103 agents (14 frameworks)
+│   ├── agents.yaml              #   104 agents (14 frameworks)
 │   ├── squads.yaml              #   Registered squads
-│   ├── mcps.yaml                #   27+ MCP servers
+│   ├── mcps.yaml                #   25 MCP servers
 │   ├── playbooks.yaml           #   Technique playbooks
 │   └── frameworks.yaml          #   14 agent frameworks
 │
@@ -36,8 +36,18 @@ Squad HRM/
 │   ├── delegation-protocols.md  #   5 delegation modes
 │   └── squad-delegation.md      #   Squad chief delegation protocol
 │
-├── integrations/                # Integrations — cross-squad bridges
-│   └── copy-squad-bridge.md     #   HRM ↔ Copy Squad bridge
+├── integrations/                # Integrations — cross-squad bridges (11 bridges)
+│   ├── copy-squad-bridge.md     #   HRM ↔ Copy Squad bridge
+│   ├── brand-squad-bridge.md    #   HRM ↔ Brand Squad bridge
+│   ├── design-squad-bridge.md   #   HRM ↔ Design Squad bridge
+│   ├── data-squad-bridge.md     #   HRM ↔ Data Squad bridge
+│   ├── cybersecurity-squad-bridge.md  # HRM ↔ Cybersecurity Squad bridge
+│   ├── c-level-squad-bridge.md  #   HRM ↔ C-Level Squad bridge
+│   ├── storytelling-squad-bridge.md   # HRM ↔ Storytelling Squad bridge
+│   ├── traffic-masters-squad-bridge.md # HRM ↔ Traffic Masters Squad bridge
+│   ├── hormozi-squad-bridge.md  #   HRM ↔ Hormozi Squad bridge
+│   ├── movement-squad-bridge.md #   HRM ↔ Movement Squad bridge
+│   └── advisory-board-squad-bridge.md # HRM ↔ Advisory Board Squad bridge
 │
 ├── techniques/                  # 75 techniques across 13 categories
 ├── templates/                   # YAML prompt skeletons
@@ -84,7 +94,7 @@ Three-tier prompt engineering system that applies techniques proportionally to E
 Manages the complete request lifecycle: triage → registry lookup → analysis → plan → prompt gen → execute → verify → deliver. Supports 6 execution modes including squad delegation.
 
 ### 5. Integrations (`integrations/`)
-Cross-squad bridges. Currently: HRM ↔ Copy Squad bridge for automatic delegation of copywriting workstreams.
+Cross-squad bridges. 11 bridges connecting HRM to all registered squads for automatic delegation of domain-specific workstreams (Copy, Brand, Design, Data, Cybersecurity, C-Level, Storytelling, Traffic Masters, Hormozi, Movement, Advisory Board).
 
 ### 6. HRM Architect (`hrm-architect/SKILL.md`)
 The core 12-step process enhanced with: Step 0.7 (Registry Lookup), Step 9.5 (Universal Prompt Forge), dynamic agent selection, squad delegation detection, and squad convergence monitoring.

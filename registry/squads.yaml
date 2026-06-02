@@ -1,8 +1,8 @@
 # Squads Registry
 # Specialized squads with internal architecture and delegation protocols
-version: "1.0"
-last_updated: "2026-03-03"
-total: 2
+version: "1.1"
+last_updated: "2026-03-05"
+total: 12
 
 squads:
 
@@ -88,3 +88,471 @@ squads:
       verification_levels: [syntax, local, global, semantic]
       acceptance_threshold: "domain-specific (0.80-0.95)"
       feedback_loop: "self-monitoring via Steps 10-12"
+
+  - id: brand-squad
+    name: "Brand Squad"
+    chief: "brand-chief"
+    domain: "brand-strategy"
+    path: "SQUADS/Squad Brand/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/brand-squad-mapping.md"
+    capabilities:
+      - "Brand equity and identity systems"
+      - "Brand architecture design"
+      - "Naming and nomenclature"
+      - "Brand positioning and differentiation"
+      - "Archetype selection and application"
+      - "Competitive brand analysis"
+      - "Visual identity strategy"
+      - "Brand voice and guidelines"
+    internal_architecture: |
+      15-agent roster covering brand equity (Aaker, Keller), identity systems (Wheeler),
+      naming (Ries), positioning (Neumeier), archetypes (Heyward), competitive strategy
+      (Sharp), and brand narrative (Miller, Kapferer, Yohn). Organized with
+      frameworks, checklists, swipe files, and reference library.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the brand deliverable needs to achieve"
+        - scope: "Type: full_identity, positioning, naming, architecture, audit, refresh"
+        - audience: "Target audience and market context"
+        - brand_context: "Existing brand state, values, personality"
+        - constraints: "Industry regulations, brand equity to preserve"
+      optional_fields:
+        - competitive_analysis: "Competitor brands to differentiate from"
+        - industry_references: "Relevant industry benchmarks"
+        - psychology_principles: "Archetypes, cognitive-fluency"
+    deliverables:
+      - "Brand platform and positioning document"
+      - "Visual identity guidelines"
+      - "Naming options with rationale"
+      - "Brand architecture map"
+      - "Competitive differentiation analysis"
+      - "Brand voice profile"
+    quality_integration:
+      gate_owner: "brand-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> brand-chief -> internal review -> delivery"
+
+  - id: design-squad
+    name: "Design Squad"
+    chief: "design-chief"
+    domain: "ux-ui-design"
+    path: "SQUADS/Squad Design/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/design-squad-mapping.md"
+    capabilities:
+      - "UX research and user testing"
+      - "UI design and prototyping"
+      - "Design system creation and management"
+      - "Accessibility audits (WCAG compliance)"
+      - "Design tokens and handoff"
+      - "Responsive design patterns"
+      - "Design operations and workflows"
+      - "Interaction design"
+    internal_architecture: |
+      8-agent roster covering UX research (Frost), UI design (Mall, Malouf),
+      design systems, accessibility, prototyping, handoff, and product design.
+      Organized with frameworks, checklists, component libraries, pattern libraries,
+      and design token systems.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the design deliverable needs to achieve"
+        - scope: "Type: ux_research, ui_design, design_system, prototype, audit, handoff"
+        - user_context: "Personas, journey stage, accessibility needs"
+        - design_context: "Existing design system, platform, breakpoints"
+        - constraints: "Accessibility requirements, platform limitations"
+      optional_fields:
+        - frameworks: "Atomic design, double diamond"
+        - tools: "Figma, Storybook preferences"
+        - accessibility_standard: "WCAG level (AA/AAA)"
+    deliverables:
+      - "UX research reports and personas"
+      - "UI designs and prototypes"
+      - "Design system documentation"
+      - "Accessibility audit reports"
+      - "Design tokens and handoff specs"
+      - "Interaction specifications"
+    quality_integration:
+      gate_owner: "design-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> design-chief -> internal review -> delivery"
+
+  - id: data-squad
+    name: "Data Squad"
+    chief: "data-chief"
+    domain: "data-analytics"
+    path: "SQUADS/Squad Data/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/data-squad-mapping.md"
+    capabilities:
+      - "Analytics setup and instrumentation"
+      - "Dashboard design and implementation"
+      - "A/B testing and experimentation"
+      - "Cohort analysis and segmentation"
+      - "Growth metric definition (North Star, AARRR)"
+      - "Customer success metrics"
+      - "Community metrics"
+      - "Data governance and quality"
+    internal_architecture: |
+      7-agent roster covering analytics (Kaushik), growth metrics (Ellis),
+      customer success (Fader, Mehta), community (Spinks, Kao),
+      and experimentation. Organized with SQL libraries, dashboard templates,
+      metric definitions, experiment registries, and cohort analysis tools.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What analysis or metric system needs to achieve"
+        - scope: "Type: analytics_setup, dashboard, experiment, cohort_analysis, metric_definition"
+        - data_context: "Data sources, current metrics, tools"
+        - business_context: "Growth stage, key business questions"
+        - constraints: "Privacy requirements, data availability"
+      optional_fields:
+        - frameworks: "North-star-metric, AARRR pirate metrics"
+        - tools: "SQL, dbt, Amplitude preferences"
+        - statistical_method: "Preferred statistical approaches"
+    deliverables:
+      - "Metric definition documents"
+      - "Dashboard specifications"
+      - "Experiment designs and results"
+      - "Cohort analysis reports"
+      - "Data quality audits"
+      - "Instrumentation plans"
+    quality_integration:
+      gate_owner: "data-chief"
+      verification_levels: [local, global, semantic]
+      acceptance_threshold: 0.88
+      feedback_loop: "HRM -> data-chief -> internal review -> delivery"
+
+  - id: cybersecurity-squad
+    name: "Cybersecurity Squad"
+    chief: "cybersecurity-chief"
+    domain: "security"
+    path: "SQUADS/Squad Cybersecurity/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/cybersecurity-squad-mapping.md"
+    capabilities:
+      - "Penetration testing (Red Team)"
+      - "Defensive security (Blue Team)"
+      - "Application security (AppSec/OWASP)"
+      - "Cloud security (CloudSec)"
+      - "Incident response (IR/DFIR)"
+      - "Threat modeling"
+      - "Secure code review"
+      - "Compliance auditing (SOC2, ISO27001, PCI-DSS)"
+    internal_architecture: |
+      15-agent roster covering Red Team (Kim, Weidman), AppSec (Manico),
+      Blue Team/DFIR (Sanders, Santos), operations (Carey), plus specialized
+      domain agents for cloud, malware, crypto, and compliance.
+      Organized with frameworks, playbooks, checklists, tools references,
+      and incident response procedures.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What security assessment needs to achieve"
+        - scope: "Type: pentest, threat_model, security_audit, incident_response, compliance"
+        - security_context: "Threat landscape, existing controls, compliance requirements"
+        - target: "Systems, codebase, or infrastructure to assess"
+        - constraints: "Authorization scope, testing windows, compliance deadlines"
+      optional_fields:
+        - frameworks: "OWASP, NIST, MITRE ATT&CK"
+        - tools: "Burp, Nmap, Metasploit preferences"
+        - compliance_standard: "SOC2, ISO27001, PCI-DSS"
+    deliverables:
+      - "Vulnerability assessment reports"
+      - "Threat model documents"
+      - "Penetration test findings"
+      - "Security code review reports"
+      - "Compliance audit results"
+      - "Incident response playbooks"
+      - "Remediation roadmaps"
+    quality_integration:
+      gate_owner: "cybersecurity-chief"
+      verification_levels: [local, global, semantic]
+      acceptance_threshold: 0.95
+      feedback_loop: "HRM -> cybersecurity-chief -> internal review -> delivery"
+
+  - id: c-level-squad
+    name: "C-Level Squad"
+    chief: "c-level-chief"
+    domain: "executive-strategy"
+    path: "SQUADS/Squad C-Level/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/C-level-squad-mapping.md"
+    capabilities:
+      - "Strategic planning and vision setting"
+      - "Operating model design"
+      - "OKR framework and execution"
+      - "Board meeting preparation"
+      - "Cross-squad alignment"
+      - "Governance and risk management"
+      - "Executive decision frameworks"
+      - "Technology and AI strategy"
+    internal_architecture: |
+      6-agent roster: CEO/Visionary (vision, strategy), COO (operations, execution),
+      CMO (marketing strategy), CTO (technology, architecture), CIO (information,
+      data strategy), CAIO (AI strategy, automation). Organized with decision
+      registries, meeting minutes, roadmaps, memos, and governance frameworks.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What strategic deliverable needs to achieve"
+        - scope: "Type: strategic_decision, board_preparation, operating_model, okr_setting"
+        - strategic_context: "Company stage, market position, key challenges"
+        - stakeholders: "Decision makers and affected parties"
+        - constraints: "Timeline, budget, existing commitments"
+      optional_fields:
+        - frameworks: "EOS Traction, OKRs, Balanced Scorecard"
+        - decision_model: "RAPID, RACI decision frameworks"
+        - cross_squad_impact: "Which other squads are affected"
+    deliverables:
+      - "Strategic plans and roadmaps"
+      - "Board meeting materials"
+      - "Operating model documents"
+      - "OKR frameworks"
+      - "Governance policies"
+      - "Executive decision memos"
+    quality_integration:
+      gate_owner: "c-level-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> c-level-chief -> internal review -> delivery"
+
+  - id: storytelling-squad
+    name: "Storytelling Squad"
+    chief: "storytelling-chief"
+    domain: "storytelling"
+    path: "SQUADS/Squad Storytelling/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/storytelling-squad-mapping.md"
+    capabilities:
+      - "Brand narrative design"
+      - "Pitch deck storytelling"
+      - "Case study creation"
+      - "Keynote and presentation narratives"
+      - "Public narrative and advocacy"
+      - "Origin story and manifesto writing"
+      - "Improvisational storytelling"
+      - "Story-driven content strategy"
+    internal_architecture: |
+      12-agent roster covering narrative structure (Campbell, Snyder, Harmon, Coyne),
+      presentation (Duarte, Klaff), storytelling craft (Dicks, Hall, Howell),
+      improvisation (Johnstone), and public narrative (Ganz). Organized with
+      story banks, pitch templates, narrative frameworks, and swipe files.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the narrative needs to achieve"
+        - narrative_type: "Type: brand_story, pitch, case_study, keynote, manifesto"
+        - audience: "Target audience and emotional context"
+        - story_context: "Protagonist, conflict, stakes, transformation"
+        - constraints: "Brand voice, factual accuracy, cultural sensitivity"
+      optional_fields:
+        - frameworks: "Hero's journey, StoryBrand, Save the Cat"
+        - narrative_techniques: "In-medias-res, nested loops"
+        - reference_stories: "Example stories or swipe files"
+    deliverables:
+      - "Brand narratives and origin stories"
+      - "Pitch deck story arcs"
+      - "Customer case studies"
+      - "Keynote and presentation scripts"
+      - "Manifestos and public narratives"
+      - "Story-driven content frameworks"
+    quality_integration:
+      gate_owner: "storytelling-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> storytelling-chief -> internal review -> delivery"
+
+  - id: traffic-masters-squad
+    name: "Traffic Masters Squad"
+    chief: "traffic-masters-chief"
+    domain: "paid-traffic"
+    path: "SQUADS/Squad Traffic Masters/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/traffic-masters-squad-mapping.md"
+    capabilities:
+      - "Meta Ads campaign strategy and execution"
+      - "Google Ads management and optimization"
+      - "YouTube, TikTok, LinkedIn advertising"
+      - "Creative strategy and ad creative"
+      - "Tracking and attribution setup"
+      - "Campaign optimization and scaling"
+      - "CRO (Conversion Rate Optimization)"
+      - "Budget management and ROAS optimization"
+    internal_architecture: |
+      16-agent roster covering platform experts (Pittman, Burns, Mandalia, Kusmich,
+      Breeze, Aslam, Sobral) and domain specialists for Meta, Google, YouTube,
+      TikTok, LinkedIn, tracking, creative, CRO, and finance. Organized with
+      platform playbooks, creative templates, tracking guides, and analytics tools.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the campaign needs to achieve"
+        - scope: "Type: campaign_launch, creative_strategy, tracking_setup, optimization, scaling"
+        - campaign_context: "Platform, budget, target audience, current metrics"
+        - business_context: "Product, funnel stage, conversion goal"
+        - constraints: "Budget limits, platform policies, timeline"
+      optional_fields:
+        - frameworks: "Creative testing framework, scaling framework"
+        - platform_specifics: "Meta/Google/TikTok best practices"
+        - tracking_requirements: "Pixel, CAPI, UTM preferences"
+    deliverables:
+      - "Campaign strategies and media plans"
+      - "Ad creative briefs and concepts"
+      - "Tracking and attribution setups"
+      - "Optimization reports and recommendations"
+      - "Scaling playbooks"
+      - "ROAS and budget analysis"
+    quality_integration:
+      gate_owner: "traffic-masters-chief"
+      verification_levels: [local, global, semantic]
+      acceptance_threshold: 0.88
+      feedback_loop: "HRM -> traffic-masters-chief -> internal review -> delivery"
+
+  - id: hormozi-squad
+    name: "Hormozi Squad"
+    chief: "hormozi-chief"
+    domain: "business-growth"
+    path: "SQUADS/Squad Hormozi/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/HORMOZI-squad-mapping.md"
+    capabilities:
+      - "Grand Slam Offer creation"
+      - "Value equation optimization"
+      - "Lead generation systems ($100M Leads)"
+      - "Pricing strategy and value ladders"
+      - "Sales closing frameworks"
+      - "Retention and LTV optimization"
+      - "Business scaling playbooks"
+      - "Unit economics and financial modeling"
+    internal_architecture: |
+      16-agent roster covering offer creation, lead generation, pricing, copy,
+      ads, content, hooks, launch, closing, workshops, retention, scaling,
+      business models, audit, chief operations, and advisory. Based on Alex
+      Hormozi methodology ($100M Offers, $100M Leads, Gym Launch, Acquisition.com).
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What business outcome needs to be achieved"
+        - scope: "Type: offer_creation, lead_generation, pricing_strategy, value_ladder, retention"
+        - business_context: "Business model, current revenue, target, industry"
+        - customer_context: "Ideal customer profile, acquisition cost, LTV"
+        - constraints: "Budget, timeline, market limitations"
+      optional_fields:
+        - frameworks: "Grand Slam Offer, Value Equation, Lead Magnet Matrix"
+        - economics: "Pricing psychology, unit economics targets"
+        - competitive_landscape: "What competitors offer"
+    deliverables:
+      - "Grand Slam Offer designs"
+      - "Value ladder blueprints"
+      - "Lead generation system plans"
+      - "Pricing strategy documents"
+      - "Sales scripts and closing frameworks"
+      - "Retention playbooks"
+      - "Scaling roadmaps"
+    quality_integration:
+      gate_owner: "hormozi-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> hormozi-chief -> internal review -> delivery"
+
+  - id: movement-squad
+    name: "Movement Squad"
+    chief: "movement-chief"
+    domain: "movement-marketing"
+    path: "SQUADS/Squad Movement/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/movement-squad-mapping.md"
+    capabilities:
+      - "Movement design and lifecycle"
+      - "Cultural strategy and identity creation"
+      - "Community activation and building"
+      - "Manifesto writing"
+      - "Memetic engineering"
+      - "Brand rituals and ceremonies"
+      - "Impact measurement"
+      - "Distribution and PR for movements"
+    internal_architecture: |
+      7-agent roster covering movement architecture, cultural phenomenology,
+      identity creation, lifecycle management, manifesto writing, memetic
+      engineering, community building, impact measurement, distribution,
+      and PR. Organized with cultural signal registries, ritual templates,
+      movement frameworks, and impact metrics.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What the movement needs to achieve"
+        - scope: "Type: movement_design, manifesto, community_activation, cultural_strategy"
+        - movement_context: "Cause, cultural tension, existing community"
+        - audience: "Believers, skeptics, potential converts"
+        - constraints: "Brand alignment, ethical boundaries, timeline"
+      optional_fields:
+        - frameworks: "Movement lifecycle, memetic engineering"
+        - cultural_references: "Successful movements to study"
+        - distribution_channels: "Platforms and channels for activation"
+    deliverables:
+      - "Movement design blueprints"
+      - "Manifestos and founding documents"
+      - "Community activation playbooks"
+      - "Cultural identity frameworks"
+      - "Memetic strategies"
+      - "Impact measurement dashboards"
+    quality_integration:
+      gate_owner: "movement-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> movement-chief -> internal review -> delivery"
+
+  - id: advisory-board-squad
+    name: "Advisory Board Squad"
+    chief: "advisory-board-chair"
+    domain: "advisory-governance"
+    path: "SQUADS/Squad Advisory Board/"
+    status: "mapped"
+    mapping_file: "SQUADS/Mappings/advisory-board-squad-mapping.md"
+    capabilities:
+      - "Strategic advisory and mentorship"
+      - "Investment and capital strategy"
+      - "Governance and risk management"
+      - "Leadership and culture advisory"
+      - "Growth strategy and scaling"
+      - "Product strategy"
+      - "Due diligence and evaluation"
+      - "Crisis management and resolution"
+    internal_architecture: |
+      11-agent roster: Dalio (principles, decision systems), Munger (mental models,
+      investing), Naval (startups, leverage), Thiel (contrarian, monopoly theory),
+      Hoffman (network effects, blitzscaling), Sinek (purpose, leadership), Brown
+      (vulnerability, culture), Lencioni (team health), Sivers (simplicity, indie),
+      Chouinard (purpose-driven business), Board Chair (governance, facilitation).
+      Organized with decision registries, meeting minutes, memos, forecasts,
+      and governance frameworks.
+    delegation_protocol: "squad-brief"
+    brief_format:
+      required_fields:
+        - objective: "What advisory outcome is needed"
+        - scope: "Type: strategic_advice, board_preparation, fundraising, governance, leadership"
+        - company_context: "Stage, industry, key metrics, current challenges"
+        - advisory_context: "Type of advice needed, urgency, previous decisions"
+        - constraints: "Confidentiality, timeline, decision authority"
+      optional_fields:
+        - frameworks: "Dalio Principles, Munger Mental Models, Thiel Contrarian"
+        - decision_model: "First-principles, probabilistic thinking"
+        - board_composition: "Which advisors to prioritize"
+    deliverables:
+      - "Strategic advisory memos"
+      - "Board meeting agendas and materials"
+      - "Investment strategy documents"
+      - "Governance framework recommendations"
+      - "Leadership development plans"
+      - "Crisis management playbooks"
+      - "Growth strategy evaluations"
+    quality_integration:
+      gate_owner: "advisory-board-chair"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> advisory-board-chair -> internal review -> delivery"

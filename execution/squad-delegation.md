@@ -61,12 +61,24 @@ A workstream should be delegated to a squad when:
 |-------|----------------|-----------------|
 | Squad de Copy | copywriting, sales page, email sequence, headlines, hooks, persuasion, conversion copy | Any workstream requiring persuasive or marketing copy |
 | Squad HRM | orchestration, prompt engineering, technique selection | Self-delegation (HRM handles internally) |
+| Brand Squad | marca, brand, identidade visual, branding, naming, posicionamento, brand equity, brand architecture, arquetipo | Any workstream requiring brand strategy, identity, or positioning |
+| Design Squad | UI, UX, design system, componente, prototipo, wireframe, acessibilidade, user research, design tokens, handoff | Any workstream requiring UX/UI design, prototyping, or design systems |
+| Data Squad | analytics, metricas, dashboard, KPI, coorte, funil, growth metrics, data pipeline, A/B test, experimento, instrumentacao, segmentacao, retention | Any workstream requiring data analysis, metrics, or experimentation |
+| Cybersecurity Squad | seguranca, pentest, vulnerabilidade, red team, blue team, AppSec, compliance, OWASP, threat model, incident response, SOC, hardening, secure coding | Any workstream requiring security assessment, compliance, or incident response |
+| C-Level Squad | estrategia executiva, board meeting, decisao estrategica, governance, OKR executivo, planejamento estrategico, visao, roadmap executivo, operating model | Any workstream requiring executive strategy, governance, or cross-squad alignment |
+| Storytelling Squad | narrativa, storytelling, historia da marca, pitch, case study, keynote, manifesto, origin story, brand story | Any workstream requiring narrative design, pitches, or story-driven content |
+| Traffic Masters Squad | trafego pago, ads, Meta Ads, Google Ads, campanha, CAC, ROAS, creative strategy, tracking, pixel, conversao, escala de trafego | Any workstream requiring paid traffic, ad campaigns, or performance marketing |
+| Hormozi Squad | oferta, Grand Slam Offer, value equation, leads, aquisicao, escala, pricing, $100M Offers, lead magnet, value ladder, LTV, churn | Any workstream requiring offer creation, lead generation, or business growth strategy |
+| Movement Squad | movimento, comunidade, cultura de marca, ativacao, manifesto, tribo, community building, cultural strategy, memetics, rituais | Any workstream requiring movement design, cultural strategy, or community activation |
+| Advisory Board Squad | advisory, conselho, board, investidor, cap table, due diligence, mentoria, governanca, fundraising, exit strategy | Any workstream requiring strategic advisory, board preparation, or governance |
 
 ### When NOT to Delegate
 
 - One-line copy edits (too small for squad overhead)
 - Technical writing without persuasion angle (use doc-coauthoring skill instead)
-- Mixed workstreams where copy is < 20% of the work
+- Mixed workstreams where the squad's domain is < 20% of the work
+- Simple CSS changes or color lookups (use skills directly)
+- Routine tasks that don't need specialized squad expertise
 
 ---
 
