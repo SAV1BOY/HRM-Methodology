@@ -1,0 +1,25 @@
+# registry/evolution-federation.yaml — federated evolution budget policy (Section 19, ULTRAPLAN §8.3).
+# A hub-and-spoke meta-orchestrator (federation.py) reallocates a shared evolution budget toward the
+# squads with the best expected improvement. IMPLEMENTED (§8.3): std-error-weighted slope shrinkage to the
+# fleet mean, UCB expected-improvement scoring (max(0,shrunk)*P(improvable), +confidence bonus when the
+# slope CI excludes 0), proportional^(1/temperature) allocation, dwell hysteresis, and a criticality floor.
+version: "1.0"
+federation:
+  epoch_every_n_fleet_attempts: 50
+  total_evolution_budget: { tokens: 200000, cost_usd: 3.00 }
+  reallocation:
+    method: ucb_expected_improvement        # IMPLEMENTED: max(0,shrunk_slope)*P(improvable), +confidence bonus if slope CI excludes 0
+    temperature: 0.5
+    min_share: 0.03
+    max_share: 0.35
+    velocity_window_k: 10
+    dwell_epochs: 2                          # IMPLEMENTED: blend toward prior-epoch ledger shares (damps single-epoch swings)
+    shrinkage: std_error                     # IMPLEMENTED: precision-weighted (1/se^2) shrinkage of each slope toward the fleet mean
+    criticality_floor:                       # tied to weights_by_squad; never starve a critical squad
+      cybersecurity: 0.10
+      data: 0.08
+  participants:                              # squads enrolled in federated budget (squad-generator step 6)
+    - {squad: pre-programming, min_share: 0.03, max_share: 0.35}            # leaf pilot (conformance KPI)
+    - {squad: deep-research, min_share: 0.03, max_share: 0.35}              # 2nd drop-in (citation_accuracy, auto)
+    - {squad: cybersecurity, min_share: 0.10, max_share: 0.35}             # critical (floored)
+    - {squad: data, min_share: 0.08, max_share: 0.35}                      # critical (floored)

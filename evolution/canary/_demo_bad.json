@@ -1,0 +1,5 @@
+{
+  "_doc": "DEMO candidate that REGRESSES security (0.93 < baseline 0.96 and < 0.95 hard floor). Must be BLOCKED.",
+  "reasoning": 0.85, "security": 0.93, "data": 0.89, "extraction": 0.89, "creative": 0.86,
+  "design": 0.86, "research": 0.86, "brand": 0.86, "growth": 0.86, "strategy": 0.86
+}

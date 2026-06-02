@@ -1,0 +1,41 @@
+# artifact_entry.schema.yaml — NEW registry entry type for lineage/provenance (B12 greenfield).
+# registry/_schema.yaml currently has 6 types (skill/agent/squad/mcp/playbook/framework), none for
+# artifacts/lineage. Do NOT overload squad_entry. This backs data/registries/evolution/lineage.jsonl.
+schema_version: "1.0"
+
+artifact_entry:
+  required:
+    id: {type: str, note: "stable artifact id"}
+    type: {type: enum, values: [variant, genome, logic_rewrite, crystallized_skill, pipeline_outcome]}
+    produced_by: {type: str, note: "loop L0|L1|L2 or squad id"}
+    plan_version: {type: str}
+    parent_id: {type: str_or_null, note: "stepping-stone ancestor; keep_stepping_stones=true"}
+    created_at: {type: iso8601}
+    metric_hash: {type: str, note: "must equal kernel.seal at write time; fitness.py refuses mismatch"}
+  optional:
+    primary_kpi: {metric: str, value: float, direction: enum[max, min], fitness: float}
+    downstream_kpi_delta: {type: float}
+    quality_gate_pass: {type: bool}
+    budget_used: {tokens: int, latency: float, cost_usd: float}
+    on_pareto_front: {type: bool}
+    children: {type: int}
+    crystallized_skill_ref: {type: path}
+    prev_line_hash: {type: str, note: "chains lineage.jsonl; rewrite breaks the chain (R12)"}
+
+learned_skill_entry:   # registry/learned-skills.yaml (Voyager cross-squad)
+  required:
+    id: {type: str}
+    fingerprint: {type: str, note: "sha256 over (purpose+interface+key steps); dedup key"}
+    origin_squad: {type: str}
+    generality_score: {type: float, note: "calibrated vs labeled set before 0.7 is trusted"}
+    used_in_squads: {type: list}
+    file: {type: path}
+    quality_gate_pass: {type: bool}
+
+federation_entry:      # registry/evolution-federation.yaml
+  required:
+    squad: {type: str}
+    progress_velocity: {type: float, note: "shrinkage-adjusted slope; UCB expected improvement"}
+    budget_share: {type: float, between: [min_share, max_share]}
+    criticality_floor: {type: float}
+    dwell_epochs: {type: int}

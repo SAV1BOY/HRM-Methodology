@@ -41,7 +41,7 @@ The Pipeline Builder takes the output of the Technique Selector (an ordered list
 │  │                                           │      │
 │  │  variables: {step outputs, user input}   │      │
 │  │  config: {model, temperature, limits}    │      │
-│  │  metrics: {tokens, latency, calls}       │      │
+│  │  metrics: {total_tokens, total_latency, api_calls} │
 │  │  errors: {failures, retries}             │      │
 │  └──────────────────────────────────────────┘      │
 └─────────────────────────────────────────────────────┘
@@ -346,7 +346,7 @@ pipeline_report:
   status: success | partial | failed
   steps_completed: 5/5
   total_tokens: 4823
-  total_latency_seconds: 27.3
+  total_latency: 27.3   # seconds (canonical telemetry field name)
   api_calls: 7
   errors: []
   quality_estimate: high  # based on checklist pass rate
@@ -354,6 +354,23 @@ pipeline_report:
     - "Steps 1-2 could be parallelized (no dependency)"
     - "Self-Refine used 2 iterations; 1 may have been sufficient"
 ```
+
+### Evolution Layer L0 emit (Section 19)
+
+After producing `pipeline_report`, emit one canonical row so the selector learns with use (lights the
+familiarity term that was a stub). Canonical telemetry is `{total_tokens, total_latency, api_calls}`
+at all three sites (diagram, execution loop, report). Follow `evolution/reflexion.md`:
+
+```
+python evolution/reflexion.py --pipeline-id <id> --task-type <t> --complexity <c> --quality <q> \
+  --playbook <p> --techniques <csv> --selector-version <v> --status <PASSED|FAILED> \
+  --gate-pass <0|1> --gate-score <s> --tokens <total_tokens> --latency <total_latency> \
+  --calls <api_calls> --downstream-kpi-delta <d> --verdict <good|bad|neutral>
+```
+
+This appends to `data/metrics/pipeline_outcomes.tsv` (16 cols) and updates `technique_success.json`
+via `memory_store.py`. L0 is additive/always-safe; L1 (GEPA over weights) stays disarmed until the
+kernel is human-sealed (`harness_lock.py guard`).
 
 ---
 

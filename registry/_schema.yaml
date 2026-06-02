@@ -1,7 +1,7 @@
 # Asset Registry Schema
 # All registry entries must conform to this schema
 
-version: "1.0"
+version: "1.1"   # 1.1: de-drift squad_entry (quality_integration->object, +path/status/evolution) + lineage types
 
 schemas:
 
@@ -90,7 +90,7 @@ schemas:
         description: "Relative cost of using this agent"
 
   squad_entry:
-    required: [id, name, chief, domain]
+    required: [id, name, chief, domain, path]
     properties:
       id:
         type: string
@@ -102,6 +102,13 @@ schemas:
       domain:
         type: string
         description: "Primary domain covered"
+      path:
+        type: string
+        description: "Real on-disk path; verified by evolution/sync_check.py (must resolve)"
+      status:
+        type: string
+        enum: [active, mapped]
+        description: "active = built on disk; mapped = mapping doc only (stub)"
       capabilities:
         type: array
         items: string
@@ -115,8 +122,22 @@ schemas:
         type: array
         items: string
       quality_integration:
-        type: string
+        type: object   # de-drift (B12): data was always an object, schema wrongly said string
         description: "How quality gates integrate with this squad"
+        properties:
+          gate_owner: { type: string }
+          verification_levels: { type: array, items: string }
+          acceptance_threshold: { type: [number, string] }
+          feedback_loop: { type: string }
+      evolution:        # Section 19 leaf declaration (optional until Phase 7 propagation)
+        type: object
+        properties:
+          enabled: { type: boolean }
+          primary_kpi: { type: string }
+          secondary_kpi: { type: string }
+          fitness_direction: { type: string, enum: [maximize, minimize] }
+          kpi_measurability: { type: string, enum: [auto, proxy_llm_judge] }
+          proxy_validation: { type: object, required_when: "kpi_measurability == proxy_llm_judge" }
 
   mcp_entry:
     required: [id, name, provider]
@@ -182,3 +203,36 @@ schemas:
       when_to_avoid:
         type: array
         items: string
+
+  # --- Section 19 (Evolution Layer) entry types — see evolution/schemas/artifact_entry.schema.yaml ---
+  artifact_entry:
+    required: [id, type, produced_by, plan_version, created_at, metric_hash]
+    properties:
+      id: { type: string }
+      type: { type: string, enum: [variant, genome, logic_rewrite, crystallized_skill, pipeline_outcome] }
+      produced_by: { type: string }
+      parent_id: { type: [string, "null"] }
+      plan_version: { type: string }
+      created_at: { type: string }
+      metric_hash: { type: string }
+      prev_line_hash: { type: string }
+
+  learned_skill_entry:
+    required: [id, fingerprint, origin_squad, file]
+    properties:
+      id: { type: string }
+      fingerprint: { type: string }
+      origin_squad: { type: string }
+      generality_score: { type: number }
+      used_in_squads: { type: array, items: string }
+      file: { type: string }
+      quality_gate_pass: { type: boolean }
+
+  federation_entry:
+    required: [squad, budget_share]
+    properties:
+      squad: { type: string }
+      progress_velocity: { type: number }
+      budget_share: { type: number }
+      criticality_floor: { type: number }
+      dwell_epochs: { type: integer }

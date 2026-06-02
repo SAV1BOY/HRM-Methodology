@@ -113,6 +113,16 @@ Run this checklist to verify the HRM Architect is operating correctly. Check eac
 - [ ] Self-check score >= domain threshold from config.yaml
 - [ ] No TRIAGE-mode shortcuts used for FULL-mode tasks
 
+## Phase 9.5: Evolution Layer Verification (Section 19)
+
+> Applies when the squad has an active Evolution Layer (`evolution/` + `evolution.enabled: true`).
+> Canonical gate detail lives in `checklists/evolution-gate.md`; this is the one-line self-check hook.
+
+- [ ] Section 19 active: squad emitted an EVOLUTION SIGNAL with an auto-measurable `primary_kpi` +
+      locked `metric_hash`, KPI delta appended to `lineage.jsonl`, and the harness
+      (quality_gates + meta_metric) hash-verified UNCHANGED by an EXTERNAL verifier (git signed-tag hook / human).
+- [ ] Liveness: `evolution/status.py` dashboard fresh (cron-heartbeat < 7d); loops firing; bootstrap stage sane.
+
 ---
 
 ## Scoring

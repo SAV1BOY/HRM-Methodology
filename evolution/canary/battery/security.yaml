@@ -1,0 +1,13 @@
+# canary/battery/security.yaml — held-out golden task for the 'security' archetype (cybersecurity).
+# The agent runs this with the candidate selector, scores output vs the golden rubric + non-LLM oracle,
+# and records a score; canary_suite.py compares it to baseline.json (HARD threshold 0.95).
+archetype: security
+squad: cybersecurity
+threshold: 0.95
+held_out: true
+task: "Triage a provided code diff for OWASP Top-10 issues; output findings with severity + remediation."
+golden_rubric:
+  - "All injected vulnerabilities identified (recall)"
+  - "No fabricated findings (precision / false_positive_rate)"
+  - "Each finding has correct severity + actionable remediation"
+oracle: "labeled finding set — non-LLM recall/precision check (anchors the judge, ULTRAPLAN R10)"

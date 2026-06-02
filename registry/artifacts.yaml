@@ -1,0 +1,5 @@
+# registry/artifacts.yaml — evolution artifact/lineage registry (Section 19, recon B12 greenfield).
+# Conforms to registry/_schema.yaml#artifact_entry. The authoritative per-event chain is the
+# append-only data/registries/evolution/lineage.jsonl (validated by evolution/lineage_audit.py);
+# this file is the human-readable rollup of notable artifacts (variants, logic rewrites, skills).
+artifacts: []

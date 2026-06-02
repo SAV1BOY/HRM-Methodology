@@ -912,3 +912,29 @@ categories:
         num_calls: 1
         best_for: ["image understanding", "visual grounding", "OCR tasks"]
         avoid_when: ["text-only input"]
+
+# ---------------------------------------------------------------------------
+# composes_with — BASE composition graph  # EVOLUTION-ANCHOR: composes-with
+# Authored for Section 19 (recon B3: taxonomy had 0 prior composes_with entries). IMMUTABLE BASE;
+# L1/GEPA evolves an ADDITIVE overlay in evolution/selector_config.yaml and NEVER edits this block.
+# Each edge: a,b = technique ids (verified present in this taxonomy); w = strength (1.0 strong .. 0.5 weak);
+# source = paper | heuristic | empirical (provenance, per recon action). Consumed by
+# technique-selector.md Phase 4 (composes_with metadata) and Phase 3 Score-4 (composability).
+# ---------------------------------------------------------------------------
+composes_with:
+  - {a: step-back-prompting, b: chain-of-thought, w: 1.0, source: paper}
+  - {a: chain-of-thought, b: self-refine, w: 1.0, source: heuristic}
+  - {a: chain-of-thought, b: chain-of-verification, w: 1.0, source: paper}
+  - {a: role-prompting, b: chain-of-thought, w: 0.8, source: heuristic}
+  - {a: few-shot, b: chain-of-thought, w: 0.9, source: paper}
+  - {a: plan-and-solve, b: program-of-thoughts, w: 0.9, source: paper}
+  - {a: react, b: chain-of-thought, w: 0.9, source: paper}
+  - {a: self-refine, b: output-format, w: 0.8, source: heuristic}
+  - {a: chain-of-verification, b: output-format, w: 0.8, source: heuristic}
+  - {a: step-back-prompting, b: plan-and-solve, w: 0.8, source: heuristic}
+  - {a: skeleton-of-thought, b: output-format, w: 0.7, source: heuristic}
+  - {a: chain-of-thought, b: checklist-prompting, w: 0.8, source: heuristic}
+  - {a: multi-agent-debate, b: self-refine, w: 0.7, source: heuristic}
+  - {a: context-stuffing, b: chain-of-thought, w: 0.7, source: heuristic}
+  - {a: few-shot, b: output-format, w: 0.7, source: heuristic}
+  - {a: role-prompting, b: few-shot, w: 0.7, source: heuristic}

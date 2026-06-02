@@ -1,0 +1,13 @@
+{
+  "_doc": "Incumbent per-archetype canary scores. A candidate must not regress below ANY of these (regression_ceiling 0.0) and must meet each archetype absolute threshold (see canary_suite.yaml). Re-baselined only on a human-approved fleet promotion.",
+  "reasoning": 0.84,
+  "security": 0.96,
+  "data": 0.89,
+  "extraction": 0.89,
+  "creative": 0.86,
+  "design": 0.86,
+  "research": 0.86,
+  "brand": 0.86,
+  "growth": 0.86,
+  "strategy": 0.86
+}

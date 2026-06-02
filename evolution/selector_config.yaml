@@ -1,0 +1,25 @@
+# evolution/selector_config.yaml — the EVOLVABLE selector genome ("program.md" of the HRM, Section 19).
+# Phase-3 Score reads weights HERE (not hardcoded) so L1/GEPA can evolve them. The five dimension NAMES
+# and `Σ weights == 1.0` are kernel-immutable (technique-selector.md); only the VALUES evolve, gated by
+# canary + drives_fitness. The composes_with BASE graph lives in taxonomy.yaml; this overlay is ADDITIVE.
+version: "v1"
+genome:
+  weights:
+    task_fit: 0.35
+    quality_impact: 0.25
+    efficiency: 0.20
+    composability: 0.15
+    familiarity: 0.05
+  composes_with_overlay: []          # L1 appends learned edges here; never edits the taxonomy.yaml base
+  playbook_bindings:                  # 7 real playbooks (recon B9)
+    reasoning: research-and-analysis
+    code: code-generation
+    creative: creative-writing
+    extraction: data-extraction
+    agent: agent-orchestration
+    rag: rag-pipeline
+    design: design-system-analysis
+constraints:
+  weights_sum: 1.0                    # invariant: gepa_meta/fitness reject a genome whose weights != 1.0
+  dimension_names: [task_fit, quality_impact, efficiency, composability, familiarity]  # immutable set
+history: []                          # appended per L1 generation: {version, parent, fitness, ts}

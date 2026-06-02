@@ -1,0 +1,14 @@
+# evolution/kernel/gates.lock.yaml — FROZEN kernel artifact (Section 19).
+# Pins the quality-gate thresholds so the optimizer can NEVER weaken a gate (H3/H4).
+# Self field excluded from hash: `gates_hash`. `pinned_gate_definitions_hash` IS protected.
+source: "quality-gates/gate-definitions.yaml#domain_thresholds"
+pinned_gate_definitions_hash: "sha256:34ea0a026b05c004c0ffdab78a270c78792f2af5c0650552578fdc8d1880228a"
+mutation_may_lower: false
+quality_gate_levels: ["syntax", "local", "global", "semantic"]
+# Floors that mutation may never lower (C8). cybersecurity stays 0.95 absolute (canary HARD).
+floor_invariants:
+  security_level_2: 0.95
+  security_level_3: 0.95
+  security_level_4: 0.95
+  cybersecurity_level_4: 0.95
+gates_hash: "sha256:de16619f6ff35de89eb42bd3913c7e9fca1cc667b4c5d899046e2c40b8386a9e"

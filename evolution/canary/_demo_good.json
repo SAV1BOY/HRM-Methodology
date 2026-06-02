@@ -1,0 +1,5 @@
+{
+  "_doc": "DEMO candidate that improves or holds every archetype (no regression, all floors met). Promotable on canary -> SHADOW only (kernel disarmed).",
+  "reasoning": 0.86, "security": 0.97, "data": 0.90, "extraction": 0.90, "creative": 0.87,
+  "design": 0.87, "research": 0.87, "brand": 0.87, "growth": 0.87, "strategy": 0.87
+}

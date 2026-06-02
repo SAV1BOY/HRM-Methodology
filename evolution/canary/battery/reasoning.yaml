@@ -1,0 +1,13 @@
+# canary/battery/reasoning.yaml — held-out golden task for the 'reasoning' archetype (hrm orchestration).
+archetype: reasoning
+squad: hrm
+threshold: 0.80
+held_out: true
+task: "Given a multi-constraint planning problem, produce a correct step-by-step plan satisfying all constraints."
+golden_rubric:
+  - "All stated constraints satisfied (checkable)"
+  - "No contradictory steps; ordering valid"
+  - "Reaches the correct final answer"
+oracle: "constraint-satisfaction checker — non-LLM verification of the produced plan"
+# Remaining 8 archetypes (data, extraction, creative, design, research, brand, growth, strategy)
+# follow this same shape; populated from each squad's golden set during Phase 7 propagation.

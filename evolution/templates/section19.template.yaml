@@ -1,0 +1,42 @@
+# section19.template.yaml — drop-in Evolution Layer block for a LEAF squad (Section 19).
+# Copy into a squad's config.yaml (append at EOF) and fill <PLACEHOLDERS>. A future squad born with
+# this block is self-evolving by default. Orchestrator (HRM) differs: add safety: + weights_by_squad
+# and set role: orchestrator (see Squad HRM/config.yaml). Ships DISARMED.
+# --------------------------------------------------------------------------- #
+# SECTION 19 — EVOLUTION LAYER (leaf)        # EVOLUTION-ANCHOR: section-19
+evolution:
+  enabled: true
+  role: "leaf"
+  mode: "hill_climb"
+  l1_l2_armed: false
+  kernel:
+    fitness_metric: "<ONE_AUTO_MEASURABLE_KPI>"     # the squad's val_bpb (see ULTRAPLAN §6.5 table)
+    fitness_direction: "maximize"                   # or minimize
+    conformance: <true_if_internal_checklist>       # if true, set drives_fitness:false + external pair
+    drives_fitness: <false_if_conformance_pending>  # ENFORCED by selection.py (log-only until paired)
+    external_outcome_pair: "<external_KPI_or_pending>"
+    seal: "evolution/kernel/kernel.seal.json"
+    budget_per_attempt: { max_tokens: 12000, max_seconds: 90, max_cost_usd: 0.20 }
+    diversity_floor: 0.40
+    level1_patience: 10
+    level2_patience: 50
+  archive:
+    location: "data/registries/evolution/"
+    selection: { method: "score_child_prop", novelty_weight: 0.30, keep_stepping_stones: true }
+    update_policy: "keep_all"
+  meta:
+    engine: "gepa"
+    targets: ["templates/*", "checklists-overlay/*"]
+    forbidden_targets: ["evolution/kernel/*", "evolution/harness_lock.py", "checklists/*"]
+    trigger: "on_stagnation"
+  skill_library:
+    enabled: true
+    crystallize_on: "quality_gate_pass"
+    location: "lib/skill_library/learned/"
+    index: "lib/skill_library/index.yaml"
+    dedup: true
+    consult_before_solving: true
+  operation:
+    never_stop: { semantics: "event_driven_L0 + cadence_driven_L1_L2", l0_trigger: "per_task" }
+    log: "data/metrics/evolution_log.tsv"
+    audit: "data/registries/evolution/lineage.jsonl"

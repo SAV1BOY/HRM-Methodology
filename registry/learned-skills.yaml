@@ -1,0 +1,16 @@
+# registry/learned-skills.yaml — cross-squad Voyager library (auto; dedup by fingerprint).
+learned_skills:
+  - id: parse-burp-xml
+    fingerprint: sha256:9a2c1
+    origin_squad: cybersecurity-squad
+    generality_score: 0.78
+    used_in_squads: ['cybersecurity-squad', 'data-squad', 'deep-research-squad', 'movement-squad']
+    file: lib/learned-shared/parse-burp-xml.md
+    quality_gate_pass: true
+  - id: parse-burp-xml
+    fingerprint: sha256:deadbeef01
+    origin_squad: cybersecurity-squad
+    generality_score: 0.78
+    used_in_squads: ['2']
+    file: lib/learned-shared/parse-burp-xml.md
+    quality_gate_pass: true

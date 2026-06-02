@@ -1,0 +1,60 @@
+{
+  "variants": [
+    {
+      "variant_id": "sel_v1",
+      "parent_id": null,
+      "score": 0.8,
+      "novelty": 0.0,
+      "children": 3,
+      "obj": {
+        "quality": 0.8,
+        "ncost": -0.0,
+        "nlatency": -0.0,
+        "diversity": 0.3
+      },
+      "on_pareto_front": true
+    },
+    {
+      "variant_id": "sel_g1",
+      "parent_id": "sel_v1",
+      "score": 0.8,
+      "novelty": 0.3,
+      "children": 0,
+      "obj": {
+        "quality": 0.8,
+        "ncost": -0.0,
+        "nlatency": -0.0,
+        "diversity": 0.3
+      },
+      "on_pareto_front": true
+    },
+    {
+      "variant_id": "sel_g2",
+      "parent_id": "sel_v1",
+      "score": 0.8,
+      "novelty": 0.3,
+      "children": 0,
+      "obj": {
+        "quality": 0.8,
+        "ncost": -0.0,
+        "nlatency": -0.0,
+        "diversity": 0.3
+      },
+      "on_pareto_front": true
+    },
+    {
+      "variant_id": "sel_g3",
+      "parent_id": "sel_v1",
+      "score": 0.8,
+      "novelty": 0.3,
+      "children": 0,
+      "obj": {
+        "quality": 0.8,
+        "ncost": -0.0,
+        "nlatency": -0.0,
+        "diversity": 0.3
+      },
+      "on_pareto_front": true
+    }
+  ]
+}

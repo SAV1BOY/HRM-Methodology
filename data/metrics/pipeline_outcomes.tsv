@@ -1,0 +1,1 @@
+pipeline_id	timestamp	task_type	complexity	quality_level	playbook	techniques	selector_config_version	status	gate_pass	gate_score	total_tokens	total_latency	api_calls	downstream_kpi_delta	reflexion_verdicts

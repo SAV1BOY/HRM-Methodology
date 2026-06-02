@@ -1,0 +1,2 @@
+timestamp	scope	squad	loop	tokens	cost_usd	note
+2026-06-02T10:30:00	per_attempt	pre-programming	L0	0	0.0	seed: L0 logging overhead (no LLM rollout)

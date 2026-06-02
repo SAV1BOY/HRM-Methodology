@@ -1,8 +1,8 @@
 # Squads Registry
 # Specialized squads with internal architecture and delegation protocols
-version: "1.1"
+version: "1.2"
 last_updated: "2026-03-05"
-total: 12
+total: 15  # leaf squads on disk (excludes hrm-squad orchestrator)
 
 squads:
 
@@ -10,7 +10,7 @@ squads:
     name: "Squad de Copy"
     chief: "copy-chief"
     domain: "copywriting"
-    path: "SQUADS/Squad de Copy/"
+    path: "SQUADS/Squad de Copy - Em Desenvolvimento/"
     capabilities:
       - "Direct response copywriting"
       - "Sales page creation"
@@ -93,7 +93,7 @@ squads:
     name: "Brand Squad"
     chief: "brand-chief"
     domain: "brand-strategy"
-    path: "SQUADS/Squad Brand/"
+    path: "SQUADS/Brand-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/brand-squad-mapping.md"
     capabilities:
@@ -139,7 +139,7 @@ squads:
     name: "Design Squad"
     chief: "design-chief"
     domain: "ux-ui-design"
-    path: "SQUADS/Squad Design/"
+    path: "SQUADS/Design-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/design-squad-mapping.md"
     capabilities:
@@ -185,7 +185,7 @@ squads:
     name: "Data Squad"
     chief: "data-chief"
     domain: "data-analytics"
-    path: "SQUADS/Squad Data/"
+    path: "SQUADS/Data-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/data-squad-mapping.md"
     capabilities:
@@ -231,7 +231,7 @@ squads:
     name: "Cybersecurity Squad"
     chief: "cybersecurity-chief"
     domain: "security"
-    path: "SQUADS/Squad Cybersecurity/"
+    path: "SQUADS/Cybersecurity-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/cybersecurity-squad-mapping.md"
     capabilities:
@@ -279,7 +279,7 @@ squads:
     name: "C-Level Squad"
     chief: "c-level-chief"
     domain: "executive-strategy"
-    path: "SQUADS/Squad C-Level/"
+    path: "SQUADS/C-Level-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/C-level-squad-mapping.md"
     capabilities:
@@ -325,7 +325,7 @@ squads:
     name: "Storytelling Squad"
     chief: "storytelling-chief"
     domain: "storytelling"
-    path: "SQUADS/Squad Storytelling/"
+    path: "SQUADS/Storytelling-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/storytelling-squad-mapping.md"
     capabilities:
@@ -371,7 +371,7 @@ squads:
     name: "Traffic Masters Squad"
     chief: "traffic-masters-chief"
     domain: "paid-traffic"
-    path: "SQUADS/Squad Traffic Masters/"
+    path: "SQUADS/Traffic-Masters-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/traffic-masters-squad-mapping.md"
     capabilities:
@@ -464,7 +464,7 @@ squads:
     name: "Movement Squad"
     chief: "movement-chief"
     domain: "movement-marketing"
-    path: "SQUADS/Squad Movement/"
+    path: "SQUADS/Movement-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/movement-squad-mapping.md"
     capabilities:
@@ -511,7 +511,7 @@ squads:
     name: "Advisory Board Squad"
     chief: "advisory-board-chair"
     domain: "advisory-governance"
-    path: "SQUADS/Squad Advisory Board/"
+    path: "SQUADS/Advisory-Board-Squad/"
     status: "mapped"
     mapping_file: "SQUADS/Mappings/advisory-board-squad-mapping.md"
     capabilities:
@@ -556,3 +556,109 @@ squads:
       verification_levels: [local, semantic]
       acceptance_threshold: 0.85
       feedback_loop: "HRM -> advisory-board-chair -> internal review -> delivery"
+
+  - id: pre-programming-squad
+    name: "Pre-Programming Squad"
+    chief: "pre-programming-chief"
+    domain: "software-architecture-and-planning"
+    path: "SQUADS/Pre-Programming-Squad/"
+    status: "active"
+    capabilities:
+      - "Requirements engineering and spec authoring"
+      - "Architecture decision records"
+      - "Definition-of-Done gating and rework reduction"
+      - "Test strategy before implementation"
+    delegation_protocol: "squad-brief"
+    deliverables:
+      - "Specs, ADRs, DoD checklists, test plans"
+    quality_integration:
+      gate_owner: "pre-programming-chief"
+      verification_levels: [local, global, semantic]
+      acceptance_threshold: 0.88
+      feedback_loop: "HRM -> pre-programming-chief -> internal review -> delivery"
+    evolution:
+      enabled: false
+      primary_kpi: "gate_pass_rate"
+      secondary_kpi: "rework_rate"
+      fitness_direction: "maximize"
+      kpi_measurability: "auto"
+      conformance_note: "internal-checklist; pair with >=1 external-outcome KPI before driving fitness"
+
+  - id: deep-research-squad
+    name: "Deep Research Squad"
+    chief: "deep-research-chief"
+    domain: "research-and-synthesis"
+    path: "SQUADS/Deep-Research-Squad/"
+    status: "active"
+    capabilities:
+      - "Multi-source research and fact verification"
+      - "Citation tracing and evidence density scoring"
+      - "Adversarial claim verification"
+      - "Cited report synthesis"
+    delegation_protocol: "squad-brief"
+    deliverables:
+      - "Cited research reports with evidence map"
+    quality_integration:
+      gate_owner: "deep-research-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> deep-research-chief -> internal review -> delivery"
+    evolution:
+      enabled: false
+      primary_kpi: "citation_accuracy"
+      secondary_kpi: "evidence_density"
+      fitness_direction: "maximize"
+      kpi_measurability: "auto"
+      ground_truth: "external (citations resolve)"
+
+  - id: human-mapping-squad
+    name: "Human Mapping Squad"
+    chief: "human-mapping-chief"
+    domain: "psychographic-profiling"
+    path: "SQUADS/Human-Mapping-Squad/"
+    status: "active"
+    capabilities:
+      - "Multi-framework personality and audience profiling"
+      - "Test-retest profile consistency"
+      - "Persona synthesis"
+    delegation_protocol: "squad-brief"
+    deliverables:
+      - "Profiles and audience maps with consistency scores"
+    quality_integration:
+      gate_owner: "human-mapping-chief"
+      verification_levels: [local, semantic]
+      acceptance_threshold: 0.85
+      feedback_loop: "HRM -> human-mapping-chief -> internal review -> delivery"
+    evolution:
+      enabled: false
+      primary_kpi: "profile_consistency"
+      fitness_direction: "maximize"
+      kpi_measurability: "auto"
+      ground_truth: "external (test-retest stability)"
+
+  - id: sales-call-intelligence-squad
+    name: "Sales Call Intelligence Squad"
+    chief: "sales-call-chief"
+    domain: "sales-conversation-analysis"
+    path: "SQUADS/Sales-Call-Intelligence-Squad/"
+    status: "active"
+    capabilities:
+      - "Call transcription analysis"
+      - "Methodology adherence scoring"
+      - "Extraction of objections, commitments, next steps"
+      - "Close-rate attribution by closer"
+    delegation_protocol: "squad-brief"
+    deliverables:
+      - "Call analyses, extraction sheets, close-rate reports"
+    quality_integration:
+      gate_owner: "sales-call-chief"
+      verification_levels: [local, global, semantic]
+      acceptance_threshold: 0.88
+      feedback_loop: "HRM -> sales-call-chief -> internal review -> delivery"
+    evolution:
+      enabled: false
+      primary_kpi: "extraction_accuracy"
+      secondary_kpi: "close_rate"
+      fitness_direction: "maximize"
+      kpi_measurability: "auto"
+      ground_truth: "labeled-set/external"

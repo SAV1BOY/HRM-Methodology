@@ -1,0 +1,20 @@
+# evolution/kernel/fitness.yaml  — FROZEN kernel artifact (Section 19).
+# Edit ONLY via human reseal (harness_lock.py reseal). Any byte change is tamper-evident.
+# Canonical hash (harness_lock.py) ignores: comments, blank lines, trailing ws, and the
+# self field `metric_hash`. All other values ARE protected.
+fitness_metric: "downstream_aggregate_score"
+fitness_direction: "maximize"
+# C4: NOT a multiplied scalar. Decomposed + gated on BOTH terms (anti zero-inflation).
+fitness_formula: "decomposed(gate_pass_rate, mean(kpi_delta_norm | gate_pass=1))"
+# C3: aggregation across squads is min/CVaR, never plain mean (blocks steer-to-easy-squad).
+aggregation: "min_or_cvar_over_squads"
+coverage_floor_min_obs: 20
+# C2/B11: weights_by_squad lives OUTSIDE the reselable kernel (config.yaml#evolution.weights_by_squad).
+weights_by_squad_ref: "config.yaml#evolution.weights_by_squad"
+# C4/fitness-6a: normalization anchored to a FIXED reference frozen at activation (anti moving-target).
+kpi_norm_method: "robust_median_iqr"
+kpi_norm_window_k: 20
+kpi_norm_z_cap: 3
+kpi_norm_fixed_reference: true
+ema_alpha: 0.2
+metric_hash: "sha256:d997bdbde488da06c8b09382e9cbed7bd06b348e0b95664f139a6bfe9a302c19"

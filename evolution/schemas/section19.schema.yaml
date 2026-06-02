@@ -1,0 +1,54 @@
+# section19.schema.yaml — canonical shape of the `evolution:` block (Section 19).
+# Lightweight validation spec (stdlib-checkable). orchestrator = HRM; leaf = squads-folha.
+schema_version: "1.0"
+applies_to: "config.yaml#evolution"
+
+required_top:
+  enabled: {type: bool}
+  role: {type: enum, values: [orchestrator, leaf]}
+  mode: {type: enum, values: [open_ended, hill_climb, hybrid]}
+  l1_l2_armed: {type: bool, note: "GLOBAL gate; true only after >=1 leaf emits n>=min_samples downstream rows AND human reseal"}
+  shadow_only_until_pilot: {type: bool}
+
+required_kernel:   # IMMUTABLE, hash-verified by harness_lock.py
+  fitness_metric: {type: str}
+  fitness_direction: {type: enum, values: [maximize, minimize]}
+  fitness_formula: {type: str, note: "decomposed(gate_pass_rate, cond_kpi) — C4"}
+  aggregation: {type: str, note: "min_or_cvar_over_squads — C3"}
+  metric_hash: {type: str, set_by: "harness_lock.py freeze"}
+  meta_metric: {type: str}
+  meta_metric_hash: {type: str, set_by: "harness_lock.py freeze"}
+  quality_gates_locked: {type: bool}
+  budget_per_attempt: {max_tokens: int, max_seconds: int, max_cost_usd: float}
+  diversity_floor: {type: float, default: 0.40}
+  level1_patience: {type: int, default: 10}
+  level2_patience: {type: int, default: 50}
+
+required_archive:
+  location: {type: path}
+  track: {type: list}
+  selection: {method: enum[score_child_prop], novelty_weight: float, keep_stepping_stones: bool}
+  update_policy: {type: enum, values: [keep_all, keep_better]}
+
+required_meta:
+  engine: {type: enum, values: [gepa, dgm_diagnose, promptbreeder], default: gepa}
+  targets: {type: list}
+  forbidden_targets: {type: list, must_include: ["evolution/kernel/*", "checklists/*"]}
+  trigger: {type: enum, values: [on_stagnation]}
+
+orchestrator_only:   # present iff role==orchestrator; OMIT in leaves
+  weights_by_squad: {type: map, note: "OUTSIDE reselable kernel (C2) — changes only via out-of-band human-signed approval"}
+  safety:
+    canary_required: {type: bool}
+    canary_holdout: {type: bool}
+    regression_ceiling: {type: float, must_equal: 0.0}
+    routing_skew_gate: {type: bool}
+    staged_rollout: {type: list, value: [shadow, one_pilot_squad, fleet]}
+    rollback_on_downstream_drop: {type: bool}
+    human_approval_required_for: {type: list}
+
+leaf_delta:   # how a leaf differs
+  - "role: leaf"
+  - "DELETE safety: and weights_by_squad:"
+  - "kernel.fitness_metric = the squad's one auto-measurable KPI (val_bpb)"
+  - "smaller budgets: max_tokens 12000 / max_seconds 90 / max_cost_usd 0.20"

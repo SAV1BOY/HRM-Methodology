@@ -1,0 +1,27 @@
+# evolution/kernel/meta.yaml — FROZEN kernel artifact (Section 19).
+# Meta-evolution invariants + judge lock. Self field excluded from hash: `meta_metric_hash`.
+meta_metric: "downstream_aggregate_score"
+# Targets the L2 optimizer may NEVER mutate (H4 GATES_TOUCHED blocks if intersected).
+forbidden_targets:
+  - "evolution/kernel/*"
+  - "quality-gates/gate-definitions.yaml#domain_thresholds"
+  - "checklists/*"
+  - "evolution/harness_lock.py"
+  - "evolution/lineage_audit.py"
+  - "evolution/canary_suite.py"
+  - "evolution/fitness.py"
+# C4: the LLM-judge measurement instrument is pinned (cannot be hashed, but is pinned + audited).
+judge_lock_judge_model_id: "PENDING_HUMAN_SEAL"
+judge_lock_prompt_hash: "PENDING"
+judge_lock_temperature: 0
+judge_lock_seed: 1337
+# RESERVED: pin the human signer's key fingerprint(s) so guard accepts ONLY these keys' signed tags.
+# Until a fingerprint is provided, guard accepts any locally-trusted key that `git tag -v` validates
+# (documented residual). Filling this is part of the human seal ceremony (ULTRAPLAN open Q1).
+authorized_seal_keys: ["PENDING_HUMAN_FINGERPRINT"]
+# C8: safety floors live INSIDE the kernel so the optimizer cannot loosen its own guard.
+diversity_floor: 0.40
+level1_patience: 10
+level2_patience: 50
+novelty_weight: 0.30
+meta_metric_hash: "sha256:d2ebf33d7b5b14b488ea267ac2968f8d4682bf8bc462a4ec0446746ba71018ae"

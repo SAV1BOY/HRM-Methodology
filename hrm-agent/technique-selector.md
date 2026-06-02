@@ -149,6 +149,12 @@ A reduced candidate list, typically 20-40 techniques out of 75.
 
 Score each remaining technique on a 0-100 scale across multiple dimensions, then compute a weighted total.
 
+> **Section 19 (L1):** the five dimension WEIGHTS below are read from `evolution/selector_config.yaml`
+> (`genome.weights`), NOT hardcoded — so GEPA/L1 can evolve them. The dimension NAMES and `Σ weights = 1.0`
+> are kernel-immutable; only the VALUES evolve, gated by canary + `drives_fitness`. The `composes_with`
+> base graph lives in `taxonomy.yaml` (Score 4 reads it); L1 adds an ADDITIVE overlay in `selector_config.yaml`.
+> The literal 0.35/0.25/0.20/0.15/0.05 below is the `v1` genome (identical values — additive, no behavior change).
+
 ### Scoring Dimensions
 
 ```
@@ -188,7 +194,11 @@ FOR each candidate technique:
   # Bonus if composes_with includes other high-scoring candidates
 
   # Score 5: Familiarity (weight: 0.05)
-  # Techniques the agent has used successfully before get a bonus
+  # Techniques the agent has used successfully before get a bonus.
+  # memory.success_rate is NO LONGER a stub (Section 19 / L0): it returns the persisted EMA success
+  # rate written after each pipeline by evolution/reflexion.py -> evolution/memory_store.py, stored in
+  # data/metrics/technique_success.json. Default 0.0 for an unseen technique.
+  #   read:  python evolution/memory_store.py --get <technique.id>
   familiarity = memory.success_rate(technique.id) * 100
 
   # Total score
@@ -277,9 +287,10 @@ pipeline:
 
 ---
 
-## Decision Trace
+## SELECTION TRACE
 
-For transparency, the agent logs its selection reasoning:
+For transparency, the agent logs its selection reasoning. The canonical grep token is `SELECTION TRACE:`
+(consumed by L0 reflexion + lineage); heading and label are intentionally aligned.
 
 ```
 SELECTION TRACE:

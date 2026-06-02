@@ -140,6 +140,26 @@ verification_result:
 
 ---
 
+## Evolution Layer Hook (L0 — per task) — Section 19
+
+After producing `verification_result` (Step 11), if the active squad has an Evolution Layer
+(`evolution/` present + `evolution.enabled: true` in its config), persist the outcome so the squad
+learns with use. This is the **L0 trigger seam**: every execution_mode passes through Step 11, so
+coverage is guaranteed (a real Stop hook is the belt-and-suspenders backup).
+
+1. **Persist** one append-only row to the squad's `data/metrics/evolution_log.tsv`:
+   `task_id, timestamp, task_type, gate_pass, first_pass, gate_score, reflexion_verdict, crystallized_skill_ref`
+   - `gate_pass` = (status == PASSED); `first_pass` = passed with no prior failed attempt; `gate_score` = aggregate_score.
+2. **Reflect**: follow `evolution/reflexion.md` to write the verbal reflection + emit `reflexion_verdict ∈ {good,bad,neutral}`.
+3. **Crystallize** (on clean pass): follow `evolution/voyager_crystallize.md` → `lib/skill_library/crystallize.py` (sha256 dedup).
+4. **Never** edit prior rows or the kernel. The KPI rollup is `scripts/reporting/fitness.py` (DET) → `gate_pass_rate`.
+
+> Disarmed safety: L0 (logging / reflection / crystallization) is always safe and additive. L1/L2
+> mutation loops require `evolution/harness_lock.py guard` to return PASS (kernel intact + human-sealed),
+> which it will refuse until the kernel is armed out-of-band. Until then, only L0 runs.
+
+---
+
 ## Adaptive Frequency
 
 Gate frequency adapts based on history:

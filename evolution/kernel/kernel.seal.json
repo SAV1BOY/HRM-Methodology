@@ -1,0 +1,44 @@
+{
+  "_doc": "Bootstrap kernel seal. NOT human-approved. See evolution/README.md root-of-trust.",
+  "combined_hash": "sha256:c92fdee6b187a607b2ff6b64e025dadf04dabd6acfca427f62601094861de63d",
+  "components": {
+    "fitness_hash": "sha256:d997bdbde488da06c8b09382e9cbed7bd06b348e0b95664f139a6bfe9a302c19",
+    "gates_hash": "sha256:de16619f6ff35de89eb42bd3913c7e9fca1cc667b4c5d899046e2c40b8386a9e",
+    "meta_hash": "sha256:d2ebf33d7b5b14b488ea267ac2968f8d4682bf8bc462a4ec0446746ba71018ae",
+    "scripts_hash": "sha256:a75abac5fd92296b50329e9c6c580c75e2d8f48d983d4e6d497a8cc311f676d5",
+    "gate_definitions_hash": "sha256:34ea0a026b05c004c0ffdab78a270c78792f2af5c0650552578fdc8d1880228a",
+    "data_hash": "sha256:01cb3125a5a019bf8c4d61edd755ada8fc7f22b49faef8245d11597e73f7a8a7",
+    "loop_scripts_hash": "sha256:dd4b884b9f279c758688d82c0d3eed17e066c57642f796ff7f23580747cc17d6"
+  },
+  "scripts_manifest": [
+    "evolution/harness_lock.py",
+    "evolution/fitness.py",
+    "evolution/lineage_audit.py",
+    "evolution/canary_suite.py",
+    "evolution/budget_guard.py"
+  ],
+  "data_manifest": [
+    "evolution/canary/baseline.json",
+    "evolution/canary/canary_suite.yaml"
+  ],
+  "loop_manifest": [
+    "evolution/selection.py",
+    "evolution/archive.py",
+    "evolution/memory_store.py",
+    "evolution/reflexion.py",
+    "evolution/stagnation.py",
+    "evolution/algo_evolve.py",
+    "evolution/gepa_meta.py",
+    "evolution/federation.py",
+    "evolution/skill_promotion.py",
+    "evolution/rollback.py",
+    "evolution/status.py",
+    "evolution/sync_check.py"
+  ],
+  "status": "PENDING_HUMAN_SEAL",
+  "armed": false,
+  "approved_sig": null,
+  "approved_by": null,
+  "approved_ts": null,
+  "git_commit": "67627294767179da2fc17e675a0e3e252ba5e2a7"
+}

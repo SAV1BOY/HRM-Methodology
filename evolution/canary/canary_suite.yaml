@@ -1,0 +1,20 @@
+# canary_suite.yaml — cross-squad held-out regression battery (Section 19, ULTRAPLAN §7.3).
+# 10 archetypes derived from the REAL 15 leaf squads + HRM. A candidate becomes default ONLY if it
+# regresses on NONE (regression_ceiling: 0.0). cybersecurity is pinned to an ABSOLUTE 0.95 floor.
+# Battery is HELD-OUT: drawn from a larger hash-locked pool post-commit (train/test discipline).
+version: "1.0"
+regression_ceiling: 0.0          # zero per-archetype regression tolerated to promote
+holdout: true
+archetype_slots: 13              # 10 active + 3 pending (NEUTRAL until populated; never green silently)
+archetypes:
+  - {id: reasoning,   squads: [hrm],                           threshold: 0.80}
+  - {id: security,    squads: [cybersecurity],                 threshold: 0.95}   # HARD absolute floor
+  - {id: data,        squads: [data],                          threshold: 0.88}
+  - {id: extraction,  squads: [sales-call-intelligence, data], threshold: 0.88}
+  - {id: creative,    squads: [copy, storytelling],            threshold: 0.85}
+  - {id: design,      squads: [design],                        threshold: 0.85}
+  - {id: research,    squads: [deep-research],                 threshold: 0.85}
+  - {id: brand,       squads: [brand, movement],               threshold: 0.85}
+  - {id: growth,      squads: [hormozi, traffic-masters],      threshold: 0.85}
+  - {id: strategy,    squads: [c-level, advisory-board],       threshold: 0.85}
+pending_slots: [pending_1, pending_2, pending_3]   # NEUTRAL until real golden tasks added
