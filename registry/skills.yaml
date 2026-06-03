@@ -2,7 +2,7 @@
 # Complete catalog of all 44 skills available in the system
 version: "1.0"
 last_updated: "2026-03-03"
-total: 44
+total: 45
 
 skills:
 
@@ -625,6 +625,23 @@ skills:
     outputs: [swarm_execution_results, phase_results, convergence_report]
     estimated_cost: {min: 10, max: 60}
     composability: [agent-router, verification-before-completion]
+    model_preference: any
+
+  - id: hrm-workflow-compiler
+    name: "HRM Workflow Compiler"
+    phase: 2
+    category: routing
+    trigger_conditions:
+      - "execution_mode in [parallel, swarm] from HRM Plano v1"
+      - "COMPLEXIDADE >= COMPLEXA with 2+ workstreams"
+      - "Compiles ExecutionPlan into a REAL Workflow({script}) call (background subagents, enforced quality-gate schemas, /workflows-watchable) -- same process as ultracode"
+      - "PREFERRED over agent-router/swarm-orchestrator for parallel/swarm; those become fallback if the Workflow tool is unavailable"
+      - "NOT for TEAMS (use agent-teams-protocol). Squad-agnostic / drop-in for any squad whose orchestrator emits the standard ExecutionPlan"
+    domain_affinity: [ALL]
+    inputs: [execution_plan, workstreams, quality_gates, interface_contracts]
+    outputs: [workflow_tool_call, background_run_id, gate_scores, escalations]
+    estimated_cost: {min: 10, max: 80}
+    composability: [hrm-architect, agent-router, swarm-orchestrator, verification-before-completion]
     model_preference: any
 
   # ============================================================

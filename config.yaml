@@ -61,10 +61,14 @@ architecture:
       skill_target: "agent-router"
     - id: parallel
       condition: "2+ independent subtasks, no peer comm"
-      skill_target: "dispatching-parallel-agents"
+      skill_target: "hrm-workflow-compiler"      # compiles ExecutionPlan -> real Workflow() -> parallel()
+      fallback: "dispatching-parallel-agents"    # if Workflow tool unavailable (foreground Task())
+      compiled_to_workflow: true
     - id: swarm
       condition: "3+ subtasks, sequential dependencies"
-      skill_target: "swarm-orchestrator"
+      skill_target: "hrm-workflow-compiler"      # compiles ExecutionPlan -> real Workflow() -> pipeline()/phase()
+      fallback: "swarm-orchestrator"
+      compiled_to_workflow: true
     - id: agent_teams
       condition: "2-5 workstreams, peer comm, 40+ tool calls"
       skill_target: "agent-teams-protocol"
